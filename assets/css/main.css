@@ -1,0 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@200;500&display=swap");
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1632px;
+    margin: 0 auto;
+  }
+}
+p {
+  margin-bottom: 0;
+}
