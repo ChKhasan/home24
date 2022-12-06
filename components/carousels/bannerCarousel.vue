@@ -45,7 +45,7 @@ export default {
     opacity: 0.48;
     width: 48px;
     height: 48px;
-    z-index: 20;
+    z-index: 9;
     border-radius: 50%;
   }
   .slick-prev {
@@ -56,8 +56,7 @@ export default {
   }
   .slick-prev:before,
   .slick-next:before {
-    content: "←";
-    background-image: url("../../assets/images/Arrow - Left.png");
+    
     width: 100%;
     height: 100%;
     /* font-family: 'slick'; */

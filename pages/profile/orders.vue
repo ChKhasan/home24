@@ -89,7 +89,7 @@
               </nuxt-link>
             </li>
             <li>
-              <div @click="logout">
+              <div @click="show('log-out-modal')">
                 <span
                   ><svg
                     width="20"
@@ -172,6 +172,52 @@
         </div>
       </div>
     </div>
+    <modal name="log-out-modal" width="590px" height="auto">
+            <div>
+              <div
+                class="log-out-modal">
+                <div class="log-out-modal__m-header">
+                  <h1 class="m-header-title">Хотите выйти из аккаунта?</h1>
+                  <span @click="hide('log-out-modal')">
+                    <svg
+                      width="64"
+                      height="64"
+                      viewBox="0 0 64 64"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M42.3806 21.5771L21.6152 42.3425"
+                        stroke="#EF3F27"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M42.3862 42.3554L21.6035 21.5684"
+                        stroke="#EF3F27"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+             
+              
+                  <div class="log-out-modal__m-btn">
+                    <div class="show-btn" @click="hide('log-out-modal')">
+                      Нет
+                    </div>
+                    <div class="show-btn" @click="logout">
+                      ДА
+                    </div>
+                  </div>
+               
+               
+              </div>
+            </div>
+    </modal>
   </div>
 </template>
 <script>
@@ -230,6 +276,12 @@ export default {
       localStorage.setItem("Auth", null);
       this.$store.commit("setUser", null);
       this.$router.push("/");
+    },
+    show(name) {
+      this.$modal.show(name);
+    },
+    hide(name) {
+      this.$modal.hide(name);
     },
   },
 };

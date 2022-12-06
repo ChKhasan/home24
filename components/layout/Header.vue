@@ -86,6 +86,15 @@
             <a href="#" class="header-top__phone-number">+998 71 200 7 002</a>
             <div class="position-relative">
               <div>
+                <!-- <el-select v-model="value">
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select> -->
                 <el-dropdown :hide-on-click="false">
                   <span type="primary">
                     Рус<i class="el-icon-arrow-down el-icon--right"></i>
@@ -101,7 +110,7 @@
         </div>
       </div>
     </div>
-    <HeaderCategory :user="user" :closeLogin="closeLogin" />
+    <HeaderCategory :user="user"  />
 
     <div class="header-fluid">
       <div class="container header-category">
@@ -340,6 +349,30 @@ import HeaderCategory from "./HeaderCategory.vue";
 export default {
   data() {
     return {
+      color: "#f4f5f5",
+      options: [
+        {
+          value: "Option1",
+          label: "Option1",
+        },
+        {
+          value: "Option2",
+          label: "Option2",
+        },
+        {
+          value: "Option3",
+          label: "Option3",
+        },
+        {
+          value: "Option4",
+          label: "Option4",
+        },
+        {
+          value: "Option5",
+          label: "Option5",
+        },
+      ],
+      value: "Рус",
       user: {
         username: "",
       },
@@ -360,27 +393,19 @@ export default {
     handleClick() {
       alert("button click");
     },
-    closeLogin() {
-      if (this.user.username) {
-        this.$store.commit("setUser", this.user.username);
-        this.user.username = "";
-        this.$router.push("/profile");
-        this.$bvModal.hide("modal-center");
-      }
-    },
+   
   },
   components: { HeaderCategory },
 };
 </script>
-<style lang="scss" >
+<style lang="scss">
 @media (min-width: 576px) {
   .header {
-
-  }.modal-dialog {
+  }
+  .modal-dialog {
     max-width: 590px !important;
     margin: 1.75rem auto;
   }
-    
 }
 .modal-header {
   display: flex;
@@ -442,9 +467,9 @@ export default {
 }
 .header {
   .header-top {
-    z-index: 100 ;
+    z-index: 100;
     position: relative;
-    background: #f4f5f5;
+    background: v-bind(color);
     padding: 10px 0;
     .header-top {
       &__city {
@@ -494,7 +519,7 @@ export default {
       }
     }
   }
-  
+
   .header-category {
     z-index: 1;
     position: relative;

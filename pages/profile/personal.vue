@@ -89,7 +89,7 @@
               </nuxt-link>
             </li>
             <li>
-              <nuxt-link to="/" @click="logout"
+              <div  @click="show('log-out-modal')"
                 ><span
                   ><svg
                     width="20"
@@ -122,7 +122,7 @@
                   </svg>
                 </span>
                 Выйти
-              </nuxt-link>
+              </div>
             </li>
           </ul>
         </div>
@@ -195,7 +195,7 @@
           </div>
           <div class="profile__personal-data-change" v-else>
             <div class="info-change-header">
-              <div class="back-btn" @click="changeInfo = true">
+              <div class="back-btn" @click="show('save-leave-modal')">
                 <svg
                   width="24"
                   height="24"
@@ -438,7 +438,7 @@
                 </div>
                 <div class="form-control-btn">
                   <div class="info-cancel">Отменить</div>
-                  <div class="info-save">Сохранить</div>
+                  <div class="info-save" @click="show('save-leave-modal')">Сохранить</div>
                 </div>
               </form>
             </div>
@@ -446,6 +446,98 @@
         </div>
       </div>
     </div>
+    <modal name="save-leave-modal" width="590px" height="auto">
+            <div>
+              <div
+                class="log-out-modal">
+                <div class="log-out-modal__m-header">
+                  <h1 class="m-header-title">Сохранить перед выходом ?</h1>
+                  <span @click="hide('save-leave-modal')">
+                    <svg
+                      width="64"
+                      height="64"
+                      viewBox="0 0 64 64"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M42.3806 21.5771L21.6152 42.3425"
+                        stroke="#EF3F27"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M42.3862 42.3554L21.6035 21.5684"
+                        stroke="#EF3F27"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+             
+              
+                  <div class="log-out-modal__m-btn">
+                    <div class="show-btn" @click="hide('save-leave-modal')">
+                      Отменить
+                    </div>
+                    <div class="show-btn" @click="leaveSave">
+                      Сохранить
+                    </div>
+                  </div>
+               
+               
+              </div>
+            </div>
+    </modal>
+    <modal name="log-out-modal" width="590px" height="auto">
+            <div>
+              <div
+                class="log-out-modal">
+                <div class="log-out-modal__m-header">
+                  <h1 class="m-header-title">Хотите выйти из аккаунта?</h1>
+                  <span @click="hide('log-out-modal')">
+                    <svg
+                      width="64"
+                      height="64"
+                      viewBox="0 0 64 64"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M42.3806 21.5771L21.6152 42.3425"
+                        stroke="#EF3F27"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M42.3862 42.3554L21.6035 21.5684"
+                        stroke="#EF3F27"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+             
+              
+                  <div class="log-out-modal__m-btn">
+                    <div class="show-btn" @click="hide('log-out-modal')">
+                      Нет
+                    </div>
+                    <div class="show-btn" @click="logout">
+                      ДА
+                    </div>
+                  </div>
+               
+               
+              </div>
+            </div>
+    </modal>
   </div>
 </template>
 <script>
@@ -522,15 +614,26 @@ export default {
 
   methods: {
     logout() {
-      localStorage.setItem("Auth", false);
-      this.$store.commit("setUser", false);
+      localStorage.setItem("Auth", null);
+      this.$store.commit("setUser", null);
       this.$router.push("/");
+    },
+    leaveSave() {
+      this.changeInfo = true
+      this.$modal.hide("save-leave-modal");
+    },
+    show(name) {
+      this.$modal.show(name);
+    },
+    hide(name) {
+      this.$modal.hide(name);
     },
   },
 };
 </script>
 <style lang="scss">
 .profile {
+
   &__area {
     padding-left: 24px;
   }

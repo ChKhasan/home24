@@ -24,6 +24,7 @@ export default {
   plugins: [
     { src: "~plugins/element-ui.js", ssr: false },
     { src: "~plugins/vue-js-modal.js", ssr: false },
+    { src: "~plugins/vue-the-mask.js", ssr: false }
     // { src: "~plugins/vue-hover.js", ssr: false },
   ],
 
@@ -45,7 +46,18 @@ export default {
     components: ["Button", "DatePicker", "Pagination", "Collapse"],
     locale: "",
   },
-  // mode: "spa"
+  // mode: "spa",
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    // fix to work with swiperjs 8 - need to run with standalone:true. That can make some troubles.
+    standalone: true,
+    extend(config, ctx) {
+      // fix to work with swiperjs 8 add needed deps. you can get them from error when doing nuxt generate
+      config.externals = [
+        {
+          encoding: 'encoding',
+        },
+      ]
+    },
+  },
 };

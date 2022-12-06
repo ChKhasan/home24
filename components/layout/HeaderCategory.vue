@@ -5,7 +5,7 @@
         <div class="col-3 d-flex justify-content-between">
           <svg
             @click="$router.push('/')"
-            style="cursor: pointer"
+            style="cursor: pointer;"
             width="178"
             height="44"
             viewBox="0 0 178 44"
@@ -127,7 +127,9 @@
           class="col-4 header-search__product-links justify-content-between d-flex align-items-center"
         >
           <nuxt-link to="/comparison"
-            ><svg
+            >
+        <el-badge  :value="200" :max="99" class="item">
+            <svg
               width="18"
               height="20"
               viewBox="0 0 18 20"
@@ -162,10 +164,14 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
               /></svg
-            >Сравнение</nuxt-link
+            >
+        </el-badge>
+            Сравнение</nuxt-link
           >
           <nuxt-link to="/favorites"
-            ><svg
+            >
+          <el-badge  :value="200" :max="99" class="item">
+            <svg
               width="22"
               height="20"
               viewBox="0 0 22 20"
@@ -188,10 +194,15 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
               /></svg
-            >Избранное</nuxt-link
+            >
+          </el-badge>
+            Избранное</nuxt-link
           >
+  
           <nuxt-link to="/basket"
-            ><svg
+            >
+          <el-badge  :value="200" :max="99" class="item">
+            <svg
               width="21"
               height="22"
               viewBox="0 0 21 22"
@@ -228,47 +239,16 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
               /></svg
-            >Корзина</nuxt-link
-          >
-          <!-- <nuxt-link
-            id="show-btn"
-            class="profile-btn"
-            @click="$bvModal.show('bv-modal-example')"
-            to="/"
-            ><svg
-              width="17"
-              height="22"
-              viewBox="0 0 17 22"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
             >
-              <circle
-                cx="8.57894"
-                cy="6.27803"
-                r="4.77803"
-                stroke="#020105"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M1.00002 17.7014C0.998732 17.3655 1.07385 17.0337 1.2197 16.7311C1.67736 15.8158 2.96798 15.3307 4.03892 15.111C4.81128 14.9462 5.59431 14.836 6.38217 14.7815C7.84084 14.6533 9.30793 14.6533 10.7666 14.7815C11.5544 14.8367 12.3374 14.9468 13.1099 15.111C14.1808 15.3307 15.4714 15.77 15.9291 16.7311C16.2224 17.3479 16.2224 18.064 15.9291 18.6808C15.4714 19.6419 14.1808 20.0812 13.1099 20.2918C12.3384 20.4634 11.5551 20.5766 10.7666 20.6304C9.57937 20.7311 8.38659 20.7494 7.19681 20.6854C6.92221 20.6854 6.65677 20.6854 6.38217 20.6304C5.59663 20.5773 4.81632 20.4641 4.04807 20.2918C2.96798 20.0812 1.68652 19.6419 1.2197 18.6808C1.0746 18.3747 0.999552 18.0401 1.00002 17.7014Z"
-                stroke="#020105"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-            Войти</nuxt-link
-          > -->
+</el-badge>
+            Корзина</nuxt-link
+          >
 
           <b-button
             v-if="$store.state.auth == 'null'"
             id="show-btn"
             class="profile-btn"
-            @click="$bvModal.show('modal-center')"
+            @click="show('sign-or-create-modal')"
             ><svg
               width="17"
               height="22"
@@ -328,24 +308,7 @@
               /></svg
             >{{ $store.state.auth }}</b-button
           >
-          <b-modal
-            id="modal-center"
-            centered
-            hide-footer
-            header-bg-variant="#F7F7F7"
-            header-text-variant="headerTextVariant"
-          >
-            <template #modal-title> Войти или создать профиль </template>
-            <div class="d-flex flex-column align-items-start text-center">
-              <label for="">Номер телефона</label>
-              <input
-                type="text"
-                v-model="user.username"
-                placeholder="+998 (__) ___ __ __"
-              />
-            </div>
-            <b-button class="mt-3" block @click="closeLogin">Войти</b-button>
-          </b-modal>
+       
         </div>
       </div>
     </div>
@@ -742,21 +705,409 @@
         </div>
       </div>
     </div>
+    <modal name="sign-or-create-modal" width="590px" height="auto">
+            <div>
+              <div class="auth-user-modal">
+                <div class="auth-user-modal__m-header">
+                  <h1 class="m-header-title">Войти или создать профиль</h1>
+                  <span @click="hide('sign-or-create-modal')">
+                    <svg
+                      width="64"
+                      height="64"
+                      viewBox="0 0 64 64"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M42.3806 21.5771L21.6152 42.3425"
+                        stroke="#EF3F27"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M42.3862 42.3554L21.6035 21.5684"
+                        stroke="#EF3F27"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+                <div
+                  class="auth-user-modal__m-body"
+                  :class="{ numberErrorClass: errors.numberError }"
+                >
+                  <label class="number__label">Номер телефона</label>
+           
+                  <the-mask
+                    type="text"
+                    class="number__input"
+                    v-model="registrModal.number"
+                    v-on:input="search"
+                    placeholder="+998 (__) ___ __ __"
+                    :mask="['+998 (##) ### ## ##', '+998 (##) ### ## ##']"
+                  />
+                  <span class="number-linght-false" v-if="errors.numberLinght"
+                    >Длина поля номер телефона должна быть 12
+                  </span>
+                  <span class="number-linght-true" v-else> </span>
+
+                  <div class="auth-user-modal__m-btn">
+                    <div class="show-btn" @click="signOrCreate">
+                      Войти
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+    </modal>
+
+    <modal name="create-profile-modal" width="590px" height="auto">
+            <div>
+              <div
+                class="auth-user-modal"
+               
+              >
+                <div class="auth-user-modal__m-header">
+                  <h1 class="m-header-title">Создать профиль</h1>
+                  <span @click="hide('create-profile-modal')">
+                    <svg
+                      width="64"
+                      height="64"
+                      viewBox="0 0 64 64"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M42.3806 21.5771L21.6152 42.3425"
+                        stroke="#EF3F27"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M42.3862 42.3554L21.6035 21.5684"
+                        stroke="#EF3F27"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+                <div class="auth-user-modal__m-body"  :class="errorClassObject">
+                  <label class="number__label">Номер телефона</label>
+                  <the-mask
+                    type="text"
+                    class="number__input"
+                    v-model="registrModal.number"
+                    v-on:input="search"
+                    placeholder="+998 (__) ___ __ __"
+                    :mask="['+998 (##) ### ## ##', '+998 (##) ### ## ##']"
+                  />
+                  <span class="number-linght-false" v-if="errors.numberLinght"
+                    >Длина поля номер телефона должна быть 12
+                  </span>
+                  <span class="number-linght-true" v-else> </span>
+                  <label class="sms__label">СМС-код</label>
+                  <input
+                  class="sms__input"
+                    type="text"
+                    v-model="registrModal.smsCode"
+                    
+                    placeholder="Введите СМС-код"
+                  />
+                  <div class="auth-user-modal__m-btn">
+                    <div class="show-btn" @click="createSmsProfile">
+                      Войти
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+    </modal>
+
+    <modal name="sign-in-modal" width="590px" height="auto">
+            <div>
+              <div
+                class="auth-user-modal"
+               
+              >
+                <div class="auth-user-modal__m-header">
+                  <h1 class="m-header-title">Войти</h1>
+                  <span @click="hide('sign-in-modal')">
+                    <svg
+                      width="64"
+                      height="64"
+                      viewBox="0 0 64 64"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M42.3806 21.5771L21.6152 42.3425"
+                        stroke="#EF3F27"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M42.3862 42.3554L21.6035 21.5684"
+                        stroke="#EF3F27"
+                        stroke-width="3"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+                <div class="auth-user-modal__m-body"  :class="errorClassObject">
+                  <label class="number__label">Номер телефона</label>
+                  <the-mask
+                    type="text"
+                    class="number__input"
+                    v-model="registrModal.number"
+                    v-on:input="search"
+                    placeholder="+998 (__) ___ __ __"
+                    :mask="['+998 (##) ### ## ##', '+998 (##) ### ## ##']"
+                  />
+                  <span class="number-linght-false" v-if="errors.numberLinght"
+                    >Длина поля номер телефона должна быть 12
+                  </span>
+                  <span class="number-linght-true" v-else> </span>
+                  <label class="sms__label">Пароль</label>
+                  <input
+                  class="sms__input"
+                    type="text"
+                    v-model="registrModal.password"
+                    placeholder="Пароль"
+                  />
+                  <div class="auth-user-modal__m-btn">
+                    <div class="show-btn" @click="signIn">
+                      Войти
+                    </div>
+                  </div>
+                  <div class="forgot-your-password"><span>Забыли пароль?</span></div>
+                </div>
+              </div>
+            </div>
+    </modal>
   </div>
 </template>
 <script>
 export default {
-  props: ["user", "closeLogin"],
   data() {
     return {
       categoryDrop: false,
+      errors: {
+        numberLinght: false,
+        smsLinght: false,
+        numberError: false,
+        smsError: false,
+      },
+      registrModal: {
+        number: "",
+        smsCode: "",
+        password: ""
+      },
     };
+  },
+  computed: {
+    errorClassObject() {
+    return {
+      numberErrorClass: this.errors.numberError,
+      smsErrorClass: this.errors.smsError,
+    }
+  }
+},
+  methods: {
+    search() {
+      if (this.registrModal.number.length == "") {
+        this.errors.numberLinght = false;
+        this.errors.numberError = false;
+      } else if (this.registrModal.number.length < 9) {
+        this.errors.numberLinght = true;
+      } else {
+        this.errors.numberLinght = false;
+        this.errors.numberError = false;
+      }
+    },
+    signOrCreate() {
+      if (this.registrModal.number.length < 9) {
+        console.log("Error");
+        this.errors.numberError = true;
+      } else {
+        this.$store.commit("setUser", this.registrModal.number);
+        this.registrModal.number = "";
+        this.$router.push("/profile");
+        this.$modal.hide("sign-or-create-modal");
+        // this.$modal.show("create-profile-modal");
+      }
+    },
+    createSmsProfile() {
+      if(this.registrModal.smsCode.length < 9) {
+        this.errors.smsError = true
+      }   if(this.registrModal.number.length < 9) {
+        this.errors.numberError = true
+      } 
+      this.$modal.hide("create-profile-modal");
+
+      this.$modal.show("sign-in-modal");
+    },
+    signIn() {
+
+    },
+    show(name) {
+      this.$modal.show(name);
+    },
+    hide(name) {
+      this.$modal.hide(name);
+    },
+   
+  },
+  mount() {
+    this.show();
   },
 };
 </script>
 <style lang="scss">
+.auth-user-modal {
+  z-index: 30;
+  .numberErrorClass {
+    .number__label {
+      color: red !important;
+    }
+    .number__input {
+      border: 1px solid red !important;
+    }
+  }
+  .smsErrorClass {
+    .sms__label {
+      color: red !important;
+    }
+    .sms__input {
+      border: 1px solid red !important;
+    }
+  }
+  &__m-header {
+    padding: 6px 6px 6px 40px;
+    display: flex;
+    justify-content: space-between;
+    background: #f7f7f7;
+    align-items: center;
+    z-index: 30;
+
+    span {
+      cursor: pointer;
+    }
+    h1 {
+      font-family: "TT Firs Neue" !important;
+      font-style: normal !important;
+      font-weight: 500 !important;
+      font-size: 24px !important;
+      line-height: 32px !important;
+      color: #020105 !important;
+      margin-bottom: 0 !important;
+    }
+  }
+  &__m-body {
+    padding: 28px 40px 40px 40px;
+    z-index: 30;
+
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    .number-linght-false {
+      font-family: "Inter";
+      font-style: italic;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 20px;
+      color: #ef3f27;
+      margin-top: 6px;
+    }
+    .number-linght-true {
+      height: 20px;
+      margin-top: 6px;
+    }
+    label {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: #727474;
+      transition: 0.3s;
+      // margin-top: 10px;
+      // &:first-child {
+      //   margin-top: 0px;
+      // }
+    }
+    input {
+      transition: 0.3s;
+      border: 1px solid #ebebeb;
+      margin-top: 6px;
+      border-radius: 4px;
+      font-family: "Inter";
+      padding: 16px;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: #9a999b;
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  &__m-btn {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 24px;
+
+    div {
+      margin-top: 24px;
+      border-radius: 6px;
+      padding-top: 16px;
+      padding-bottom: 16px;
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      width: 100%;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.4s;
+    }
+
+    .show-btn {
+      background: #ff7e00;
+      color: #fff;
+      &:hover {
+        background: rgba(255, 100, 24, 0.6);
+      }
+    }
+  }
+  .forgot-your-password {
+    padding-top: 20px;
+    span {
+cursor: pointer;
+      display: flex;
+      justify-content: center;
+      font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  color: #020105;
+    }
+  }
+}
 .category-dropdown {
-  transition: .5s;
+  transition: 0.5s;
   padding-top: 70px;
   position: absolute;
   width: 100%;
@@ -824,7 +1175,6 @@ export default {
   opacity: 1;
   z-index: 30;
   transform: translateY(0);
-
 }
 .header-search {
   position: relative;
@@ -875,6 +1225,25 @@ export default {
     }
   }
   &__product-links {
+    .item {
+      .el-badge__content.is-fixed {
+    position: absolute;
+    top: -6px;
+    right: 20px !important;
+    transform: translateY(-50%) translateX(100%);
+}
+      .el-badge__content {
+        font-family: 'TT Firs Neue';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 20px;
+letter-spacing: -0.045em;
+
+color: #FFFFFF;
+        height: 24px !important;
+      }
+    }
     a {
       font-family: "Inter", sans-serif;
       font-size: 16px;

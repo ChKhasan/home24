@@ -1,6 +1,5 @@
 <template>
   <div class="homepage">
-    <h1>{{ prod?.data[0].id }}</h1>
     <div
       class="container-fluid homepage__banner-carousel"
       @click="hide = !hide"
@@ -8,17 +7,18 @@
       <div class="container">
         <div class="row homepage__carousel-control">
           <div class="col-9">
-            <BannerCarousel :theArrow="true">
-              <div class="carousel-item">
+            <UniversalCarousel>
+              <div class="swiper-slide">
                 <img src="../assets/images/BannerImg.png" alt="" />
               </div>
-              <div class="carousel-item">
+              <div class="swiper-slide">
                 <img src="../assets/images/BannerImg.png" alt="" />
               </div>
-              <div class="carousel-item">
+              <div class="swiper-slide">
                 <img src="../assets/images/BannerImg.png" alt="" />
               </div>
-            </BannerCarousel>
+            </UniversalCarousel>
+          
           </div>
           <div class="col-3">
             <BannerCarousel :theArrow="false">
@@ -83,7 +83,7 @@
     <div class="container">
       <div class="row">
         <div class="col-12 homepage__grid-product">
-          <CardProduct />
+          <CardProduct modal="id6" />
           <CardProduct />
           <CardProduct />
           <CardProduct />
@@ -183,6 +183,7 @@ import homeTitlies from "../components/homeTitlies.vue";
 import CardBrand from "../components/cards/cardBrand.vue";
 import CardClient from "../components/cards/cardClient.vue";
 import CardBlog from "../components/cards/cardBlog.vue";
+import UniversalCarousel from "../components/carousels/UniversalCarousel.vue";
 
 export default {
   name: "IndexPage",
@@ -210,6 +211,7 @@ export default {
     CardBrand,
     CardClient,
     CardBlog,
+    UniversalCarousel,
   },
 };
 </script>

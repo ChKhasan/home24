@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="product-card">
-    <div class="product-card__img" id="show-btn" @click="show">
-      <img src="../../assets/images/Rectangle 8.png" alt="" />
+    <div class="product-card__img" id="show-btn">
+      <img src="../../assets/images/image 24.png" alt="" />
       <!-- <div class="product-card__hover-link abs-block"> -->
       <span class="product-card__heart to-favorites"
         ><svg
@@ -67,6 +67,9 @@
           />
         </svg>
       </span>
+      <div class="product-card__quick-view quick-view" @click="show">
+        Быстрый просмотр
+      </div>
       <!-- </div> -->
     </div>
 
@@ -243,11 +246,15 @@ export default {
     border-radius: 16px;
     overflow: hidden;
     position: relative;
+    display: flex;
+    justify-content: center;
     &:hover {
       img {
         transform: scale(1.1);
       }
-
+      .quick-view {
+        bottom: 50%;
+      }
       .to-comparison,
       .to-favorites {
         right: 12px;
@@ -302,6 +309,24 @@ export default {
         }
       }
     }
+  }
+  &__quick-view {
+    position: absolute;
+    // top: 50%;
+    bottom: -100%;
+    transition: 0.5s;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 100;
+    background: #ffffff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.04);
+    border-radius: 500px;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    color: #020105;
   }
 }
 </style>

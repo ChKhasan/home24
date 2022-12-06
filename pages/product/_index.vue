@@ -61,22 +61,28 @@
             <p>Цвет:</p>
             <div class="product__types-color">
               <div
-                @click="productColor = 'red'"
-                :class="{ activeColor: productColor == 'red' }"
+                @click="product_parametrs.productColor = 'red'"
+                :class="{
+                  activeColor: product_parametrs.productColor == 'red',
+                }"
               >
-                <span style="background: red"></span>
+                <span style="background: red;"></span>
               </div>
               <div
-                @click="productColor = '#781ecd'"
-                :class="{ activeColor: productColor == '#781ecd' }"
+                @click="product_parametrs.productColor = '#781ecd'"
+                :class="{
+                  activeColor: product_parametrs.productColor == '#781ecd',
+                }"
               >
-                <span style="background: #781ecd"></span>
+                <span style="background: #781ecd;"></span>
               </div>
               <div
-                @click="productColor = '#00cd69'"
-                :class="{ activeColor: productColor == '#00cd69' }"
+                @click="product_parametrs.productColor = '#00cd69'"
+                :class="{
+                  activeColor: product_parametrs.productColor == '#00cd69',
+                }"
               >
-                <span style="background: #00cd69"></span>
+                <span style="background: #00cd69;"></span>
               </div>
             </div>
           </div>
@@ -84,32 +90,32 @@
             <p>Размер:</p>
             <div class="product__types-size">
               <div
-                @click="productSize = 32"
-                :class="{ activeSize: productSize == 32 }"
+                @click="product_parametrs.productSize = 32"
+                :class="{ activeSize: product_parametrs.productSize == 32 }"
               >
                 32 gb
               </div>
               <div
-                @click="productSize = 64"
-                :class="{ activeSize: productSize == 64 }"
+                @click="product_parametrs.productSize = 64"
+                :class="{ activeSize: product_parametrs.productSize == 64 }"
               >
                 64 gb
               </div>
               <div
-                @click="productSize = 128"
-                :class="{ activeSize: productSize == 128 }"
+                @click="product_parametrs.productSize = 128"
+                :class="{ activeSize: product_parametrs.productSize == 128 }"
               >
                 128 gb
               </div>
               <div
-                @click="productSize = 256"
-                :class="{ activeSize: productSize == 256 }"
+                @click="product_parametrs.productSize = 256"
+                :class="{ activeSize: product_parametrs.productSize == 256 }"
               >
                 256 gb
               </div>
               <div
-                @click="productSize = 512"
-                :class="{ activeSize: productSize == 512 }"
+                @click="product_parametrs.productSize = 512"
+                :class="{ activeSize: product_parametrs.productSize == 512 }"
               >
                 512 gb
               </div>
@@ -119,27 +125,27 @@
             <p>Размер RAM:</p>
             <div class="product__types-size">
               <div
-                @click="productSizeRam = 4"
-                :class="{ activeSize: productSizeRam == 4 }"
+                @click="product_parametrs.productSizeRam = 4"
+                :class="{ activeSize: product_parametrs.productSizeRam == 4 }"
               >
                 4 gb
               </div>
               <div
-                @click="productSizeRam = 8"
-                :class="{ activeSize: productSizeRam == 8 }"
+                @click="product_parametrs.productSizeRam = 8"
+                :class="{ activeSize: product_parametrs.productSizeRam == 8 }"
               >
                 8 gb
               </div>
               <div
-                @click="productSizeRam = 16"
-                :class="{ activeSize: productSizeRam == 16 }"
+                @click="product_parametrs.productSizeRam = 16"
+                :class="{ activeSize: product_parametrs.productSizeRam == 16 }"
               >
                 16 gb
               </div>
 
               <div
-                @click="productSizeRam = 512"
-                :class="{ activeSize: productSizeRam == 512 }"
+                @click="product_parametrs.productSizeRam = 512"
+                :class="{ activeSize: product_parametrs.productSizeRam == 512 }"
               >
                 512 gb
               </div>
@@ -149,14 +155,14 @@
             <p>SIM:</p>
             <div class="product__types-size">
               <div
-                @click="productSim = 'sim'"
-                :class="{ activeSize: productSim == 'sim' }"
+                @click="product_parametrs.productSim = 'sim'"
+                :class="{ activeSize: product_parametrs.productSim == 'sim' }"
               >
                 SIM
               </div>
               <div
-                @click="productSim = 'e-sim'"
-                :class="{ activeSize: productSim == 'e-sim' }"
+                @click="product_parametrs.productSim = 'e-sim'"
+                :class="{ activeSize: product_parametrs.productSim == 'e-sim' }"
               >
                 E-SIM
               </div>
@@ -205,32 +211,78 @@
       <div class="col-12 product__desc-control">
         <div>
           <el-tabs v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane label="Описание товара" name="first"
-              ><p class="product__desc">
-                Геймерские <Svg /> кресла 6206A-2 выполнено в сочетание
-                фиолетового и черного. Модель выглядит элегантно и лаконично,
-                поэтому она подойдет как в современный офис, так и в более
-                консервативные заведения. Полозья выполнены из крепкого металла,
-                при этом они разбираются, что очень удобно при сборке. Для более
-                удобного долгого сидения сделаны широкие подлокотники из
-                прочного пластика. Геймерские кресла 6206A-2 соответствует
-                американскому стандарту Cougar, который создан компетентным
-                техническим комитетом. Обивка выполнена из нескольких материалов
-                - сидение сделано из дышащей ткани черного цвета для комфортного
-                нахождения в кресле, а спинка из воздухопроницаемой сетки того
-                же оттенка. Нагрузка на модель не может превышать 120 кг.
-              </p></el-tab-pane
-            >
+            <el-tab-pane label="Описание товара" name="first">
+              <div class="product__desc">
+                <p class="">
+                  Геймерские <Svg /> кресла 6206A-2 выполнено в сочетание
+                  фиолетового и черного. Модель выглядит элегантно и лаконично,
+                  поэтому она подойдет как в современный офис, так и в более
+                  консервативные заведения. Полозья выполнены из крепкого
+                  металла, при этом они разбираются, что очень удобно при
+                  сборке. Для более удобного долгого сидения сделаны широкие
+                  подлокотники из прочного пластика. Геймерские кресла 6206A-2
+                  соответствует американскому стандарту Cougar, который создан
+                  компетентным техническим комитетом. Обивка выполнена из
+                  нескольких материалов - сидение сделано из дышащей ткани
+                  черного цвета для комфортного нахождения в кресле, а спинка из
+                  воздухопроницаемой сетки того же оттенка. Нагрузка на модель
+                  не может превышать 120 кг.
+                </p>
+              </div>
+            </el-tab-pane>
             <el-tab-pane label="Отзывы (1)" name="second"
               ><div class="product__comment-block">
-                <CardComment />
-                <CardComment />
-                <CardComment />
-                <CardComment />
-                <CardComment />
-
-                <CardComment /></div
-            ></el-tab-pane>
+                <div class="comments_blog">
+                  <CardComment />
+                  <CardComment />
+                  <CardComment />
+                  <CardComment />
+                  <CardComment />
+                  <CardComment />
+                </div>
+                <div class="comments_reyting">
+                  <div class="comments_reyting__c-header">
+                    <el-rate
+                      v-model="value"
+                      :texts="[
+                        '1 оценок',
+                        '2 оценок',
+                        '3 оценок',
+                        '4 оценок',
+                        '5 оценок',
+                      ]"
+                      show-text
+                    >
+                    </el-rate>
+                    <p>5/<span>5</span></p>
+                  </div>
+                  <div class="comments_reyting__c-body">
+                    <div class="reyting_card">
+                      <el-rate v-model="rate"></el-rate>
+                      <div class="progress"><span></span></div>
+                      <p>5</p>
+                    </div>
+                    <div class="reyting_card">
+                      <el-rate v-model="rate"></el-rate>
+                      <div class="progress"><span></span></div>
+                      <p>5</p>
+                    </div>
+                    <div class="reyting_card">
+                      <el-rate v-model="rate"></el-rate>
+                      <div class="progress">
+                        <span :style="{ width: `${(rate * 100) / 5}%` }"></span>
+                      </div>
+                      <p>{{ rate }}</p>
+                    </div>
+                  </div>
+                  <div class="comments_reyting__c-btn">
+                    <div @click="show('new-review-modal')">
+                      Оставить первый отзыв
+                    </div>
+                  </div>
+                </div>
+              </div></el-tab-pane
+            >
             <el-tab-pane label="Характеристики" name="third">
               <div>
                 <div class="product__character-card">
@@ -251,6 +303,116 @@
         <div></div>
       </div>
     </div>
+    <modal name="new-review-modal" width="590px" height="auto">
+      <div>
+        <div class="send-review-modal">
+          <div class="send-review-modal__m-header">
+            <h1 class="m-header-title">Новый отзыв</h1>
+            <span @click="hide('new-review-modal')">
+              <svg
+                width="64"
+                height="64"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M42.3806 21.5771L21.6152 42.3425"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M42.3862 42.3554L21.6035 21.5684"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
+          <div class="send-review-modal__m-body">
+            <div class="send-review-modal__m-rate">
+              <p>Ваша оценка:</p>
+              <el-rate v-model="rate"></el-rate>
+            </div>
+            <div class="send-review-modal__m-comment">
+              <p>Отзыв</p>
+              <textarea
+                id="w3review"
+                name="w3review"
+                rows="4"
+                cols="50"
+                v-model="comment"
+                placeholder="Опишите общее впечателение: срок использования, критерии при выборе"
+              />
+            </div>
+
+            <div class="send-review-modal__m-btn">
+              <div class="show-btn" @click="sendComment">
+                Оставить отзыв
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </modal>
+    <modal name="review-accepted-modal" width="590px" height="auto">
+      <div>
+        <div class="send-review-modal">
+          <div class="send-review-modal__m-header">
+            <h1 class="m-header-title">Отзыв принят</h1>
+            <span @click="hide('review-accepted-modal')">
+              <svg
+                width="64"
+                height="64"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M42.3806 21.5771L21.6152 42.3425"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M42.3862 42.3554L21.6035 21.5684"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
+          <div class="send-review-modal__m-body">
+            <svg
+              width="80"
+              height="80"
+              viewBox="0 0 80 80"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="40" cy="40" r="40" fill="#D0F4E4" />
+              <path
+                d="M38.147 46.5858C37.366 47.3668 36.0996 47.3668 35.3186 46.5858L30.0828 41.35C29.5581 40.8253 29.5581 39.9747 30.0828 39.45C30.6075 38.9253 31.4581 38.9253 31.9828 39.45L35.3186 42.7858C36.0996 43.5668 37.366 43.5668 38.147 42.7858L48.0161 32.9167C48.5408 32.392 49.3915 32.392 49.9161 32.9167C50.4408 33.4413 50.4408 34.292 49.9161 34.8167L38.147 46.5858Z"
+                fill="#009A10"
+              />
+            </svg>
+            <h5>Заказ оформлен. Мы свяжемся с вами в ближайшее время</h5>
+            <div class="send-review-modal__m-btn">
+              <div class="show-btn" @click="hide('review-accepted-modal')">
+                Хорошо
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </modal>
   </div>
 </template>
 <script>
@@ -260,17 +422,21 @@ import "vue-slick-carousel/dist/vue-slick-carousel-theme.css";
 import "vue-slick-carousel/dist/vue-slick-carousel.css";
 import "vue-inner-image-zoom/lib/vue-inner-image-zoom.css";
 import CardComment from "../../components/cards/cardComment.vue";
-import Svg from "../../assets/svg/Bag.svg";
 import CardProductPrice from "../../components/cards/cardProductPrice.vue";
 import ProductCharactertable from "../../components/product/productCharactertable.vue";
 import ProductHeaderInfo from "../../components/product/productHeaderInfo.vue";
 export default {
   data() {
     return {
-      productColor: "red",
-      productSize: 32,
-      productSizeRam: 4,
-      productSim: "sim",
+      rate: null,
+      comment: "",
+      value: null,
+      product_parametrs: {
+        productColor: "red",
+        productSize: 32,
+        productSizeRam: 4,
+        productSim: "sim",
+      },
       carouselChange: "/assets/images/image 40.png",
       activeName: "first",
       links: [
@@ -289,7 +455,6 @@ export default {
     BreadCrumb,
     VueSlickCarousel,
     CardComment,
-    Svg,
     CardProductPrice,
     ProductCharactertable,
     ProductHeaderInfo,
@@ -298,11 +463,130 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event);
     },
+    sendComment() {
+      this.$modal.hide("new-review-modal");
+      this.$modal.show("review-accepted-modal");
+    },
+    show(name) {
+      this.$modal.show(name);
+    },
+    hide(name) {
+      this.$modal.hide(name);
+    },
   },
 };
 </script>
 <style lang="scss">
 .product {
+  .send-review-modal {
+    &__m-comment {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      textarea {
+        border: 1px solid #ebebeb;
+        border-radius: 4px;
+        padding: 16px;
+        &:focus {
+          outline: none;
+        }
+      }
+      p {
+        margin-bottom: 8px;
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        color: #727474;
+      }
+    }
+    &__m-rate {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      p {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        display: flex;
+        align-items: center;
+        color: #020105;
+        margin-right: 18px;
+      }
+    }
+    &__m-header {
+      padding: 6px 6px 6px 40px;
+      display: flex;
+      justify-content: space-between;
+      background: #f7f7f7;
+      align-items: center;
+      span {
+        cursor: pointer;
+      }
+      h1 {
+        font-family: "TT Firs Neue" !important;
+        font-style: normal !important;
+        font-weight: 500 !important;
+        font-size: 24px !important;
+        line-height: 32px !important;
+        color: #020105 !important;
+        margin-bottom: 0 !important;
+      }
+    }
+    &__m-body {
+      padding: 40px;
+      display: grid;
+      grid-template-columns: 1fr;
+      justify-items: center;
+      grid-gap: 24px;
+      h5 {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 24px;
+        text-align: center;
+      }
+    }
+    &__m-btn {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      div {
+        padding-top: 16px;
+        border-radius: 6px;
+        padding-top: 16px;
+        padding-bottom: 16px;
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        width: 100%;
+        text-align: center;
+        cursor: pointer;
+        transition: 0.4s;
+      }
+      .proceed-btn {
+        color: #000000;
+        background: #f9f9f9;
+        &:hover {
+          background: rgba(0, 0, 0, 0.1);
+        }
+      }
+      .show-btn {
+        background: #ff6418;
+        color: #fff;
+        &:hover {
+          background: rgba(255, 100, 24, 0.6);
+        }
+      }
+    }
+  }
   .el-tabs__item {
     font-family: "Inter";
     font-style: normal;
@@ -328,8 +612,102 @@ export default {
     font-weight: 500;
   }
   &__comment-block {
-    padding-top: 32px;
-    width: 80%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 11.5fr 4fr;
+    .comments_blog {
+      padding-top: 32px;
+      width: 90%;
+    }
+    .comments_reyting {
+      padding-top: 32px;
+      width: 100%;
+      padding-left: 24px;
+      &__c-header {
+        display: flex;
+        justify-content: space-between;
+        .el-rate__icon {
+          font-size: 22px;
+          margin-right: 7px;
+          color: #c0c4cc;
+          transition: 0.3s;
+        }
+        .el-rate__text {
+          font-family: "Inter";
+          font-style: normal;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 20px;
+          align-items: center;
+          color: #727474 !important;
+          margin-left: 12px;
+        }
+        p {
+          font-family: "Inter";
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 24px;
+          color: #000000;
+          span {
+            color: #727474;
+          }
+        }
+      }
+      &__c-body {
+        padding-top: 30px;
+        width: 100%;
+        .reyting_card {
+          display: grid;
+          grid-template-columns: 6fr 10fr 1fr;
+          grid-gap: 17px;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 24px;
+          P {
+            font-family: "Inter";
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+            display: flex;
+            align-items: center;
+            color: #727474;
+          }
+          .progress {
+            height: 4px;
+
+            overflow: hidden;
+            border-radius: 100px;
+            span {
+              display: block;
+              height: 100%;
+
+              background: #f6c65c;
+            }
+          }
+        }
+      }
+      &__c-btn {
+        div {
+          padding-top: 16px;
+          border-radius: 6px;
+          padding-top: 16px;
+          padding-bottom: 16px;
+          font-family: "Inter";
+          font-style: normal;
+          font-weight: 500;
+          font-size: 16px;
+          line-height: 20px;
+          width: 100%;
+          text-align: center;
+          cursor: pointer;
+          transition: 0.4s;
+          border: 1px solid #f6c65c;
+          color: #f6c65c;
+        }
+      }
+    }
   }
   &__comment-card {
     padding-bottom: 32px;
@@ -440,18 +818,20 @@ export default {
   &__desc-control {
     padding-top: 32px;
     display: grid;
-    grid-template-columns: 11.5fr 4fr;
-    grid-gap: 24px;
+    grid-template-columns: 11fr;
+    // grid-gap: 24px;
   }
   &__desc {
     margin-top: 30px;
-    width: 90%;
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 28px;
-    color: #727474;
+    width: 70%;
+    p {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 28px;
+      color: #727474;
+    }
   }
   &__order-card2 {
     margin-top: 32px;
@@ -602,7 +982,6 @@ export default {
       }
     }
   }
-
   &__types-size {
     width: inherit;
     display: flex;
@@ -730,7 +1109,6 @@ export default {
       border-radius: 4px;
     }
   }
-
   &__types-title {
     padding-top: 16px;
     padding-bottom: 24px;

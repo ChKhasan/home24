@@ -203,11 +203,11 @@
               />
             </div>
             <div @click="show" class="basket__order-btn">Оформит заказ</div>
-            <SendOrderModal :modal="modal" :hide="hide" />
           </div>
         </div>
       </div>
     </div>
+            <SendOrderModal :modal="modal" :hide="hide" />
   </div>
 </template>
 <script>
