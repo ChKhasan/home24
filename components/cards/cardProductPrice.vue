@@ -2,8 +2,8 @@
   <div>
     <div class="price-card">
       <div class="title">
-      <BuyOneClick :modal="modal" :hide="hide" />
-        <h2>25 880 000 СУМ</h2>
+        <BuyOneClick :modal="modal" :hide="hide" />
+        <h2>{{ product?.price }} СУМ</h2>
         <span>
           <svg
             width="28"
@@ -71,8 +71,7 @@
         <p>2 880 000 СУМ</p>
       </div>
       <div class="price-btn">
-       
-        <div>
+        <div @click="addToCart(product.id)">
           <svg
             width="24"
             height="24"
@@ -161,6 +160,7 @@
 import BuyOneClick from "../modals/buyOneClick.vue";
 
 export default {
+  props: ["product"],
   data() {
     return {
       modal: "buyOneClickModal",
@@ -168,6 +168,19 @@ export default {
   },
   components: { BuyOneClick },
   methods: {
+   async addToCart(id) {
+     await this.$store.dispatch(
+      "fetchBasket/postProductToCart",
+     {id: id, count: 3}
+    );
+    await this.$toast.open({
+              message: "Successfully",
+              type: "success",
+              duration: 2000,
+              dismissible: true,
+              position: "top-right",
+            });
+    },
     show() {
       this.$modal.show(this.modal);
     },

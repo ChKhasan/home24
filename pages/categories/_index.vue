@@ -5,32 +5,27 @@
         <div class="col-2 category__list-box">
           <h2>Категории</h2>
           <ul class="category__list">
-            <li v-for="category in categories">
-              <span @click="$router.push(`/category/${category?.id}`)"
-                >{{category?.name}}</span
-              >
+            <div v-if="skeleton">
+              <b-skeleton animation="wave" width="85%"></b-skeleton>
+              <b-skeleton animation="wave" width="55%"></b-skeleton>
+              <b-skeleton animation="wave" width="70%"></b-skeleton>
+            </div>
+            <li v-for="category in categories" v-else>
+              <span @click="$router.push(`/categories/${category.id}`)">{{
+                category.name
+              }}</span>
             </li>
-            <!-- <li><span>Мебель для гостинной</span></li>
-            <li><span>Мебель для кухни</span></li>
-            <li><span>Мебель для прихожей</span></li>
-            <li><span>Мебель для спальни</span></li>
-            <li><span>Мягкая мебель</span></li>
-            <li><span>Садовая и прочее</span></li> -->
           </ul>
         </div>
         <div class="col-10">
-          <BreadCrumb :links="links" last="Мебель" />
-          <TitleCategory :show="false" title="Мебель" />
+            <b-skeleton v-if="skeleton" animation="wave" width="85%"></b-skeleton>
+          <BreadCrumb v-else :links="links" :last="categoryById?.name" />
+          <TitleCategory :show="false" :title="categoryById?.name" />
           <div class="category__category-controller">
-            <CardCategory />
-            <CardCategory />
-            <CardCategory />
-            <CardCategory />
-            <CardCategory />
-            <CardCategory />
-            <CardCategory />
-            <CardCategory />
-            <CardCategory />
+            <CardCategory
+              v-for="children in categoryById?.children"
+              :item="children"
+            />
           </div>
         </div>
       </div>
@@ -74,14 +69,22 @@ export default {
           to: "/",
         },
       ],
-      categories: []
+      categories: [],
+      categoryById: {},
+      skeleton: true,
     };
   },
   async created() {
     const categories = await this.$store.dispatch(
       "fetchCategories/fetchAllCategories"
     );
-this.categories = categories;
+    const categoryById = await this.$store.dispatch(
+      "fetchCategories/fetchAllCategoryById",
+      this.$route.params.index
+    );
+    this.categoryById = categoryById;
+    this.categories = categories;
+    this.skeleton = false;
   },
   components: {
     BreadCrumb,

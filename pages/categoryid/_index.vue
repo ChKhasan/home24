@@ -8,27 +8,43 @@
               <h2>Категории</h2>
               <ul class="category__list1">
                 <li>
-                  <span>Мебель</span>
+                  <span>{{
+                    categoryById?.parent?.parent?.name
+                      ? categoryById?.parent?.parent.name
+                      : categoryById?.parent?.name
+                  }}</span>
                   <ul>
                     <li>
-                      <span class="category__list-active">Офисная мебель</span>
+                      <span
+                        :class="{
+                          listActive: categoryById?.parent?.parent?.name
+                            ? false
+                            : true,
+                        }"
+                        >{{
+                          categoryById?.parent?.parent.name
+                            ? categoryById?.parent?.name
+                            : categoryById?.name
+                        }}</span
+                      >
                       <ul>
-                        <li>
-                          <span @click="$router.push(`/category/products/last`)"
-                            >Геймерские кресла</span
+                        <li v-if="categoryById?.parent?.parent?.name">
+                          <span
+                            :class="{
+                              listActive: categoryById?.parent?.parent?.name
+                                ? true
+                                : false,
+                            }"
+                            @click="$router.push(`/categoryId/${category.id}`)"
+                            >{{ categoryById?.name }}</span
                           >
                         </li>
-                        <li>
-                          <span>Геймерские кресла</span>
-                        </li>
-                        <li>
-                          <span>Геймерские кресла</span>
-                        </li>
-                        <li>
-                          <span>Геймерские кресла</span>
-                        </li>
-                        <li>
-                          <span>Геймерские кресла</span>
+
+                        <li v-else v-for="category in categoryById?.children">
+                          <span
+                            @click="$router.push(`/categoryId/${category.id}`)"
+                            >{{ category.name }}</span
+                          >
                         </li>
                       </ul>
                     </li>
@@ -87,79 +103,30 @@
                   </div>
                 </div>
               </div>
-              <h2>Материал корпуса</h2>
-              <div class="range-checkbox">
-                <div>
-                  <input type="checkbox" name="" id="" /><span>ДСП</span>
-                </div>
-                <div>
-                  <input type="checkbox" name="" id="" /><span>МДФ</span>
-                </div>
-                <div>
-                  <input type="checkbox" name="" id="" /><span>Шпон</span>
+              <div v-for="atribut in categoryById.atributs">
+                <h2>{{ atribut?.name }}</h2>
+                <div class="range-checkbox">
+                  <div v-for="option in atribut.options">
+                    <input type="checkbox" name="" id="" :checked="Object.keys($route.query).includes(`atribut_${option?.id}`)"   @click="optionFilter(option?.id)"/><span>{{option.name}}</span>
+                  </div>
+                
                 </div>
               </div>
               <h2>Цвет</h2>
               <div class="category__colors">
-                <div class="checkbox" @click="checkbox = 'red'">
-                  <span v-if="checkbox == 'red'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'green'">
-                  <span v-if="checkbox == 'green'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'black'">
-                  <span v-if="checkbox == 'black'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'blue'">
-                  <span v-if="checkbox == 'blue'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'red'">
-                  <span v-if="checkbox == 'red'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'green'">
-                  <span v-if="checkbox == 'green'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'black'">
-                  <span v-if="checkbox == 'black'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'blue'">
-                  <span v-if="checkbox == 'blue'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'red'">
-                  <span v-if="checkbox == 'red'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'green'">
-                  <span v-if="checkbox == 'green'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'black'">
-                  <span v-if="checkbox == 'black'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'blue'">
-                  <span v-if="checkbox == 'blue'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'red'">
-                  <span v-if="checkbox == 'red'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'green'">
-                  <span v-if="checkbox == 'green'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'black'">
-                  <span v-if="checkbox == 'black'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'blue'">
-                  <span v-if="checkbox == 'blue'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'red'">
-                  <span v-if="checkbox == 'red'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'green'">
-                  <span v-if="checkbox == 'green'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'black'">
-                  <span v-if="checkbox == 'black'"></span>
-                </div>
-                <div class="checkbox" @click="checkbox = 'blue'">
-                  <span v-if="checkbox == 'blue'"></span>
+                <div v-for="color in colors">
+                  <div
+                    class="checkbox"
+                    :style="{
+                      background: color?.hex,
+                      border: `1px solid ${color?.hex}`,
+                    }"
+                    @click="colorFilter(color?.id, color.hex)"
+                  >
+                    <span
+                      v-if="(Object.keys($route.query).includes(`color_${color?.id}`))"
+                    ></span>
+                  </div>
                 </div>
               </div>
               <h2>Обслуживаемая площадь</h2>
@@ -302,18 +269,11 @@
                 class="category__category-controller"
                 :class="{ three: gridControl == 3 }"
               >
-                <CardProduct modal="id1"/>
-                <CardProduct />
-                <CardProduct />
-                <CardProduct />
-                <CardProduct />
-                <CardProduct />
-                <CardProduct />
-                <CardProduct />
-                <CardProduct />
-                <CardProduct />
-                <CardProduct />
-                <CardProduct />
+                <CardProduct
+                  modal="id1"
+                  v-for="product in productsByCategory"
+                  :product="product"
+                />
               </div>
               <div class="category__pagination">
                 <el-pagination layout="prev, pager, next" :total="100">
@@ -376,12 +336,109 @@ export default {
           to: "/category",
         },
       ],
+      categoryById: {},
+      productsByCategory: {},
+      colors: [],
     };
+  },
+  async created() {
+    if (Object.keys(this.$route.query).length == 0) {
+      const productsByCategory = await this.$store.dispatch(
+        "fetchProduct/fetchProductByCategory",
+        this.$route.params.index
+      );
+      this.productsByCategory = productsByCategory;
+    } else {
+      const productsByFilter = await this.$store.dispatch(
+        "fetchProduct/fetchProductByFilter",
+        this.$route.query
+      );
+      this.productsByCategory = productsByFilter;
+    }
+    const categoryById = await this.$store.dispatch(
+      "fetchCategories/fetchAllCategoryById",
+      this.$route.params.index
+    );
+    const colors = await this.$store.dispatch("fetchColors/fetchColors");
+
+    this.colors = colors;
+    this.categoryById = categoryById;
   },
   methods: {
     UpdateValues(e) {
       this.barMinValue = e.minValue;
       this.barMaxValue = e.maxValue;
+    },
+    async optionFilter(id) {
+      let colorObj = {};
+      colorObj[`atribut_${id}`] = id;
+      colorObj = { ...colorObj, ...this.$route.query };
+      if (Object.keys(this.$route.query).includes(`atribut_${id}`)) {
+        await delete colorObj[`atribut_${id}`];
+        if (Object.keys(colorObj).length == 1) {
+          await delete colorObj[`ctg_id`];
+        }
+      }
+      if (Object.keys(colorObj).length == 0) {
+        await this.$router.replace({
+          path: `/categoryId/${this.$route.params.index}`,
+          query: { ...colorObj },
+        });
+        const productsByCategory = await this.$store.dispatch(
+          "fetchProduct/fetchProductByCategory",
+          this.$route.params.index
+        );
+        this.productsByCategory = productsByCategory;
+      } else {
+        await this.$router.replace({
+          path: `/categoryId/${this.$route.params.index}`,
+          query: {
+            ...colorObj,
+            ctg_id: this.categoryById.id,
+          },
+        });
+        const productsByFilter = await this.$store.dispatch(
+          "fetchProduct/fetchProductByFilter",
+          this.$route.query
+        );
+        this.productsByCategory = productsByFilter;
+      }
+    },
+    async colorFilter(id) {
+      let colorObj = {};
+      colorObj[`color_${id}`] = id;
+      colorObj = { ...colorObj, ...this.$route.query };
+      if (Object.keys(this.$route.query).includes(`color_${id}`)) {
+        await delete colorObj[`color_${id}`];
+        if (Object.keys(colorObj).length == 1) {
+          await delete colorObj[`ctg_id`];
+        }
+      }
+
+      if (Object.keys(colorObj).length == 0) {
+        await this.$router.replace({
+          path: `/categoryId/${this.$route.params.index}`,
+          query: { ...colorObj },
+        });
+        const productsByCategory = await this.$store.dispatch(
+          "fetchProduct/fetchProductByCategory",
+          this.$route.params.index
+        );
+        this.productsByCategory = productsByCategory;
+      } else {
+        await this.$router.replace({
+          path: `/categoryId/${this.$route.params.index}`,
+          query: {
+            ...colorObj,
+            ctg_id: this.categoryById.id,
+          },
+        });
+        const productsByFilter = await this.$store.dispatch(
+          "fetchProduct/fetchProductByFilter",
+          this.$route.query
+        );
+        this.productsByCategory = productsByFilter;
+      }
     },
   },
   components: {
@@ -638,7 +695,7 @@ export default {
       margin-bottom: 16px;
     }
   }
-  &__list-active {
+  .listActive {
     display: block;
     margin-top: 12px;
     font-family: "Inter";

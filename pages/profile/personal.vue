@@ -614,8 +614,8 @@ export default {
 
   methods: {
     logout() {
-      localStorage.setItem("Auth", null);
-      this.$store.commit("setUser", null);
+      localStorage.setItem("Auth", false);
+      this.$store.commit("setUser", false);
       this.$router.push("/");
     },
     leaveSave() {

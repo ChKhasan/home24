@@ -4,10 +4,11 @@
       class="container-fluid homepage__banner-carousel"
       @click="hide = !hide"
     >
+    <!-- <logo/> -->
       <div class="container">
         <div class="row homepage__carousel-control">
           <div class="col-9">
-            <UniversalCarousel>
+            <UniversalCarousel propsClass="swiper">
               <div class="swiper-slide">
                 <img src="../assets/images/BannerImg.png" alt="" />
               </div>
@@ -18,12 +19,27 @@
                 <img src="../assets/images/BannerImg.png" alt="" />
               </div>
             </UniversalCarousel>
-          
           </div>
           <div class="col-3">
-            <BannerCarousel :theArrow="false">
-              <CardProductTheDay />
-              <CardProductTheDay />
+            <!-- <UniversalCarousel2 propsClass="swiper1">
+              <div class="swiper-slide">
+                <img src="../assets/images/BannerImg.png" alt="" />
+              </div>
+              <div class="swiper-slide">
+                <img src="../assets/images/BannerImg.png" alt="" />
+              </div>
+              <div class="swiper-slide">
+                <img src="../assets/images/BannerImg.png" alt="" />
+              </div>
+            </UniversalCarousel2> -->
+            <b-card v-if="showProduct" style="height: 100%,boder-radius: 18px">
+              <b-skeleton animation width="100%" height="50%"></b-skeleton>
+              <b-skeleton animation width="100%" height="50%"></b-skeleton>
+            </b-card>
+            <BannerCarousel :theArrow="false" v-else>
+              <div v-for="product in productOfDay">
+                <CardProductTheDay :product="product" />
+              </div>
             </BannerCarousel>
           </div>
         </div>
@@ -184,19 +200,28 @@ import CardBrand from "../components/cards/cardBrand.vue";
 import CardClient from "../components/cards/cardClient.vue";
 import CardBlog from "../components/cards/cardBlog.vue";
 import UniversalCarousel from "../components/carousels/UniversalCarousel.vue";
-
+import UniversalCarousel2 from "../components/carousels/UniversalCarousel2.vue";
 export default {
   name: "IndexPage",
   data() {
     return {
       hide: false,
+      showProduct: true,
+      productOfDay: [],
     };
   },
   async created() {
     // const data = await this.$axios.$get("home");
-    // const products = await this.$store.dispatch("homeFetch/fetchHomeProducts");
+    // const categories = await this.$store.dispatch(
+    //   "fetchCategories/fetchAllCategories"
+    // );
+    // const productOfDay = await this.$store.dispatch(
+    //   "fetchProduct/fetchProductOfDay"
+    // );
     // console.log(data);
-    // console.log(products);
+    // this.productOfDay = await productOfDay;
+    // this.showProduct = await false;
+    // console.log(productOfDay);
   },
   mounted() {
     this.$store.commit("setUser", localStorage.getItem("Auth"));
@@ -212,6 +237,7 @@ export default {
     CardClient,
     CardBlog,
     UniversalCarousel,
+    UniversalCarousel2,
   },
 };
 </script>

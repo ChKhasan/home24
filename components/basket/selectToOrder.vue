@@ -12,9 +12,9 @@
       v-model="checkedCities"
       @change="handleCheckedCitiesChange"
     >
-      <div class="select-order__card d-flex" v-for="city in cities">
+      <div class="select-order__card d-flex" v-for="city in cartItems">
         <div class="d-flex align-items-center">
-          <el-checkbox :key="city" :label="city"></el-checkbox>
+          <el-checkbox :key="city.title" :label="(city.title)"></el-checkbox>
         </div>
         <div class="select-order__card-img">
           <div><img src="../../assets/images/Rectangle 8.png" alt="" /></div>
@@ -75,10 +75,27 @@
           </div>
           <div class="sc-price">
             <div class="sc-price-svg">
-                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M10.7813 19.116C8.79152 17.8914 6.94051 16.4502 5.26134 14.8181C4.08081 13.6427 3.18208 12.2098 2.634 10.6291C1.64771 7.56278 2.79976 4.05242 6.02385 3.01356C7.7183 2.46807 9.5689 2.77984 10.9967 3.85135C12.4251 2.78114 14.2751 2.46948 15.9696 3.01356C19.1937 4.05242 20.3541 7.56278 19.3678 10.6291C18.8197 12.2098 17.921 13.6427 16.7404 14.8181C15.0613 16.4502 13.2103 17.8914 11.2205 19.116L11.005 19.25L10.7813 19.116Z" fill="#FF7E00"/>
-<path d="M14.4277 6.46527C15.4043 6.77721 16.0981 7.65391 16.1848 8.68542" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 22 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M10.7813 19.116C8.79152 17.8914 6.94051 16.4502 5.26134 14.8181C4.08081 13.6427 3.18208 12.2098 2.634 10.6291C1.64771 7.56278 2.79976 4.05242 6.02385 3.01356C7.7183 2.46807 9.5689 2.77984 10.9967 3.85135C12.4251 2.78114 14.2751 2.46948 15.9696 3.01356C19.1937 4.05242 20.3541 7.56278 19.3678 10.6291C18.8197 12.2098 17.921 13.6427 16.7404 14.8181C15.0613 16.4502 13.2103 17.8914 11.2205 19.116L11.005 19.25L10.7813 19.116Z"
+                  fill="#FF7E00"
+                />
+                <path
+                  d="M14.4277 6.46527C15.4043 6.77721 16.0981 7.65391 16.1848 8.68542"
+                  stroke="white"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
 
               <svg
                 width="22"
@@ -127,18 +144,36 @@ export default {
       checkedCities: ["Shanghai", "Beijing"],
       cities: cityOptions,
       isIndeterminate: true,
+      cartItems: [
+        {
+          title: "test1",
+          count: 1,
+          price: 200000,
+        },
+        {
+          title: "test2",
+          count: 1,
+          price: 200000,
+        },
+        {
+          title: "test3",
+          count: 1,
+          price: 200000,
+        },
+      ],
     };
   },
   methods: {
     handleCheckAllChange(val) {
-      this.checkedCities = val ? cityOptions : [];
+      this.checkedCities = val ? this.cartItems.map((item) => item.title) : [];
       this.isIndeterminate = false;
     },
     handleCheckedCitiesChange(value) {
+      console.log(value);
       let checkedCount = value.length;
-      this.checkAll = checkedCount === this.cities.length;
+      this.checkAll = checkedCount === this.cartItems.length;
       this.isIndeterminate =
-        checkedCount > 0 && checkedCount < this.cities.length;
+        checkedCount > 0 && checkedCount < this.cartItems.length;
     },
   },
 };
@@ -201,7 +236,7 @@ export default {
     padding: 24px 0;
     border-bottom: 1px solid #dddddd;
     &:last-child {
-        border-bottom: none;
+      border-bottom: none;
     }
   }
   &__card-img {
@@ -273,8 +308,8 @@ export default {
         display: flex;
         justify-content: flex-end;
         svg {
-            margin-left: 24px;
-            cursor: pointer;
+          margin-left: 24px;
+          cursor: pointer;
         }
       }
       .sc-last-price {

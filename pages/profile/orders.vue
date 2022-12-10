@@ -167,7 +167,13 @@
                 </div>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="Неоплаченные" name="second">Config</el-tab-pane>
+            <el-tab-pane label="Неоплаченные" name="second">
+            <div>
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            </div>
+            </el-tab-pane>
           </el-tabs>
         </div>
       </div>

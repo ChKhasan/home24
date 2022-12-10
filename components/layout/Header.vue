@@ -110,7 +110,7 @@
         </div>
       </div>
     </div>
-    <HeaderCategory :user="user"  />
+    <HeaderCategory :user="user" />
 
     <div class="header-fluid">
       <div class="container header-category">
@@ -118,6 +118,14 @@
           <div
             class="col-12 header-category__category-links d-flex justify-content-between"
           >
+            <nuxt-link v-for="category in categories" :to="`/categories/${category.id}`">
+              <img :src="category.icon" alt="" /> {{ category.name }}
+            </nuxt-link>
+
+
+
+
+            
             <nuxt-link to="/">
               <svg
                 width="22"
@@ -141,7 +149,7 @@
                 </defs></svg
               >Подарки
             </nuxt-link>
-            <nuxt-link to="/category">
+            <nuxt-link to="/categories/1">
               <svg
                 width="25"
                 height="24"
@@ -157,7 +165,7 @@
                 /></svg
               >Мебель
             </nuxt-link>
-            <nuxt-link to="/">
+            <!-- <nuxt-link to="/">
               <svg
                 width="25"
                 height="24"
@@ -206,7 +214,7 @@
                   stroke-width="0.3"
                 /></svg
               >Техника
-            </nuxt-link>
+            </nuxt-link> -->
             <nuxt-link to="/">
               <svg
                 width="25"
@@ -347,6 +355,7 @@
 import HeaderCategory from "./HeaderCategory.vue";
 
 export default {
+  props: ["categories"],
   data() {
     return {
       color: "#f4f5f5",
@@ -393,7 +402,6 @@ export default {
     handleClick() {
       alert("button click");
     },
-   
   },
   components: { HeaderCategory },
 };
@@ -536,6 +544,9 @@ export default {
         display: flex;
         align-items: center;
         svg {
+          margin-right: 9px;
+        }
+        img {
           margin-right: 9px;
         }
       }

@@ -5,6 +5,6 @@ export const state = () => ({
 export const mutations = {
   setUser(state, payload) {
     localStorage.setItem("Auth", payload);
-    state.auth = localStorage.getItem("Auth");
+    state.auth = JSON.parse(localStorage.getItem("Auth"));
   },
 };

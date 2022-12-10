@@ -9,179 +9,73 @@
       <div class="col-12 product__body-control">
         <div class="product__img-carousel">
           <div class="carousel-items">
-            <div class="carousel-img activeImg">
+            <div
+              v-for="img in product.images"
+              class="carousel-img"
+              :class="{ activeImg: carouselChange == img.image }"
+            >
               <img
-                src="../../assets/images/image 24.png"
-                @click="carouselChange = '../../assets/images/image 24.png'"
+                :src="img.image"
+                @click="carouselChange = img.image"
                 alt=""
               />
-            </div>
-            <div class="carousel-img">
-              <img
-                src="../../assets/images/image 24.png"
-                @click="carouselChange = '../../assets/images/image 34.png'"
-                alt=""
-              />
-            </div>
-            <div class="carousel-img">
-              <img
-                src="../../assets/images/image 34.png"
-                @click="carouselChange = '../../assets/images/image 40.png'"
-                alt=""
-              />
-            </div>
-            <div class="carousel-img">
-              <img src="../../assets/images/image 24.png" alt="" />
-            </div>
-            <div class="carousel-img">
-              <img src="../../assets/images/image 40.png" alt="" />
-            </div>
-            <div class="carousel-img">
-              <img src="../../assets/images/image 24.png" alt="" />
-            </div>
-            <div class="carousel-img">
-              <img src="../../assets/images/image 34.png" alt="" />
-            </div>
-            <div class="carousel-img">
-              <img src="../../assets/images/image 40.png" alt="" />
             </div>
           </div>
           <div class="carousel-banner">
-            <img src="../../assets/images/image 40.png" alt="" />
+            <img :src="carouselChange" alt="" />
           </div>
         </div>
         <div class="product__types">
           <ProductHeaderInfo :hide="true" />
           <div class="product__types-title">
-            <h1>ОФИСНОЕ КРЕСЛО 6206A-2</h1>
+            <h1>{{ product.product?.name }}</h1>
           </div>
-          <p>Производитель: <span>Cougar</span></p>
-          <p>Модель: <span>6206A-2 </span></p>
+          <p>
+            Производитель: <span>{{ product.product?.brand }}</span>
+          </p>
+          <p>
+            Модель: <span>{{ product.product?.model }}</span>
+          </p>
           <div class="product__types-colors">
             <p>Цвет:</p>
             <div class="product__types-color">
               <div
-                @click="product_parametrs.productColor = 'red'"
+                v-for="color in product.colors"
+                @click="fetchProductByOption(color?.variant)"
                 :class="{
-                  activeColor: product_parametrs.productColor == 'red',
+                  activeColor: color?.id == product.color.id,
                 }"
               >
-                <span style="background: red;"></span>
+                <span :style="{ background: color.hex }"></span>
               </div>
+            </div>
+          </div>
+          <div
+            class="product__types-sizies"
+            v-for="attrebut in product?.atributs"
+          >
+            <p>{{ attrebut?.name }}:</p>
+            <div class="product__types-size">
               <div
-                @click="product_parametrs.productColor = '#781ecd'"
+                class="options_style"
+                v-for="elements in attrebut.options"
+                @click="fetchProductByOption(elements?.variant)"
                 :class="{
-                  activeColor: product_parametrs.productColor == '#781ecd',
+                  activeSize: product?.options.includes(elements.id),
                 }"
               >
-                <span style="background: #781ecd;"></span>
+                {{ elements?.name }}
+                <div
+                  :class="{
+                    nullClass: elements?.variant == null,
+                  }"
+                ></div>
               </div>
-              <div
-                @click="product_parametrs.productColor = '#00cd69'"
-                :class="{
-                  activeColor: product_parametrs.productColor == '#00cd69',
-                }"
-              >
-                <span style="background: #00cd69;"></span>
-              </div>
-            </div>
-          </div>
-          <div class="product__types-sizies">
-            <p>Размер:</p>
-            <div class="product__types-size">
-              <div
-                @click="product_parametrs.productSize = 32"
-                :class="{ activeSize: product_parametrs.productSize == 32 }"
-              >
-                32 gb
-              </div>
-              <div
-                @click="product_parametrs.productSize = 64"
-                :class="{ activeSize: product_parametrs.productSize == 64 }"
-              >
-                64 gb
-              </div>
-              <div
-                @click="product_parametrs.productSize = 128"
-                :class="{ activeSize: product_parametrs.productSize == 128 }"
-              >
-                128 gb
-              </div>
-              <div
-                @click="product_parametrs.productSize = 256"
-                :class="{ activeSize: product_parametrs.productSize == 256 }"
-              >
-                256 gb
-              </div>
-              <div
-                @click="product_parametrs.productSize = 512"
-                :class="{ activeSize: product_parametrs.productSize == 512 }"
-              >
-                512 gb
-              </div>
-            </div>
-          </div>
-          <div class="product__types-sizies">
-            <p>Размер RAM:</p>
-            <div class="product__types-size">
-              <div
-                @click="product_parametrs.productSizeRam = 4"
-                :class="{ activeSize: product_parametrs.productSizeRam == 4 }"
-              >
-                4 gb
-              </div>
-              <div
-                @click="product_parametrs.productSizeRam = 8"
-                :class="{ activeSize: product_parametrs.productSizeRam == 8 }"
-              >
-                8 gb
-              </div>
-              <div
-                @click="product_parametrs.productSizeRam = 16"
-                :class="{ activeSize: product_parametrs.productSizeRam == 16 }"
-              >
-                16 gb
-              </div>
-
-              <div
-                @click="product_parametrs.productSizeRam = 512"
-                :class="{ activeSize: product_parametrs.productSizeRam == 512 }"
-              >
-                512 gb
-              </div>
-            </div>
-          </div>
-          <div class="product__types-sizies">
-            <p>SIM:</p>
-            <div class="product__types-size">
-              <div
-                @click="product_parametrs.productSim = 'sim'"
-                :class="{ activeSize: product_parametrs.productSim == 'sim' }"
-              >
-                SIM
-              </div>
-              <div
-                @click="product_parametrs.productSim = 'e-sim'"
-                :class="{ activeSize: product_parametrs.productSim == 'e-sim' }"
-              >
-                E-SIM
-              </div>
-            </div>
-          </div>
-          <div class="product__types-sizies">
-            <p>Количество:</p>
-            <div class="product__types-count">
-              <div>
-                <span>-</span>
-                <p>1</p>
-                <span>+</span>
-              </div>
-              <p class="count">Осталось всего 4</p>
             </div>
           </div>
         </div>
         <div class="product__price-box">
-          <CardProductPrice />
+          <CardProductPrice :product="product" />
           <div class="product__order-card">
             <div class="body">
               <div class="title">
@@ -289,10 +183,27 @@
                   <div><h2>Основные характеристики</h2></div>
                   <div class="ch-card_control">
                     <div>
-                      <ProductCharactertable />
-                      <ProductCharactertable />
-                      <ProductCharactertable />
-                      <ProductCharactertable />
+                      <div class="p-character-card">
+                        <div class="body">
+                          <p>Бренд</p>
+                          <span></span>
+                          <p>Xiaomi</p>
+                        </div>
+                      </div>
+                      <div class="p-character-card">
+                        <div class="body">
+                          <p>Бренд</p>
+                          <span></span>
+                          <p>Xiaomi</p>
+                        </div>
+                      </div>
+                      <div class="p-character-card">
+                        <div class="body">
+                          <p>Бренд</p>
+                          <span></span>
+                          <p>Xiaomi</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -431,13 +342,15 @@ export default {
       rate: null,
       comment: "",
       value: null,
+      product: {},
+      optionId: null,
       product_parametrs: {
         productColor: "red",
         productSize: 32,
         productSizeRam: 4,
         productSim: "sim",
       },
-      carouselChange: "/assets/images/image 40.png",
+      carouselChange: null,
       activeName: "first",
       links: [
         {
@@ -459,6 +372,25 @@ export default {
     ProductCharactertable,
     ProductHeaderInfo,
   },
+  computed: {
+    classActive(elements) {
+      return {
+        activeSize:
+          this.$route.params.index ==
+          (elements?.variant != null ?? elements?.variant),
+        nullClass: true,
+      };
+    },
+  },
+  async created() {
+    const product = await this.$store.dispatch(
+      "fetchProduct/fetchProductByOption",
+      this.$route.params.index
+    );
+    this.carouselChange = product.images[0].image;
+    this.product = product;
+    console.log(product);
+  },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
@@ -472,6 +404,17 @@ export default {
     },
     hide(name) {
       this.$modal.hide(name);
+    },
+    async fetchProductByOption(optionId) {
+      const product = await this.$store.dispatch(
+        "fetchProduct/fetchProductByOption",
+        this.$route.params.index
+      );
+      await this.$router.replace({
+        path: `/product/${optionId}`,
+      });
+
+      console.log("tre", product);
     },
   },
 };
@@ -985,7 +928,7 @@ export default {
   &__types-size {
     width: inherit;
     display: flex;
-    div {
+    .options_style {
       border: 1px solid #f2f2fa;
       margin-right: 15px;
       border-radius: 4px;
@@ -998,7 +941,17 @@ export default {
       cursor: pointer;
       color: #020105;
       transition: 0.3s;
-
+      position: relative;
+      overflow: hidden;
+      div {
+        position: absolute;
+        width: 110%;
+        left: 0;
+        height: 1px;
+        background: transparent;
+        top: 50%;
+        transform: rotate(45deg);
+      }
       span {
         border-radius: 4px;
         display: block;
@@ -1008,6 +961,17 @@ export default {
     }
     .activeSize {
       border: 1px solid #ff6418;
+      pointer-events: none;
+    }
+    .nullClass {
+      width: 110%;
+      left: 0;
+      height: 1px;
+      background: red !important;
+      top: 50%;
+      transform: rotate(45deg);
+      cursor: not-allowed;
+      pointer-events: all !important;
     }
   }
   &__types-sizies {
@@ -1035,6 +999,7 @@ export default {
     }
     .activeColor {
       border: 1px solid #ff6418;
+      pointer-events: none;
     }
   }
   &__types-colors {

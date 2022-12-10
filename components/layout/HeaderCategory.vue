@@ -126,126 +126,123 @@
         <div
           class="col-4 header-search__product-links justify-content-between d-flex align-items-center"
         >
-          <nuxt-link to="/comparison"
-            >
-        <el-badge  :value="200" :max="99" class="item">
-            <svg
-              width="18"
-              height="20"
-              viewBox="0 0 18 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M17.1642 5.16043L3.54639 5.16043"
-                stroke="#200E32"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M13.068 1.08277L17.1647 5.16055L13.068 9.23833"
-                stroke="#200E32"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M0.832886 15.0889L14.4507 15.0889"
-                stroke="#200E32"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M4.92894 19.1665L0.832275 15.0888L4.92894 11.011"
-                stroke="#200E32"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              /></svg
-            >
-        </el-badge>
+          <nuxt-link to="/comparison">
+            <el-badge :value="200" :max="99" class="item">
+              <svg
+                width="18"
+                height="20"
+                viewBox="0 0 18 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M17.1642 5.16043L3.54639 5.16043"
+                  stroke="#200E32"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M13.068 1.08277L17.1647 5.16055L13.068 9.23833"
+                  stroke="#200E32"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M0.832886 15.0889L14.4507 15.0889"
+                  stroke="#200E32"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M4.92894 19.1665L0.832275 15.0888L4.92894 11.011"
+                  stroke="#200E32"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </el-badge>
             Сравнение</nuxt-link
           >
-          <nuxt-link to="/favorites"
-            >
-          <el-badge  :value="200" :max="99" class="item">
-            <svg
-              width="22"
-              height="20"
-              viewBox="0 0 22 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M10.761 18.8538C8.5904 17.5179 6.57111 15.9456 4.73929 14.1652C3.45144 12.8829 2.47101 11.3198 1.8731 9.59539C0.797144 6.25031 2.05393 2.42083 5.57112 1.28752C7.41961 0.692435 9.43845 1.03255 10.9961 2.20148C12.5543 1.03398 14.5725 0.693978 16.4211 1.28752C19.9383 2.42083 21.2041 6.25031 20.1281 9.59539C19.5302 11.3198 18.5498 12.8829 17.2619 14.1652C15.4301 15.9456 13.4108 17.5179 11.2402 18.8538L11.0051 19L10.761 18.8538Z"
-                stroke="#020105"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M14.7394 5.05302C15.8047 5.39332 16.5616 6.34973 16.6562 7.47501"
-                stroke="#020105"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              /></svg
-            >
-          </el-badge>
+          <nuxt-link to="/favorites">
+            <el-badge :value="200" :max="99" class="item">
+              <svg
+                width="22"
+                height="20"
+                viewBox="0 0 22 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M10.761 18.8538C8.5904 17.5179 6.57111 15.9456 4.73929 14.1652C3.45144 12.8829 2.47101 11.3198 1.8731 9.59539C0.797144 6.25031 2.05393 2.42083 5.57112 1.28752C7.41961 0.692435 9.43845 1.03255 10.9961 2.20148C12.5543 1.03398 14.5725 0.693978 16.4211 1.28752C19.9383 2.42083 21.2041 6.25031 20.1281 9.59539C19.5302 11.3198 18.5498 12.8829 17.2619 14.1652C15.4301 15.9456 13.4108 17.5179 11.2402 18.8538L11.0051 19L10.761 18.8538Z"
+                  stroke="#020105"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.7394 5.05302C15.8047 5.39332 16.5616 6.34973 16.6562 7.47501"
+                  stroke="#020105"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </el-badge>
             Избранное</nuxt-link
           >
-  
-          <nuxt-link to="/basket"
-            >
-          <el-badge  :value="200" :max="99" class="item">
-            <svg
-              width="21"
-              height="22"
-              viewBox="0 0 21 22"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M14.5137 20.5H6.16592C3.09955 20.5 0.747152 19.3925 1.41534 14.9348L2.19338 8.8936C2.60528 6.66934 4.02404 5.81808 5.26889 5.81808H15.4474C16.7105 5.81808 18.0469 6.73342 18.5229 8.8936L19.3009 14.9348C19.8684 18.889 17.5801 20.5 14.5137 20.5Z"
-                stroke="#020105"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M14.651 5.5984C14.651 3.21233 12.7167 1.27804 10.3306 1.27804V1.27804C9.18162 1.27317 8.078 1.7262 7.26381 2.53695C6.44963 3.34771 5.99193 4.44939 5.99194 5.5984H5.99194"
-                stroke="#020105"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M13.2963 10.1018H13.2506"
-                stroke="#020105"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M7.46566 10.1018H7.41989"
-                stroke="#020105"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              /></svg
-            >
-</el-badge>
+
+          <nuxt-link to="/basket">
+            <el-badge :value="200" :max="99" class="item">
+              <svg
+                width="21"
+                height="22"
+                viewBox="0 0 21 22"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M14.5137 20.5H6.16592C3.09955 20.5 0.747152 19.3925 1.41534 14.9348L2.19338 8.8936C2.60528 6.66934 4.02404 5.81808 5.26889 5.81808H15.4474C16.7105 5.81808 18.0469 6.73342 18.5229 8.8936L19.3009 14.9348C19.8684 18.889 17.5801 20.5 14.5137 20.5Z"
+                  stroke="#020105"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M14.651 5.5984C14.651 3.21233 12.7167 1.27804 10.3306 1.27804V1.27804C9.18162 1.27317 8.078 1.7262 7.26381 2.53695C6.44963 3.34771 5.99193 4.44939 5.99194 5.5984H5.99194"
+                  stroke="#020105"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M13.2963 10.1018H13.2506"
+                  stroke="#020105"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M7.46566 10.1018H7.41989"
+                  stroke="#020105"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </el-badge>
             Корзина</nuxt-link
           >
 
           <b-button
-            v-if="$store.state.auth == 'null'"
+            v-if="$store.state.auth == false"
             id="show-btn"
             class="profile-btn"
             @click="show('sign-or-create-modal')"
@@ -308,7 +305,6 @@
               /></svg
             >{{ $store.state.auth }}</b-button
           >
-       
         </div>
       </div>
     </div>
@@ -705,193 +701,352 @@
         </div>
       </div>
     </div>
+
     <modal name="sign-or-create-modal" width="590px" height="auto">
-            <div>
-              <div class="auth-user-modal">
-                <div class="auth-user-modal__m-header">
-                  <h1 class="m-header-title">Войти или создать профиль</h1>
-                  <span @click="hide('sign-or-create-modal')">
-                    <svg
-                      width="64"
-                      height="64"
-                      viewBox="0 0 64 64"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M42.3806 21.5771L21.6152 42.3425"
-                        stroke="#EF3F27"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M42.3862 42.3554L21.6035 21.5684"
-                        stroke="#EF3F27"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </span>
-                </div>
-                <div
-                  class="auth-user-modal__m-body"
-                  :class="{ numberErrorClass: errors.numberError }"
+      <div>
+        <div class="auth-user-modal">
+          <div class="auth-user-modal__m-header">
+            <h1 class="m-header-title">Войти или создать профиль</h1>
+            <span @click="hide('sign-or-create-modal')">
+              <svg
+                width="64"
+                height="64"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M42.3806 21.5771L21.6152 42.3425"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M42.3862 42.3554L21.6035 21.5684"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
+          <div
+            class="auth-user-modal__m-body"
+            :class="{ numberErrorClass: errors.numberError }"
+          >
+            <div class="number-form">
+              <label class="number__label">Номер телефона</label>
+
+              <the-mask
+                type="text"
+                class="number__input"
+                v-model="registrModal.number"
+                v-on:input="search"
+                placeholder="+998 (__) ___ __ __"
+                :mask="['+998 (##) ### ## ##', '+998 (##) ### ## ##']"
+              />
+              <span class="number-linght-false" v-if="errors.numberLinght"
+                >Длина поля номер телефона должна быть 12
+              </span>
+            </div>
+            <div
+              class="sms-from mt-4"
+              v-if="(registrType.type && registrType.hide)"
+            >
+              <label class="sms__label">СМС-код</label>
+              <input
+                class="sms__input"
+                type="text"
+                v-model="registrModal.smsCode"
+                placeholder="Введите СМС-код"
+              />
+            </div>
+            <div
+              class="password-from mt-4"
+              v-if="(!registrType.type && registrType.hide)"
+            >
+              <label class="sms__label">Пароль</label>
+              <input
+                class="sms__input"
+                type="text"
+                v-model="registrModal.password"
+                placeholder="Пароль"
+              />
+            </div>
+            <!-- <span class="number-linght-true" v-else> </span> -->
+
+            <div class="auth-user-modal__m-btn">
+              <div class="show-btn" @click="signOrCreate">
+                Войти
+              </div>
+            </div>
+            <div
+              class="forgot-your-password"
+              v-if="(registrType.type && registrType.hide)"
+            >
+              <span>Забыли пароль?</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </modal>
+
+    <modal name="want-password-modal" width="590px" height="auto">
+      <div>
+        <div class="auth-user-modal">
+          <div class="auth-user-modal__m-header">
+            <h1 class="m-header-title">Вы хотите придумать новый пароль ?</h1>
+            <span @click="hide('create-profile-modal')">
+              <svg
+                width="64"
+                height="64"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M42.3806 21.5771L21.6152 42.3425"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M42.3862 42.3554L21.6035 21.5684"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
+          <div class="auth-user-modal__m-body" :class="errorClassObject">
+            <div class="auth-user-modal__m-btn two-btn-control">
+              <div class="show-btn" @click="hide('want-password-modal')">
+                Нет
+              </div>
+              <div class="show-btn" @click="wantChangePass">
+                ДА
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </modal>
+
+    <modal name="change-password-modal" width="590px" height="auto">
+      <div>
+        <div class="auth-user-modal">
+          <div class="auth-user-modal__m-header">
+            <h1 class="m-header-title">Изменить пароль</h1>
+            <span @click="hide('change-password-modal')">
+              <svg
+                width="64"
+                height="64"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M42.3806 21.5771L21.6152 42.3425"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M42.3862 42.3554L21.6035 21.5684"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
+          <div class="auth-user-modal__m-body" :class="errorClassObject">
+            <label class="sms__label">Пароль</label>
+            <div class="password-input">
+              <input
+                :type="passwordHide.first"
+                placeholder="Пароль"
+                v-model="registrModal.password"
+              />
+              <span
+                @click="passwordHide.first = 'password'"
+                v-if="passwordHide.first == 'text'"
+                ><svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <label class="number__label">Номер телефона</label>
-           
-                  <the-mask
-                    type="text"
-                    class="number__input"
-                    v-model="registrModal.number"
-                    v-on:input="search"
-                    placeholder="+998 (__) ___ __ __"
-                    :mask="['+998 (##) ### ## ##', '+998 (##) ### ## ##']"
+                  <path
+                    d="M9.76094 14.3677C9.18594 13.7937 8.83594 13.0137 8.83594 12.1387C8.83594 10.3857 10.2479 8.97266 11.9999 8.97266C12.8669 8.97266 13.6649 9.32366 14.2299 9.89766"
+                    stroke="#9A999B"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   />
-                  <span class="number-linght-false" v-if="errors.numberLinght"
-                    >Длина поля номер телефона должна быть 12
-                  </span>
-                  <span class="number-linght-true" v-else> </span>
-
-                  <div class="auth-user-modal__m-btn">
-                    <div class="show-btn" @click="signOrCreate">
-                      Войти
-                    </div>
-                  </div>
-                </div>
-              </div>
+                  <path
+                    d="M15.1054 12.6992C14.8734 13.9892 13.8574 15.0072 12.5684 15.2412"
+                    stroke="#9A999B"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M6.655 17.472C5.068 16.226 3.724 14.406 2.75 12.137C3.734 9.85798 5.087 8.02798 6.684 6.77198C8.271 5.51598 10.102 4.83398 12 4.83398C13.909 4.83398 15.739 5.52598 17.336 6.79098"
+                    stroke="#9A999B"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M19.4478 8.99023C20.1358 9.90423 20.7408 10.9592 21.2498 12.1362C19.2828 16.6932 15.8068 19.4382 11.9998 19.4382C11.1368 19.4382 10.2858 19.2982 9.46777 19.0252"
+                    stroke="#9A999B"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M19.8873 4.25L4.11328 20.024"
+                    stroke="#9A999B"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span @click="passwordHide.first = 'text'" v-else>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M15.1619 12.0526C15.1619 13.7986 13.7459 15.2136 11.9999 15.2136C10.2539 15.2136 8.83887 13.7986 8.83887 12.0526C8.83887 10.3056 10.2539 8.89062 11.9999 8.89062C13.7459 8.89062 15.1619 10.3056 15.1619 12.0526Z"
+                    stroke="#9A999B"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M11.998 19.354C15.806 19.354 19.289 16.616 21.25 12.052C19.289 7.488 15.806 4.75 11.998 4.75H12.002C8.194 4.75 4.711 7.488 2.75 12.052C4.711 16.616 8.194 19.354 12.002 19.354H11.998Z"
+                    stroke="#9A999B"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  /></svg
+              ></span>
             </div>
-    </modal>
-
-    <modal name="create-profile-modal" width="590px" height="auto">
-            <div>
-              <div
-                class="auth-user-modal"
-               
-              >
-                <div class="auth-user-modal__m-header">
-                  <h1 class="m-header-title">Создать профиль</h1>
-                  <span @click="hide('create-profile-modal')">
-                    <svg
-                      width="64"
-                      height="64"
-                      viewBox="0 0 64 64"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M42.3806 21.5771L21.6152 42.3425"
-                        stroke="#EF3F27"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M42.3862 42.3554L21.6035 21.5684"
-                        stroke="#EF3F27"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </span>
-                </div>
-                <div class="auth-user-modal__m-body"  :class="errorClassObject">
-                  <label class="number__label">Номер телефона</label>
-                  <the-mask
-                    type="text"
-                    class="number__input"
-                    v-model="registrModal.number"
-                    v-on:input="search"
-                    placeholder="+998 (__) ___ __ __"
-                    :mask="['+998 (##) ### ## ##', '+998 (##) ### ## ##']"
+            <label class="sms__label mt-3">Повтирите новый</label>
+            <div class="password-input">
+              <input
+                :type="passwordHide.last"
+                placeholder="Повтирите новый"
+                v-model="registrModal.password"
+              />
+              <span
+                @click="passwordHide.last = 'password'"
+                v-if="passwordHide.last == 'text'"
+                ><svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.76094 14.3677C9.18594 13.7937 8.83594 13.0137 8.83594 12.1387C8.83594 10.3857 10.2479 8.97266 11.9999 8.97266C12.8669 8.97266 13.6649 9.32366 14.2299 9.89766"
+                    stroke="#9A999B"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   />
-                  <span class="number-linght-false" v-if="errors.numberLinght"
-                    >Длина поля номер телефона должна быть 12
-                  </span>
-                  <span class="number-linght-true" v-else> </span>
-                  <label class="sms__label">СМС-код</label>
-                  <input
-                  class="sms__input"
-                    type="text"
-                    v-model="registrModal.smsCode"
-                    
-                    placeholder="Введите СМС-код"
+                  <path
+                    d="M15.1054 12.6992C14.8734 13.9892 13.8574 15.0072 12.5684 15.2412"
+                    stroke="#9A999B"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                   />
-                  <div class="auth-user-modal__m-btn">
-                    <div class="show-btn" @click="createSmsProfile">
-                      Войти
-                    </div>
-                  </div>
-                </div>
-              </div>
+                  <path
+                    d="M6.655 17.472C5.068 16.226 3.724 14.406 2.75 12.137C3.734 9.85798 5.087 8.02798 6.684 6.77198C8.271 5.51598 10.102 4.83398 12 4.83398C13.909 4.83398 15.739 5.52598 17.336 6.79098"
+                    stroke="#9A999B"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M19.4478 8.99023C20.1358 9.90423 20.7408 10.9592 21.2498 12.1362C19.2828 16.6932 15.8068 19.4382 11.9998 19.4382C11.1368 19.4382 10.2858 19.2982 9.46777 19.0252"
+                    stroke="#9A999B"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M19.8873 4.25L4.11328 20.024"
+                    stroke="#9A999B"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <span @click="passwordHide.last = 'text'" v-else>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M15.1619 12.0526C15.1619 13.7986 13.7459 15.2136 11.9999 15.2136C10.2539 15.2136 8.83887 13.7986 8.83887 12.0526C8.83887 10.3056 10.2539 8.89062 11.9999 8.89062C13.7459 8.89062 15.1619 10.3056 15.1619 12.0526Z"
+                    stroke="#9A999B"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M11.998 19.354C15.806 19.354 19.289 16.616 21.25 12.052C19.289 7.488 15.806 4.75 11.998 4.75H12.002C8.194 4.75 4.711 7.488 2.75 12.052C4.711 16.616 8.194 19.354 12.002 19.354H11.998Z"
+                    stroke="#9A999B"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  /></svg
+              ></span>
             </div>
-    </modal>
 
-    <modal name="sign-in-modal" width="590px" height="auto">
-            <div>
-              <div
-                class="auth-user-modal"
-               
-              >
-                <div class="auth-user-modal__m-header">
-                  <h1 class="m-header-title">Войти</h1>
-                  <span @click="hide('sign-in-modal')">
-                    <svg
-                      width="64"
-                      height="64"
-                      viewBox="0 0 64 64"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M42.3806 21.5771L21.6152 42.3425"
-                        stroke="#EF3F27"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M42.3862 42.3554L21.6035 21.5684"
-                        stroke="#EF3F27"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </span>
-                </div>
-                <div class="auth-user-modal__m-body"  :class="errorClassObject">
-                  <label class="number__label">Номер телефона</label>
-                  <the-mask
-                    type="text"
-                    class="number__input"
-                    v-model="registrModal.number"
-                    v-on:input="search"
-                    placeholder="+998 (__) ___ __ __"
-                    :mask="['+998 (##) ### ## ##', '+998 (##) ### ## ##']"
-                  />
-                  <span class="number-linght-false" v-if="errors.numberLinght"
-                    >Длина поля номер телефона должна быть 12
-                  </span>
-                  <span class="number-linght-true" v-else> </span>
-                  <label class="sms__label">Пароль</label>
-                  <input
-                  class="sms__input"
-                    type="text"
-                    v-model="registrModal.password"
-                    placeholder="Пароль"
-                  />
-                  <div class="auth-user-modal__m-btn">
-                    <div class="show-btn" @click="signIn">
-                      Войти
-                    </div>
-                  </div>
-                  <div class="forgot-your-password"><span>Забыли пароль?</span></div>
-                </div>
+            <div class="auth-user-modal__m-btn create-password">
+            <span></span>
+            <span></span>
+              <div class="show-btn">
+                Отмена
               </div>
+              <div class="show-btn">
+                Сохранить
+              </div>
+            
             </div>
+          </div>
+        </div>
+      </div>
     </modal>
   </div>
 </template>
@@ -900,6 +1055,14 @@ export default {
   data() {
     return {
       categoryDrop: false,
+      registrType: {
+        type: true,
+        hide: false,
+      },
+      passwordHide: {
+        first: "text",
+        last: "text",
+      },
       errors: {
         numberLinght: false,
         smsLinght: false,
@@ -909,18 +1072,18 @@ export default {
       registrModal: {
         number: "",
         smsCode: "",
-        password: ""
+        password: "",
       },
     };
   },
   computed: {
     errorClassObject() {
-    return {
-      numberErrorClass: this.errors.numberError,
-      smsErrorClass: this.errors.smsError,
-    }
-  }
-},
+      return {
+        numberErrorClass: this.errors.numberError,
+        smsErrorClass: this.errors.smsError,
+      };
+    },
+  },
   methods: {
     search() {
       if (this.registrModal.number.length == "") {
@@ -928,7 +1091,10 @@ export default {
         this.errors.numberError = false;
       } else if (this.registrModal.number.length < 9) {
         this.errors.numberLinght = true;
+        this.registrType.hide = false;
       } else {
+        this.registrType.type = true;
+        this.registrType.hide = true;
         this.errors.numberLinght = false;
         this.errors.numberError = false;
       }
@@ -939,24 +1105,26 @@ export default {
         this.errors.numberError = true;
       } else {
         this.$store.commit("setUser", this.registrModal.number);
-        this.registrModal.number = "";
-        this.$router.push("/profile");
+        // this.registrModal.number = "";
+        // this.$router.push("/profile");
         this.$modal.hide("sign-or-create-modal");
-        // this.$modal.show("create-profile-modal");
+        this.$modal.show("want-password-modal");
       }
     },
     createSmsProfile() {
-      if(this.registrModal.smsCode.length < 9) {
-        this.errors.smsError = true
-      }   if(this.registrModal.number.length < 9) {
-        this.errors.numberError = true
-      } 
+      if (this.registrModal.smsCode.length < 9) {
+        this.errors.smsError = true;
+      }
+      if (this.registrModal.number.length < 9) {
+        this.errors.numberError = true;
+      }
       this.$modal.hide("create-profile-modal");
 
       this.$modal.show("sign-in-modal");
     },
-    signIn() {
-
+    wantChangePass() {
+      this.$modal.hide("want-password-modal");
+      this.$modal.show("change-password-modal");
     },
     show(name) {
       this.$modal.show(name);
@@ -964,7 +1132,6 @@ export default {
     hide(name) {
       this.$modal.hide(name);
     },
-   
   },
   mount() {
     this.show();
@@ -1018,6 +1185,12 @@ export default {
     display: flex;
     flex-direction: column;
     justify-items: center;
+    .number-form,
+    .sms-from,
+    .password-from {
+      display: flex;
+      flex-direction: column;
+    }
     .number-linght-false {
       font-family: "Inter";
       font-style: italic;
@@ -1091,18 +1264,57 @@ export default {
       }
     }
   }
+  .create-password {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 16px;
+    justify-self: end;
+    div {
+      &:nth-child(3) {
+        background: transparent;
+        color: #000;
+      }
+    }
+  }
+  .password-input {
+    border: 1px solid #ebebeb;
+    border-radius: 4px;
+    display: flex;
+    padding-left: 16px;
+    padding-right: 16px;
+    align-items: center;
+    svg {
+      cursor: pointer;
+    }
+    input {
+      border: none !important;
+      width: 100%;
+      padding-left: 0;
+    }
+  }
+  .two-btn-control {
+    display: grid;
+    grid-gap: 16px;
+    grid-template-columns: 1fr 1fr;
+    div {
+      &:first-child {
+        background: #ebebeb;
+        color: #000;
+      }
+    }
+  }
   .forgot-your-password {
     padding-top: 20px;
     span {
-cursor: pointer;
+      cursor: pointer;
       display: flex;
       justify-content: center;
-      font-family: 'Inter';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 20px;
-  color: #020105;
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      color: #020105;
     }
   }
 }
@@ -1227,20 +1439,20 @@ cursor: pointer;
   &__product-links {
     .item {
       .el-badge__content.is-fixed {
-    position: absolute;
-    top: -6px;
-    right: 20px !important;
-    transform: translateY(-50%) translateX(100%);
-}
+        position: absolute;
+        top: -6px;
+        right: 20px !important;
+        transform: translateY(-50%) translateX(100%);
+      }
       .el-badge__content {
-        font-family: 'TT Firs Neue';
-font-style: normal;
-font-weight: 400;
-font-size: 12px;
-line-height: 20px;
-letter-spacing: -0.045em;
+        font-family: "TT Firs Neue";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 20px;
+        letter-spacing: -0.045em;
 
-color: #FFFFFF;
+        color: #ffffff;
         height: 24px !important;
       }
     }

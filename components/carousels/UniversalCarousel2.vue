@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-center blog relative">
-    <div class="swiper mySwiper">
+    <div class="swiper mySwiper2">
       <div class="swiper-wrapper">
         <slot></slot>
       </div>

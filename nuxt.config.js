@@ -24,7 +24,8 @@ export default {
   plugins: [
     { src: "~plugins/element-ui.js", ssr: false },
     { src: "~plugins/vue-js-modal.js", ssr: false },
-    { src: "~plugins/vue-the-mask.js", ssr: false }
+    { src: "~plugins/vue-the-mask.js", ssr: false },
+    { src: "~plugins/vue-toast-notification.js", ssr: false },
     // { src: "~plugins/vue-hover.js", ssr: false },
   ],
 
@@ -41,12 +42,12 @@ export default {
     "@nuxtjs/axios",
   ],
   // https://8fde-195-158-30-173.eu.ngrok.io/api/
-  axios: { baseURL: "https://8fde-195-158-30-173.eu.ngrok.io/api/" },
+  axios: { baseURL: "https://shopadminforapi.pythonanywhere.com/api" },
   elementUI: {
     components: ["Button", "DatePicker", "Pagination", "Collapse"],
     locale: "",
   },
-  // mode: "spa",
+  mode: "spa",
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     // fix to work with swiperjs 8 - need to run with standalone:true. That can make some troubles.
@@ -55,9 +56,9 @@ export default {
       // fix to work with swiperjs 8 add needed deps. you can get them from error when doing nuxt generate
       config.externals = [
         {
-          encoding: 'encoding',
+          encoding: "encoding",
         },
-      ]
+      ];
     },
   },
 };

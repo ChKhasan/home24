@@ -87,6 +87,21 @@ export default {
     };
   },
   components: { TitleBasket, BreadCrumb, EmptyBlog, SelectToOrder },
+  async created() {
+    const basket = await this.$store.dispatch(
+      "fetchBasket/postProductToCart",
+     {id: 1, count: 3}
+    );
+    
+    console.log(basket);
+  },
+  async mounted(){
+    const getBasket = await this.$store.dispatch(
+      "fetchBasket/fetchBasket",
+
+    );
+    console.log(getBasket);
+  }
 };
 </script>
 <style lang="scss">

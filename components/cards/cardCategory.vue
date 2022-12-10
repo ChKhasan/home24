@@ -1,15 +1,18 @@
 <template lang="html">
   <div class="card-category">
     <div class="card-category__img">
-      <img src="../../assets/images/image 40.png" alt="" />
+      <img :src="item?.image" alt="" />
     </div>
     <div class="card-category__title">
-      <nuxt-link to="/">Бытовая техника</nuxt-link>
+      <nuxt-link :to="`/categoryId/${item?.id}`">{{item?.name}}</nuxt-link>
     </div>
   </div>
 </template>
 <script>
-export default {};
+export default {
+props: ["item"]
+
+};
 </script>
 <style lang="scss">
 .card-category {

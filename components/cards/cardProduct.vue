@@ -3,6 +3,7 @@
     <div class="product-card__img" id="show-btn">
       <img src="../../assets/images/image 24.png" alt="" />
       <!-- <div class="product-card__hover-link abs-block"> -->
+      
       <span class="product-card__heart to-favorites"
         ><svg
           width="16"
@@ -70,11 +71,11 @@
       <div class="product-card__quick-view quick-view" @click="show">
         Быстрый просмотр
       </div>
-      <!-- </div> -->
-    </div>
+      </div>
+    <!-- </div> -->
 
     <ProductModal :modal="modal" :hide="hide" />
-    <div class="product-card__body" @click="$router.push('/product/name')">
+    <div class="product-card__body" @click="$router.push('/product/1')">
       <div class="product-card__price d-flex justify-content-between">
         <span> 3 512 750 сум </span>
         <nuxt-link to="/"
