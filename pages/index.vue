@@ -4,7 +4,7 @@
       class="container-fluid homepage__banner-carousel"
       @click="hide = !hide"
     >
-    <!-- <logo/> -->
+      <!-- <logo/> -->
       <div class="container">
         <div class="row homepage__carousel-control">
           <div class="col-9">
@@ -32,10 +32,14 @@
                 <img src="../assets/images/BannerImg.png" alt="" />
               </div>
             </UniversalCarousel2> -->
-            <b-card v-if="showProduct" style="height: 100%,boder-radius: 18px">
-              <b-skeleton animation width="100%" height="50%"></b-skeleton>
-              <b-skeleton animation width="100%" height="50%"></b-skeleton>
-            </b-card>
+            <b-skeleton
+              v-if="skeleton"
+              style="height: 100%,boder-radius: 18px"
+              animation="wave"
+              height="100%"
+              width="100%"
+            ></b-skeleton>
+
             <BannerCarousel :theArrow="false" v-else>
               <div v-for="product in productOfDay">
                 <CardProductTheDay :product="product" />
@@ -50,18 +54,54 @@
     <div class="container">
       <div class="row">
         <div class="col-12 homepage__grid-category">
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
-          <CardCategory />
+          <div v-if="skeleton">
+            <b-skeleton
+              animation="wave"
+              height="200px"
+              width="100%"
+            ></b-skeleton>
+          </div>
+          <div v-if="skeleton">
+            <b-skeleton
+              animation="wave"
+              height="200px"
+              width="100%"
+            ></b-skeleton>
+          </div>
+          <div v-if="skeleton">
+            <b-skeleton
+              animation="wave"
+              height="200px"
+              width="100%"
+            ></b-skeleton>
+          </div>
+          <div v-if="skeleton">
+            <b-skeleton
+              animation="wave"
+              height="200px"
+              width="100%"
+            ></b-skeleton>
+          </div>
+          <div v-if="skeleton">
+            <b-skeleton
+              animation="wave"
+              height="200px"
+              width="100%"
+            ></b-skeleton>
+          </div>
+          <div v-if="skeleton">
+            <b-skeleton
+              animation="wave"
+              height="200px"
+              width="100%"
+            ></b-skeleton>
+          </div>
+          <CardCategory
+            v-else
+            v-for="category in popularCategories"
+            :category="category"
+            :key="category.id"
+          />
         </div>
       </div>
     </div>
@@ -69,12 +109,49 @@
     <div class="container">
       <div class="row">
         <div class="col-12 homepage__grid-product">
-          <CardProduct modal="id1" />
-          <CardProduct modal="id2" />
-          <CardProduct modal="id3" />
-          <CardProduct modal="id4" />
-          <CardProduct modal="id5" />
-          <CardProduct modal="id6" />
+          <b-skeleton
+            v-if="skeleton"
+            animation="wave"
+            height="400px"
+          ></b-skeleton>
+          <b-skeleton
+            v-if="skeleton"
+            animation="wave"
+            height="400px"
+          ></b-skeleton>
+          <b-skeleton
+            v-if="skeleton"
+            animation="wave"
+            height="400px"
+          ></b-skeleton>
+          <b-skeleton
+            v-if="skeleton"
+            animation="wave"
+            height="400px"
+          ></b-skeleton>
+          <b-skeleton
+            v-if="skeleton"
+            animation="wave"
+            height="400px"
+          ></b-skeleton>
+          <b-skeleton
+            v-if="skeleton"
+            animation="wave"
+            height="400px"
+          ></b-skeleton>
+          <CardProduct
+            modal="id1"
+            v-else
+            :id="1"
+            v-for="product in hitProducts"
+            :product="product"
+            :key="product.id"
+          />
+          <!-- <CardProduct modal="id2" :cartProducts="cartProducts" :id="2" />
+          <CardProduct modal="id3" :cartProducts="cartProducts" :id="3" />
+          <CardProduct modal="id4" :cartProducts="cartProducts" :id="4" />
+          <CardProduct modal="id5" :cartProducts="cartProducts" :id="5" />
+          <CardProduct modal="id6" :cartProducts="cartProducts" :id="6" /> -->
         </div>
       </div>
     </div>
@@ -99,12 +176,12 @@
     <div class="container">
       <div class="row">
         <div class="col-12 homepage__grid-product">
-          <CardProduct modal="id6" />
+          <!-- <CardProduct modal="id6" />
           <CardProduct />
           <CardProduct />
           <CardProduct />
           <CardProduct />
-          <CardProduct />
+          <CardProduct /> -->
         </div>
       </div>
       <div class="row">
@@ -117,12 +194,12 @@
       </div>
       <div class="row">
         <div class="col-12 homepage__grid-product">
+          <!-- <CardProduct />
           <CardProduct />
           <CardProduct />
           <CardProduct />
           <CardProduct />
-          <CardProduct />
-          <CardProduct />
+          <CardProduct /> -->
         </div>
       </div>
     </div>
@@ -160,6 +237,7 @@
     <div class="container">
       <div class="row">
         <div class="col-12 homepage__grid-product">
+          <!-- <CardProduct />
           <CardProduct />
           <CardProduct />
           <CardProduct />
@@ -170,8 +248,7 @@
           <CardProduct />
           <CardProduct />
           <CardProduct />
-          <CardProduct />
-          <CardProduct />
+          <CardProduct /> -->
         </div>
       </div>
     </div>
@@ -206,27 +283,31 @@ export default {
   data() {
     return {
       hide: false,
-      showProduct: true,
+      skeleton: true,
       productOfDay: [],
+      cartProducts: [],
+      hitProducts: [],
+      popularCategories: [],
+      skeleton: true,
     };
   },
   async created() {
-    // const data = await this.$axios.$get("home");
-    // const categories = await this.$store.dispatch(
-    //   "fetchCategories/fetchAllCategories"
-    // );
-    // const productOfDay = await this.$store.dispatch(
-    //   "fetchProduct/fetchProductOfDay"
-    // );
-    // console.log(data);
-    // this.productOfDay = await productOfDay;
-    // this.showProduct = await false;
-    // console.log(productOfDay);
+    const popularCategories = await this.$store.dispatch(
+      "fetchCategories/fetchPopularCategories"
+    );
+    const productOfDay = await this.$store.dispatch(
+      "fetchProduct/fetchProductOfDay"
+    );
+    const hitProducts = await this.$store.dispatch(
+      "fetchProduct/fetchHitProduct"
+    );
+    this.hitProducts = hitProducts;
+    this.popularCategories = popularCategories;
+    this.$store.commit("reloadStore");
+    this.$store.commit("setUser");
+    this.productOfDay = await productOfDay;
+    this.skeleton = await false;
   },
-  mounted() {
-    this.$store.commit("setUser", localStorage.getItem("Auth"));
-  },
-  async asyncData({ store, $axios }) {},
   components: {
     BannerCarousel,
     CardProductTheDay,

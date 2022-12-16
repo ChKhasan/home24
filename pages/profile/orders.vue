@@ -232,6 +232,8 @@ import TitleCategory from "../../components/category/titleCategory.vue";
 import HomeTitlies from "../../components/homeTitlies.vue";
 import CardOrder from "../../components/cards/cardOrder.vue";
 export default {
+  middleware: "auth",
+
   data() {
     return {
       activeName: "first",
@@ -279,8 +281,8 @@ export default {
 
   methods: {
     logout() {
-      localStorage.setItem("Auth", null);
-      this.$store.commit("setUser", null);
+      localStorage.removeItem("Auth");
+      this.$store.commit("setUser");
       this.$router.push("/");
     },
     show(name) {

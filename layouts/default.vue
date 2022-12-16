@@ -19,12 +19,12 @@ export default {
     Footer,
   },
   async created() {
-    // const data = await this.$axios.$get("home");
     const categories = await this.$store.dispatch(
       "fetchCategories/fetchAllCategories"
     );
-    // console.log(data);
     this.categories = categories;
+    this.$store.commit("reloadStore");
+  
   },
 };
 </script>

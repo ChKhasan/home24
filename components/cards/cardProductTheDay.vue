@@ -2,7 +2,9 @@
   <div class="product-day">
     <div class="product-day__title d-flex justify-content-between">
       <h2>товар дня</h2>
-      <nuxt-link to="/"
+      <span
+      @click="$store.commit('addToStore', { id: product.id, name: 'like' })"
+        :class="{ disabledLike: includes($store.state.like, product.id) }"
         ><svg
           width="22"
           height="20"
@@ -27,7 +29,7 @@
             stroke-linejoin="round"
           />
         </svg>
-      </nuxt-link>
+      </span>
     </div>
     <div class="product-day__body d-flex">
       <div class="product-day__img">
@@ -40,11 +42,11 @@
         </div>
 
         <div class="product-day__price d-flex align-items-center">
-          <h5>1.240.000</h5>
+          <h5>{{product.price}}</h5>
           <span>сум</span>
         </div>
         <div class="product-day__last-price">
-          <span>1.500.000</span>
+          <span>{{product.price}}</span>
         </div>
         <div class="product-day__reviews">
           <p>
@@ -67,16 +69,53 @@
           </p>
         </div>
         <div class="product-day__name">
-          <span> Realme Pad Mini 32GB + 3GB LTE (синий)</span>
+          <span> {{product.product.name}} LTE (синий)</span>
         </div>
         <div class="product-day__btn">
-          <button>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M11.0092 14.3334H5.44398C3.39974 14.3334 1.83148 13.595 2.27694 10.6232L2.79562 6.59575C3.07022 5.11292 4.01607 4.54541 4.84597 4.54541H11.6316C12.4737 4.54541 13.3647 5.15563 13.682 6.59575L14.2007 10.6232C14.579 13.2594 13.0534 14.3334 11.0092 14.3334Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M11.1007 4.39895C11.1007 2.80823 9.81117 1.5187 8.22045 1.5187V1.5187C7.45445 1.51546 6.71871 1.81748 6.17592 2.35798C5.63312 2.89848 5.328 3.63294 5.328 4.39895H5.328" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M10.1976 7.40124H10.1671" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M6.31048 7.40124H6.27997" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>в карзину
+          <button
+          @click="
+            $store.commit('addToStore', { id: product.id, name: 'cart' })
+          "
+          :class="{ disabled: includes($store.state.cart, product.id) }"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M11.0092 14.3334H5.44398C3.39974 14.3334 1.83148 13.595 2.27694 10.6232L2.79562 6.59575C3.07022 5.11292 4.01607 4.54541 4.84597 4.54541H11.6316C12.4737 4.54541 13.3647 5.15563 13.682 6.59575L14.2007 10.6232C14.579 13.2594 13.0534 14.3334 11.0092 14.3334Z"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M11.1007 4.39895C11.1007 2.80823 9.81117 1.5187 8.22045 1.5187V1.5187C7.45445 1.51546 6.71871 1.81748 6.17592 2.35798C5.63312 2.89848 5.328 3.63294 5.328 4.39895H5.328"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M10.1976 7.40124H10.1671"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M6.31048 7.40124H6.27997"
+                stroke="white"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              /></svg
+            >в карзину
           </button>
         </div>
       </div>
@@ -84,7 +123,41 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props: ["product"],
+  data() {
+    return {
+      likeP: [],
+      cartP: [],
+    };
+  },
+  mounted() {
+    this.likeP = JSON.parse(localStorage.getItem("like"));
+  },
+  methods: {
+    addToLike(id) {
+      let like = JSON.parse(localStorage.getItem("like"));
+      like.push(id);
+      localStorage.setItem("like", JSON.stringify(like));
+      this.$store.commit("addToLike");
+      this.likeP = JSON.parse(localStorage.getItem("like"));
+    },
+    addToBasket(id) {
+      let cart = JSON.parse(localStorage.getItem("cart"));
+      cart.push(id);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      this.$store.commit("addToCart");
+      this.cartP = JSON.parse(localStorage.getItem("cart"));
+    },
+    includes(array, id) {
+      if (array) {
+        return array.find((item) => item === id) ? true : false;
+      } else {
+        true;
+      }
+    },
+  },
+};
 </script>
 <style lang="scss">
 .product-day {
@@ -112,7 +185,6 @@ export default {};
         margin-right: 13px;
       }
     }
-
   }
   &__name {
     span {
@@ -218,7 +290,15 @@ export default {};
       letter-spacing: 0em;
       text-align: left;
     }
-    a {
+    .disabledLike {
+      background: #ff6418 !important;
+      svg {
+        path {
+          stroke: #fff;
+        }
+      }
+    }
+    span {
       width: 30px;
       height: 30px;
       display: flex;
@@ -226,6 +306,7 @@ export default {};
       align-items: center;
       background: #f4f5f5;
       border-radius: 50%;
+      cursor: pointer;
       svg {
         width: 12.67px;
       }

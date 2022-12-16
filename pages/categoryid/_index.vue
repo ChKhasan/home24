@@ -8,30 +8,57 @@
               <h2>Категории</h2>
               <ul class="category__list1">
                 <li>
-                  <span>{{
-                    categoryById?.parent?.parent?.name
-                      ? categoryById?.parent?.parent.name
-                      : categoryById?.parent?.name
-                  }}</span>
+                  <div v-if="skeleton">
+                    <b-skeleton animation="wave" width="50%"></b-skeleton>
+                  </div>
+                  <span
+                    @click="
+                      $router.push(
+                        categoryById?.parent?.parent.id
+                          ? `/categories/${categoryById?.parent?.parent.id}`
+                          : `/categories/${categoryById?.parent.id}`
+                      )
+                    "
+                    v-else
+                    >{{
+                      categoryById?.parent?.parent?.name
+                        ? categoryById?.parent?.parent?.name
+                        : categoryById?.parent?.name
+                    }}</span
+                  >
                   <ul>
                     <li>
+                      <div v-if="skeleton">
+                        <b-skeleton animation="wave" width="50%"></b-skeleton>
+                      </div>
                       <span
+                        v-else
+                        @click="
+                      $router.push(
+                        categoryById?.parent?.parent.id
+                          ? `/categoryId/${categoryById?.parent?.id}`
+                          : `/categoryId/${categoryById?.parent?.id}`
+                      )
+                    "
                         :class="{
                           listActive: categoryById?.parent?.parent?.name
                             ? false
                             : true,
                         }"
                         >{{
-                          categoryById?.parent?.parent.name
+                          categoryById?.parent?.parent?.name
                             ? categoryById?.parent?.name
                             : categoryById?.name
                         }}</span
                       >
                       <ul>
-                        <li v-if="categoryById?.parent?.parent?.name">
+                        <div v-if="skeleton">
+                          <b-skeleton animation="wave" width="50%"></b-skeleton>
+                        </div>
+                        <li v-else v-if="categoryById?.parent?.parent.name">
                           <span
                             :class="{
-                              listActive: categoryById?.parent?.parent?.name
+                              listActive: categoryById?.parent?.parent.name
                                 ? true
                                 : false,
                             }"
@@ -107,9 +134,18 @@
                 <h2>{{ atribut?.name }}</h2>
                 <div class="range-checkbox">
                   <div v-for="option in atribut.options">
-                    <input type="checkbox" name="" id="" :checked="Object.keys($route.query).includes(`atribut_${option?.id}`)"   @click="optionFilter(option?.id)"/><span>{{option.name}}</span>
+                    <input
+                      type="checkbox"
+                      name=""
+                      id=""
+                      :checked="
+                        Object.keys($route.query).includes(
+                          `atribut_${option?.id}`
+                        )
+                      "
+                      @click="optionFilter(option?.id)"
+                    /><span>{{ option.name }}</span>
                   </div>
-                
                 </div>
               </div>
               <h2>Цвет</h2>
@@ -129,20 +165,23 @@
                   </div>
                 </div>
               </div>
-              <h2>Обслуживаемая площадь</h2>
-              <div class="range-checkbox">
-                <div>
-                  <input type="checkbox" name="" id="" /><span>до 25 м2</span>
-                </div>
-                <div>
-                  <input type="checkbox" name="" id="" /><span>до 25 м2</span>
-                </div>
-              </div>
             </div>
             <div class="">
-              <BreadCrumb :links="links" last="Офисная мебель" />
+              <b-skeleton
+                v-if="skeleton"
+                animation="wave"
+                width="40%"
+              ></b-skeleton>
+              <BreadCrumb v-else :links="links" last="Офисная мебель" />
               <div class="category-title">
-                <h1>Офисная мебель</h1>
+                <b-skeleton
+                  v-if="skeleton"
+                  animation="wave"
+                  width="30%"
+                  height="40px"
+                ></b-skeleton>
+
+                <h1 v-else>{{ categoryById.name }}</h1>
                 <div class="category-control">
                   <div>
                     <span>Сортировка</span>
@@ -269,14 +308,46 @@
                 class="category__category-controller"
                 :class="{ three: gridControl == 3 }"
               >
+                <b-skeleton
+                  v-if="skeleton"
+                  animation="wave"
+                  height="400px"
+                ></b-skeleton>
+                <b-skeleton
+                  v-if="skeleton"
+                  animation="wave"
+                  height="400px"
+                ></b-skeleton>
+                <b-skeleton
+                  v-if="skeleton"
+                  animation="wave"
+                  height="400px"
+                ></b-skeleton>
+                <b-skeleton
+                  v-if="skeleton"
+                  animation="wave"
+                  height="400px"
+                ></b-skeleton>
+                <b-skeleton
+                  v-if="skeleton"
+                  animation="wave"
+                  height="400px"
+                ></b-skeleton>
+
                 <CardProduct
+                  v-else
                   modal="id1"
                   v-for="product in productsByCategory"
                   :product="product"
                 />
               </div>
               <div class="category__pagination">
-                <el-pagination layout="prev, pager, next" :total="100">
+                <el-pagination
+                  layout="prev, pager, next"
+                  @current-change="handleCurrentChange"
+                  :current-page.sync="currentPage1"
+                  :total="totalPage * 10"
+                >
                 </el-pagination>
               </div>
             </div>
@@ -290,6 +361,7 @@
     <div class="container">
       <div class="row">
         <div class="col-12 category__product-controller">
+          <!-- <CardProduct />
           <CardProduct />
           <CardProduct />
           <CardProduct />
@@ -300,8 +372,7 @@
           <CardProduct />
           <CardProduct />
           <CardProduct />
-          <CardProduct />
-          <CardProduct />
+          <CardProduct /> -->
         </div>
       </div>
     </div>
@@ -321,11 +392,13 @@ export default {
   data() {
     return {
       selected: "",
+      currentPage1: 1,
       sliderValue: 50,
       barMinValue: 100000,
       barMaxValue: 1000000,
       checkbox: "",
       gridControl: 5,
+      totalPage: 1,
       links: [
         {
           name: "Главный",
@@ -339,22 +412,27 @@ export default {
       categoryById: {},
       productsByCategory: {},
       colors: [],
+      skeleton: true,
     };
   },
   async created() {
     if (Object.keys(this.$route.query).length == 0) {
-      const productsByCategory = await this.$store.dispatch(
-        "fetchProduct/fetchProductByCategory",
-        this.$route.params.index
-      );
-      this.productsByCategory = productsByCategory;
-    } else {
-      const productsByFilter = await this.$store.dispatch(
-        "fetchProduct/fetchProductByFilter",
-        this.$route.query
-      );
-      this.productsByCategory = productsByFilter;
+      await this.$router.replace({
+        path: `/categoryId/${this.$route.params.index}`,
+        query: {
+          category: this.$route.params.index,
+          page: this.currentPage1,
+          ...this.$route.query,
+        },
+      });
     }
+
+    const productsByCategory = await this.$store.dispatch(
+      "fetchProduct/fetchProductByCategory",
+      this.$route.query
+    );
+    this.productsByCategory = productsByCategory.results;
+
     const categoryById = await this.$store.dispatch(
       "fetchCategories/fetchAllCategoryById",
       this.$route.params.index
@@ -363,82 +441,116 @@ export default {
 
     this.colors = colors;
     this.categoryById = categoryById;
+    console.log(Object.keys(this.$route.query).includes("ctg_id"));
+    this.skeleton = false;
   },
   methods: {
-    UpdateValues(e) {
+    async UpdateValues(e) {
       this.barMinValue = e.minValue;
       this.barMaxValue = e.maxValue;
+
+      let colorObj = {};
+      colorObj = {
+        min_price: this.barMinValue,
+        max_price: this.barMaxValue,
+        ctg_id: this.categoryById.id,
+      };
+      colorObj = { ...colorObj };
+      if (Object.keys(this.$route.query).includes(`min_price`)) {
+        // await delete colorObj[`min_price`];
+        // await delete colorObj[`max_price`];
+        colorObj = await { ...colorObj };
+        if (Object.keys(colorObj).length == 1) {
+          await delete colorObj[`ctg_id`];
+        }
+      }
+      if (Object.keys(colorObj).length == 0) {
+        await this.$router.replace({
+          path: `/categoryId/${this.$route.params.index}`,
+          query: { ...colorObj },
+        });
+        const productsByCategory = await this.$store.dispatch(
+          "fetchProduct/fetchProductByCategory",
+          this.$route.params.index
+        );
+        this.productsByCategory = productsByCategory.results;
+      } else {
+        await this.$router.replace({
+          path: `/categoryId/${this.$route.params.index}`,
+          query: {
+            ...colorObj,
+            ctg_id: this.categoryById.id,
+          },
+        });
+        const productsByCategory = await this.$store.dispatch(
+          "fetchProduct/fetchProductByCategory",
+          this.$route.query
+        );
+        this.productsByCategory = productsByCategory.results;
+      }
     },
     async optionFilter(id) {
       let colorObj = {};
       colorObj[`atribut_${id}`] = id;
-      colorObj = { ...colorObj, ...this.$route.query };
+
+      colorObj[`atribut_${id}`] = id;
+      colorObj = {
+        ...colorObj,
+        ...this.$route.query,
+        filter: 1,
+        page: this.currentPage1,
+      };
       if (Object.keys(this.$route.query).includes(`atribut_${id}`)) {
         await delete colorObj[`atribut_${id}`];
-        if (Object.keys(colorObj).length == 1) {
-          await delete colorObj[`ctg_id`];
+        if (Object.keys(colorObj).length == 3) {
+          await delete colorObj[`filter`];
         }
       }
-      if (Object.keys(colorObj).length == 0) {
-        await this.$router.replace({
-          path: `/categoryId/${this.$route.params.index}`,
-          query: { ...colorObj },
-        });
-        const productsByCategory = await this.$store.dispatch(
-          "fetchProduct/fetchProductByCategory",
-          this.$route.params.index
-        );
-        this.productsByCategory = productsByCategory;
-      } else {
-        await this.$router.replace({
-          path: `/categoryId/${this.$route.params.index}`,
-          query: {
-            ...colorObj,
-            ctg_id: this.categoryById.id,
-          },
-        });
-        const productsByFilter = await this.$store.dispatch(
-          "fetchProduct/fetchProductByFilter",
-          this.$route.query
-        );
-        this.productsByCategory = productsByFilter;
-      }
+
+      await this.$router.replace({
+        path: `/categoryId/${this.$route.params.index}`,
+        query: {
+          ...colorObj,
+        },
+      });
+      const productsByCategory = await this.$store.dispatch(
+        "fetchProduct/fetchProductByCategory",
+        this.$route.query
+      );
+      this.productsByCategory = productsByCategory.results;
     },
     async colorFilter(id) {
       let colorObj = {};
       colorObj[`color_${id}`] = id;
-      colorObj = { ...colorObj, ...this.$route.query };
+      colorObj = { ...colorObj, ...this.$route.query, filter: 1 };
       if (Object.keys(this.$route.query).includes(`color_${id}`)) {
         await delete colorObj[`color_${id}`];
-        if (Object.keys(colorObj).length == 1) {
-          await delete colorObj[`ctg_id`];
+        if (Object.keys(colorObj).length == 3) {
+          await delete colorObj[`filter`];
         }
       }
 
-      if (Object.keys(colorObj).length == 0) {
-        await this.$router.replace({
-          path: `/categoryId/${this.$route.params.index}`,
-          query: { ...colorObj },
-        });
-        const productsByCategory = await this.$store.dispatch(
-          "fetchProduct/fetchProductByCategory",
-          this.$route.params.index
-        );
-        this.productsByCategory = productsByCategory;
-      } else {
-        await this.$router.replace({
-          path: `/categoryId/${this.$route.params.index}`,
-          query: {
-            ...colorObj,
-            ctg_id: this.categoryById.id,
-          },
-        });
-        const productsByFilter = await this.$store.dispatch(
-          "fetchProduct/fetchProductByFilter",
-          this.$route.query
-        );
-        this.productsByCategory = productsByFilter;
-      }
+      await this.$router.replace({
+        path: `/categoryId/${this.$route.params.index}`,
+        query: {
+          ...colorObj,
+        },
+      });
+      const productsByCategory = await this.$store.dispatch(
+        "fetchProduct/fetchProductByCategory",
+        this.$route.query
+      );
+      this.productsByCategory = productsByCategory.results;
+    },
+    handleCurrentChange(val) {
+      console.log(`current page: ${val}`);
+      this.$router.replace({
+        path: `/categoryId/${this.$route.params.index}`,
+        query: {
+          page: val,
+          ...this.$route.query,
+        },
+      });
     },
   },
   components: {

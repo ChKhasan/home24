@@ -91,7 +91,7 @@
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2997.4303916765066!2d69.2378847149243!3d41.29949980940271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8bb7d1f219bd%3A0x3cce192383d2f08b!2sOybek%20metro!5e0!3m2!1sru!2s!4v1669892296650!5m2!1sru!2s"
                 width="496"
                 height="309"
-                style="border: 0"
+                style="border: 0;"
                 allowfullscreen=""
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
@@ -202,15 +202,19 @@
                 class="input-promo-code"
               />
             </div>
-            <div @click="show" class="basket__order-btn">Оформит заказ</div>
+            <div @click="sendOrder" class="basket__order-btn">
+              Оформит заказ
+            </div>
           </div>
+          <SelectedProducts :products="selected_products" />
         </div>
       </div>
     </div>
-            <SendOrderModal :modal="modal" :hide="hide" />
+    <SendOrderModal :modal="modal" :hide="hide" />
   </div>
 </template>
 <script>
+import SelectedProducts from "../components/basket/SelectedProducts.vue";
 import TitleBasket from "../components/basket/titleBasket.vue";
 import BreadCrumb from "../components/category/breadCrumb.vue";
 import SendOrderModal from "../components/modals/sendOrderModal.vue";
@@ -222,6 +226,7 @@ export default {
       dorpForm: false,
       showMap: false,
       modal: "orderModal",
+      selected_products: [],
       city: [
         {
           value: "Option1",
@@ -280,8 +285,19 @@ export default {
       ],
     };
   },
-  components: { BreadCrumb, TitleBasket, SendOrderModal },
+  components: { BreadCrumb, TitleBasket, SendOrderModal, SelectedProducts },
+  async created() {
+    this.selected_products = JSON.parse(
+      localStorage.getItem("selectedProducts")
+    );
+  },
   methods: {
+   async sendOrder() {
+      const userInfo = await this.$store.dispatch(
+        "fetchBasket/fetchPlaceOrder",
+        { info: this.registrModal, token: localStorage.getItem("Auth") }
+      );
+    },
     async show() {
       // await this.$router.push("/");
       await this.$modal.show(this.modal);

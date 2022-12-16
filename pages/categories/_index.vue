@@ -6,9 +6,9 @@
           <h2>Категории</h2>
           <ul class="category__list">
             <div v-if="skeleton">
-              <b-skeleton animation="wave" width="85%"></b-skeleton>
+              <b-skeleton animation="wave" width="45%"></b-skeleton>
               <b-skeleton animation="wave" width="55%"></b-skeleton>
-              <b-skeleton animation="wave" width="70%"></b-skeleton>
+              <b-skeleton animation="wave" width="40%"></b-skeleton>
             </div>
             <li v-for="category in categories" v-else>
               <span @click="$router.push(`/categories/${category.id}`)">{{
@@ -18,13 +18,24 @@
           </ul>
         </div>
         <div class="col-10">
-            <b-skeleton v-if="skeleton" animation="wave" width="85%"></b-skeleton>
+          <b-skeleton v-if="skeleton" animation="wave" width="25%"></b-skeleton>
           <BreadCrumb v-else :links="links" :last="categoryById?.name" />
-          <TitleCategory :show="false" :title="categoryById?.name" />
+          <div v-if="skeleton">
+            <b-skeleton animation="wave" height="40px" width="30%"></b-skeleton>
+          </div>
+          <TitleCategory v-else :show="false" :title="categoryById?.name" />
           <div class="category__category-controller">
+            <div v-if="skeleton">
+              <b-skeleton
+                animation="wave"
+                height="200px"
+                width="100%"
+              ></b-skeleton>
+            </div>
             <CardCategory
-              v-for="children in categoryById?.children"
-              :item="children"
+              v-else
+              v-for="children in categoryById.children"
+              :category="children"
             />
           </div>
         </div>
@@ -36,6 +47,7 @@
     <div class="container">
       <div class="row">
         <div class="col-12 category__product-controller">
+          <!-- <CardProduct />
           <CardProduct />
           <CardProduct />
           <CardProduct />
@@ -46,8 +58,7 @@
           <CardProduct />
           <CardProduct />
           <CardProduct />
-          <CardProduct />
-          <CardProduct />
+          <CardProduct /> -->
         </div>
       </div>
     </div>
@@ -75,6 +86,7 @@ export default {
     };
   },
   async created() {
+    this.$store.commit("reloadStore");
     const categories = await this.$store.dispatch(
       "fetchCategories/fetchAllCategories"
     );

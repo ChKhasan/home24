@@ -2,76 +2,106 @@
   <div>
     <div class="price-card">
       <div class="title">
-        <BuyOneClick :modal="modal" :hide="hide" />
+        <!-- <BuyOneClick :modal="modal" :hide="hide" :product="product" /> -->
         <h2>{{ product?.price }} СУМ</h2>
         <span>
-          <svg
-            width="28"
-            height="28"
-            viewBox="0 0 18 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+          <span
+            @click="
+              $store.commit('addToStore', {
+                id: product.id,
+                name: 'comparison',
+              })
+            "
+            :class="{
+              activeSvg: includes($store.state.comparison, product.id),
+            }"
           >
-            <path
-              d="M17.1642 5.16043L3.54639 5.16043"
-              stroke="#200E32"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M13.068 1.08277L17.1647 5.16055L13.068 9.23833"
-              stroke="#200E32"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M0.832886 15.0889L14.4507 15.0889"
-              stroke="#200E32"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M4.92894 19.1665L0.832275 15.0888L4.92894 11.011"
-              stroke="#200E32"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
-          <svg
-            width="28"
-            height="28"
-            viewBox="0 0 22 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 18 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M17.1642 5.16043L3.54639 5.16043"
+                stroke="#200E32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M13.068 1.08277L17.1647 5.16055L13.068 9.23833"
+                stroke="#200E32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M0.832886 15.0889L14.4507 15.0889"
+                stroke="#200E32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M4.92894 19.1665L0.832275 15.0888L4.92894 11.011"
+                stroke="#200E32"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+          <span
+            @click="
+              $store.commit('addToStore', {
+                id: product.id,
+                name: 'like',
+              })
+            "
+            :class="{ activeSvg: includes($store.state.like, product.id) }"
           >
-            <path
-              fill-rule="evenodd"
-              clip-rule="evenodd"
-              d="M10.761 18.8538C8.5904 17.5179 6.57111 15.9456 4.73929 14.1652C3.45144 12.8829 2.47101 11.3198 1.8731 9.59539C0.797144 6.25031 2.05393 2.42083 5.57112 1.28752C7.41961 0.692435 9.43845 1.03255 10.9961 2.20148C12.5543 1.03398 14.5725 0.693978 16.4211 1.28752C19.9383 2.42083 21.2041 6.25031 20.1281 9.59539C19.5302 11.3198 18.5498 12.8829 17.2619 14.1652C15.4301 15.9456 13.4108 17.5179 11.2402 18.8538L11.0051 19L10.761 18.8538Z"
-              stroke="#020105"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M14.7394 5.05302C15.8047 5.39332 16.5616 6.34973 16.6562 7.47501"
-              stroke="#020105"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 22 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M10.761 18.8538C8.5904 17.5179 6.57111 15.9456 4.73929 14.1652C3.45144 12.8829 2.47101 11.3198 1.8731 9.59539C0.797144 6.25031 2.05393 2.42083 5.57112 1.28752C7.41961 0.692435 9.43845 1.03255 10.9961 2.20148C12.5543 1.03398 14.5725 0.693978 16.4211 1.28752C19.9383 2.42083 21.2041 6.25031 20.1281 9.59539C19.5302 11.3198 18.5498 12.8829 17.2619 14.1652C15.4301 15.9456 13.4108 17.5179 11.2402 18.8538L11.0051 19L10.761 18.8538Z"
+                stroke="#020105"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M14.7394 5.05302C15.8047 5.39332 16.5616 6.34973 16.6562 7.47501"
+                stroke="#020105"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
         </span>
       </div>
       <div class="first-price">
         <p>2 880 000 СУМ</p>
       </div>
       <div class="price-btn">
-        <div @click="addToCart(product.id)">
+        <div
+          @click="
+            $store.commit('addToStore', {
+              id: product.id,
+              name: 'cart',
+            })
+          "
+          :class="{ disabledDiv: includes($store.state.cart, product.id) }"
+        >
           <svg
             width="24"
             height="24"
@@ -164,23 +194,19 @@ export default {
   data() {
     return {
       modal: "buyOneClickModal",
+      cartP: [],
     };
   },
   components: { BuyOneClick },
   methods: {
-   async addToCart(id) {
-     await this.$store.dispatch(
-      "fetchBasket/postProductToCart",
-     {id: id, count: 3}
-    );
-    await this.$toast.open({
-              message: "Successfully",
-              type: "success",
-              duration: 2000,
-              dismissible: true,
-              position: "top-right",
-            });
+    includes(array, id) {
+      if (array) {
+        return array.find((item) => item === id) ? true : false;
+      } else {
+        true;
+      }
     },
+
     show() {
       this.$modal.show(this.modal);
     },
@@ -196,6 +222,13 @@ export default {
   background: #f9f9f9;
   border-radius: 8px;
 
+  .activeSvg {
+    svg {
+      path {
+        stroke: #e87a43;
+      }
+    }
+  }
   .title {
     display: flex;
     justify-content: space-between;
@@ -233,6 +266,9 @@ export default {
   }
   .price-btn {
     margin-top: 60px;
+    .disabledDiv {
+      background: #e87a43 !important;
+    }
     div {
       display: flex;
       justify-content: center;

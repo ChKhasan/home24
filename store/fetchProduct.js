@@ -24,10 +24,12 @@ export const actions = {
       console.log("error", e);
     }
   },
-  async fetchProductByCategory({}, ctg) {
+  async fetchProductByCategory({}, query) {
     try {
-      const res = await this.$axios.$get(`/products?ctg=${ctg}`);
-      return res.results;
+      const res = await this.$axios.$get(`/products`,{
+        params: query
+      });
+      return res;
     } catch (e) {
       console.log("error", e);
     }
@@ -38,6 +40,22 @@ export const actions = {
         params: query,
       });
       console.log(res);
+      return res;
+    } catch (e) {
+      console.log("error", e);
+    }
+  },
+  async fetchPopularProduct() {
+    try {
+      const res = await this.$axios.$get(`/popular_products`);
+      return res.results;
+    } catch (e) {
+      console.log("error", e);
+    }
+  },
+  async fetchHitProduct() {
+    try {
+      const res = await this.$axios.$get(`/hit_products`);
       return res.results;
     } catch (e) {
       console.log("error", e);

@@ -38,14 +38,18 @@
             </div>
             <div class="b-card-body">
               <p>
-                ОФИСНОЕ КРЕСЛО 6206A-2 ОФИСНОЕ КРЕСЛО 6206A-2 ОФИСНОЕ КРЕСЛО
-                6206A-2
+                {{ product.product.name }}
               </p>
               <div class="c-card-footer">
-                <h6>1 200 000 сум</h6>
+                <h6>{{ product.price }} сум</h6>
                 <div class="sc-count">
                   <div class="sc-count-btn">
                     <span
+                      @click="
+                        product.quantity > 1
+                          ? product.quantity--
+                          : product.quantity
+                      "
                       ><svg
                         width="17"
                         height="2"
@@ -61,8 +65,8 @@
                         />
                       </svg>
                     </span>
-                    <p>1</p>
-                    <span
+                    <p>{{ product.quantity }}</p>
+                    <span @click="product.quantity++"
                       ><svg
                         width="17"
                         height="17"
@@ -109,7 +113,7 @@
 </template>
 <script>
 export default {
-  props: ["modal", "hide"],
+  props: ["modal", "hide", "product"],
   methods: {
     hideModal() {
       this.$router.push("/");
@@ -220,7 +224,7 @@ export default {
     background: #ffffff;
     border-radius: 8px;
     display: flex;
-
+    width: 100%;
     .b-card-img {
       width: 82px;
       height: 82px;
@@ -234,6 +238,7 @@ export default {
     }
     .b-card-body {
       padding-left: 12px;
+      width: 100%;
       p {
         font-family: "Inter";
         font-style: normal;

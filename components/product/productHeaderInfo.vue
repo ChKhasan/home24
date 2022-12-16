@@ -42,7 +42,7 @@
         </svg>
         10 Отзывов
       </p>
-      <p>Код товара: 1375043</p>
+      <p>Код товара: {{product.id}}</p>
       <p v-if="hide">
         <svg
           width="24"
@@ -67,7 +67,7 @@
 </template>
 <script>
 export default {
-    props: ["hide"]
+    props: ["hide","product"]
 };
 </script>
 <style lang="scss">

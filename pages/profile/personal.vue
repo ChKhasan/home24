@@ -89,8 +89,8 @@
               </nuxt-link>
             </li>
             <li>
-              <div  @click="show('log-out-modal')"
-                ><span
+              <div @click="show('log-out-modal')">
+                <span
                   ><svg
                     width="20"
                     height="20"
@@ -167,11 +167,25 @@
                 </div>
               </div>
               <div class="personal-data__p-body">
-                <p>Имя: <span>user-10258</span></p>
-                <p>E-mail: <span>Пусто</span></p>
+                <p>
+                  Имя:
+                  <span>{{
+                    userInfo.username ? userInfo.username : `Пусто`
+                  }}</span>
+                </p>
+                <p>
+                  E-mail:
+                  <span>{{ userInfo.email ? userInfo.email : `Пусто` }}</span>
+                </p>
                 <p>Пароль: <span>************</span></p>
-                <p>Телефон: <span>Пусто</span></p>
-                <p>Адресс: <span>Пусто</span></p>
+                <p>
+                  Телефон:
+                  <span>{{ userInfo.nbm ? userInfo.nbm : `Пусто` }}</span>
+                </p>
+                <p>
+                  Адресс:
+                  <span>{{ userInfo.adres ? userInfo.adres : `Пусто` }}</span>
+                </p>
               </div>
             </div>
             <div class="personal-data">
@@ -219,15 +233,27 @@
                 <div class="form-controller">
                   <div class="d-flex flex-column">
                     <label for="">Ф.И.О</label>
-                    <input type="text" placeholder="Ф.И.О" />
+                    <input
+                      type="text"
+                      v-model="user_info.username"
+                      placeholder="Ф.И.О"
+                    />
                   </div>
                   <div class="d-flex flex-column">
                     <label for="">Телефон</label>
-                    <input type="text" placeholder="+998 (--)--- -- --" />
+                    <input
+                      type="text"
+                      v-model="user_info.nbm"
+                      placeholder="+998 (--)--- -- --"
+                    />
                   </div>
                   <div class="d-flex flex-column">
                     <label for="">E-mail</label>
-                    <input type="text" placeholder="E-mail" />
+                    <input
+                      type="text"
+                      v-model="user_info.email"
+                      placeholder="E-mail"
+                    />
                   </div>
                 </div>
                 <h4>Адрес</h4>
@@ -258,11 +284,19 @@
                   </div>
                   <div class="d-flex flex-column">
                     <label for="">Адрес </label>
-                    <input type="text" placeholder="Адрес " />
+                    <input
+                      type="text"
+                      v-model="user_info.adres"
+                      placeholder="Адрес "
+                    />
                   </div>
                   <div class="d-flex flex-column">
                     <label for="">Индекс почты </label>
-                    <input type="text" placeholder="Индекс почты" />
+                    <input
+                      type="text"
+                      v-model="user_info.post_ind"
+                      placeholder="Индекс почты"
+                    />
                   </div>
                 </div>
                 <h4>Пароль</h4>
@@ -438,7 +472,9 @@
                 </div>
                 <div class="form-control-btn">
                   <div class="info-cancel">Отменить</div>
-                  <div class="info-save" @click="show('save-leave-modal')">Сохранить</div>
+                  <div class="info-save" @click="show('save-leave-modal')">
+                    Сохранить
+                  </div>
                 </div>
               </form>
             </div>
@@ -447,96 +483,88 @@
       </div>
     </div>
     <modal name="save-leave-modal" width="590px" height="auto">
-            <div>
-              <div
-                class="log-out-modal">
-                <div class="log-out-modal__m-header">
-                  <h1 class="m-header-title">Сохранить перед выходом ?</h1>
-                  <span @click="hide('save-leave-modal')">
-                    <svg
-                      width="64"
-                      height="64"
-                      viewBox="0 0 64 64"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M42.3806 21.5771L21.6152 42.3425"
-                        stroke="#EF3F27"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M42.3862 42.3554L21.6035 21.5684"
-                        stroke="#EF3F27"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </span>
-                </div>
-             
-              
-                  <div class="log-out-modal__m-btn">
-                    <div class="show-btn" @click="hide('save-leave-modal')">
-                      Отменить
-                    </div>
-                    <div class="show-btn" @click="leaveSave">
-                      Сохранить
-                    </div>
-                  </div>
-               
-               
-              </div>
+      <div>
+        <div class="log-out-modal">
+          <div class="log-out-modal__m-header">
+            <h1 class="m-header-title">Сохранить перед выходом ?</h1>
+            <span @click="hide('save-leave-modal')">
+              <svg
+                width="64"
+                height="64"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M42.3806 21.5771L21.6152 42.3425"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M42.3862 42.3554L21.6035 21.5684"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
+
+          <div class="log-out-modal__m-btn">
+            <div class="show-btn" @click="hide('save-leave-modal')">
+              Отменить
             </div>
+            <div class="show-btn" @click="leaveSave">
+              Сохранить
+            </div>
+          </div>
+        </div>
+      </div>
     </modal>
     <modal name="log-out-modal" width="590px" height="auto">
-            <div>
-              <div
-                class="log-out-modal">
-                <div class="log-out-modal__m-header">
-                  <h1 class="m-header-title">Хотите выйти из аккаунта?</h1>
-                  <span @click="hide('log-out-modal')">
-                    <svg
-                      width="64"
-                      height="64"
-                      viewBox="0 0 64 64"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M42.3806 21.5771L21.6152 42.3425"
-                        stroke="#EF3F27"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M42.3862 42.3554L21.6035 21.5684"
-                        stroke="#EF3F27"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </span>
-                </div>
-             
-              
-                  <div class="log-out-modal__m-btn">
-                    <div class="show-btn" @click="hide('log-out-modal')">
-                      Нет
-                    </div>
-                    <div class="show-btn" @click="logout">
-                      ДА
-                    </div>
-                  </div>
-               
-               
-              </div>
+      <div>
+        <div class="log-out-modal">
+          <div class="log-out-modal__m-header">
+            <h1 class="m-header-title">Хотите выйти из аккаунта?</h1>
+            <span @click="hide('log-out-modal')">
+              <svg
+                width="64"
+                height="64"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M42.3806 21.5771L21.6152 42.3425"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M42.3862 42.3554L21.6035 21.5684"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
+
+          <div class="log-out-modal__m-btn">
+            <div class="show-btn" @click="hide('log-out-modal')">
+              Нет
             </div>
+            <div class="show-btn" @click="logout">
+              ДА
+            </div>
+          </div>
+        </div>
+      </div>
     </modal>
   </div>
 </template>
@@ -544,10 +572,21 @@
 import BreadCrumb from "../../components/category/breadCrumb.vue";
 import TitleCategory from "../../components/category/titleCategory.vue";
 export default {
+  props: ["userInfo","fetchUserInfo"],
   data() {
     return {
       value2: true,
       changeInfo: true,
+      user_info: {
+        nbm: "",
+        first_name: "",
+        last_name: "",
+        username: "",
+        adres: "",
+        city: "",
+        state: "",
+        post_ind: "",
+      },
       regions: [
         {
           value: "Option1",
@@ -614,13 +653,19 @@ export default {
 
   methods: {
     logout() {
-      localStorage.setItem("Auth", false);
-      this.$store.commit("setUser", false);
+      localStorage.removeItem("Auth");
+      this.$store.commit("setUser");
       this.$router.push("/");
     },
-    leaveSave() {
-      this.changeInfo = true
-      this.$modal.hide("save-leave-modal");
+    async leaveSave() {
+      this.changeInfo = true;
+      const userInfo = await this.$store.dispatch(
+        "fetchAuth/fetchUserUpdateProfile",
+        { info: this.user_info, token: localStorage.getItem("Auth") }
+      );
+      await this.$modal.hide("save-leave-modal");
+  
+      this.fetchUserInfo()
     },
     show(name) {
       this.$modal.show(name);
@@ -633,7 +678,6 @@ export default {
 </script>
 <style lang="scss">
 .profile {
-
   &__area {
     padding-left: 24px;
   }

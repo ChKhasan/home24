@@ -42,7 +42,13 @@ export default {
     "@nuxtjs/axios",
   ],
   // https://8fde-195-158-30-173.eu.ngrok.io/api/
-  axios: { baseURL: "https://shopadminforapi.pythonanywhere.com/api" },
+  axios: {
+    credentials: true,
+    init(axios) {
+      axios.defaults.withCredentials = true;
+    },
+    baseURL: "http://said26dadamuh.pythonanywhere.com/api",
+  },
   elementUI: {
     components: ["Button", "DatePicker", "Pagination", "Collapse"],
     locale: "",

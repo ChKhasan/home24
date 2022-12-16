@@ -1,10 +1,13 @@
 <template lang="html">
   <div class="product-card">
     <div class="product-card__img" id="show-btn">
-      <img src="../../assets/images/image 24.png" alt="" />
+      <img :src="`https://said26dadamuh.pythonanywhere.com`+product.images[0].image" alt="" />
       <!-- <div class="product-card__hover-link abs-block"> -->
-      
-      <span class="product-card__heart to-favorites"
+
+      <span
+        class="product-card__heart to-favorites"
+        @click="$store.commit('addToStore', { id: product.id, name: 'like' })"
+        :class="{ disabledLike: includes($store.state.like, product.id) }"
         ><svg
           width="16"
           height="16"
@@ -30,7 +33,15 @@
           />
         </svg>
       </span>
-      <span class="product-card__buy to-comparison">
+      <span
+        class="product-card__buy to-comparison"
+        @click="
+          $store.commit('addToStore', { id: product.id, name: 'comparison' })
+        "
+        :class="{
+          disabledLike: includes($store.state.comparison, product.id),
+        }"
+      >
         <svg
           width="16"
           height="16"
@@ -71,15 +82,27 @@
       <div class="product-card__quick-view quick-view" @click="show">
         Быстрый просмотр
       </div>
-      </div>
+    </div>
     <!-- </div> -->
 
-    <ProductModal :modal="modal" :hide="hide" />
-    <div class="product-card__body" @click="$router.push('/product/1')">
+    <ProductModal
+      :modal="`modal${product.id}`"
+      :hide="hide"
+      :product="product"
+     
+    />
+    <!-- @click="$router.push('/product/1')" -->
+    <div class="product-card__body">
       <div class="product-card__price d-flex justify-content-between">
-        <span> 3 512 750 сум </span>
-        <nuxt-link to="/"
-          ><svg
+        <span> {{ product.price }} сум </span>
+        <div
+          class="to_cart"
+          @click="
+            $store.commit('addToStore', { id: product.id, name: 'cart' })
+          "
+          :class="{ disabled: includes($store.state.cart, product.id) }"
+        >
+          <svg
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -115,10 +138,10 @@
               stroke-linejoin="round"
             />
           </svg>
-        </nuxt-link>
+        </div>
       </div>
       <div class="product-card__last-price">
-        <p>3 512 750 сум</p>
+        <p>{{ product.price }} сум</p>
       </div>
       <div class="product-card__reviews">
         <svg
@@ -137,8 +160,14 @@
         </svg>
         <span>5.0</span>
       </div>
-      <div class="product-card__name">
-        <p>Руководительское кресло Metta Комплект 5.1 (Чёрный)</p>
+      <div
+        class="product-card__name"
+        @click="$router.push(`product/${product.id}`)"
+      >
+        <p>
+          {{ product.product.name }} erewrew ewr ewre wr ew r eewrewir
+          uieriueiwruiew ewir uiewrwr ew(Чёрный)
+        </p>
       </div>
     </div>
   </div>
@@ -147,14 +176,38 @@
 import ProductModal from "../modals/productModal.vue";
 
 export default {
-  props: ["modal"],
+  props: ["modal", "id", "product"],
+  data() {
+    return {
+      productId: 2,
+      cartP: [],
+      likeP: [],
+      comparisonP: [],
+    };
+  },
   components: { ProductModal },
+  async mounted() {
+    this.cartP = JSON.parse(localStorage.getItem("cart"));
+    this.likeP = JSON.parse(localStorage.getItem("like"));
+    this.comparisonP = JSON.parse(localStorage.getItem("comparison"));
+    console.log(this.product);
+  },
+
   methods: {
+    includes(array, id) {
+      if (array) {
+        return array.find((item) => item === id) ? true : false;
+      } else {
+        true;
+      }
+    },
+
+
     show() {
-      this.$modal.show(this.modal);
+      this.$modal.show(`modal${this.product.id}`);
     },
     hide() {
-      this.$modal.hide(this.modal);
+      this.$modal.hide(`modal${this.product.id}`);
     },
   },
   mount() {
@@ -169,7 +222,6 @@ export default {
     background: #f9f9f9;
     margin-top: 8px;
     border-radius: 16px;
-    cursor: pointer;
   }
   &__price {
     span {
@@ -182,7 +234,7 @@ export default {
       display: flex;
       align-items: center;
     }
-    a {
+    .to_cart {
       display: flex;
       justify-content: center;
       align-items: center;
@@ -190,6 +242,14 @@ export default {
       width: 32px;
       border-radius: 50%;
       background: #ff6418;
+    }
+    .disabled {
+      background: white;
+      svg {
+        path {
+          stroke: #ff6418;
+        }
+      }
     }
   }
   &__last-price {
@@ -220,17 +280,23 @@ export default {
     }
   }
   &__name {
-    padding-top: 9px;
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 20px;
-    /* or 143% */
-
-    /* Black */
-
-    color: #020105;
+    height: 40px;
+    cursor: pointer;
+    p {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      color: #020105;
+      overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+      text-overflow: ellipsis;
+      flex-grow: 1;
+    }
+    margin-top: 9px;
   }
   &__hover-link {
     position: absolute;
@@ -267,13 +333,21 @@ export default {
       object-fit: contain;
       width: 100%;
     }
+    .disabledLike {
+      background: #ff6418 !important;
+      svg {
+        path {
+          stroke: #fff;
+        }
+      }
+    }
   }
   &__heart {
     position: absolute;
     top: 12px;
     right: -100%;
     transition: 0.5s;
-
+    z-index: 30;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -302,14 +376,14 @@ export default {
     svg {
       transition: 0.3s;
     }
-    &:hover {
-      background: #ff6418;
-      svg {
-        path {
-          stroke: #fff;
-        }
-      }
-    }
+    // &:hover {
+    //   background: #ff6418;
+    //   svg {
+    //     path {
+    //       stroke: #fff;
+    //     }
+    //   }
+    // }
   }
   &__quick-view {
     position: absolute;

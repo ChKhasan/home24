@@ -26,11 +26,11 @@
           </div>
         </div>
         <div class="product__types">
-          <ProductHeaderInfo :hide="true" />
+          <ProductHeaderInfo :hide="true" :product="product" />
           <div class="product__types-title">
             <h1>{{ product.product?.name }}</h1>
           </div>
-          <p>
+          <p v-if="product.product?.brand">
             Производитель: <span>{{ product.product?.brand }}</span>
           </p>
           <p>

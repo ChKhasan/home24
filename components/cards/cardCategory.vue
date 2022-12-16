@@ -1,16 +1,16 @@
 <template lang="html">
   <div class="card-category">
     <div class="card-category__img">
-      <img :src="item?.image" alt="" />
+      <img :src="category.image" alt="" />
     </div>
     <div class="card-category__title">
-      <nuxt-link :to="`/categoryId/${item?.id}`">{{item?.name}}</nuxt-link>
+      <nuxt-link :to="`/categoryId/${category.id}`">{{category.name}}</nuxt-link>
     </div>
   </div>
 </template>
 <script>
 export default {
-props: ["item"]
+props: ["category"]
 
 };
 </script>

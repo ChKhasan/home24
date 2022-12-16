@@ -12,23 +12,23 @@
       v-model="checkedCities"
       @change="handleCheckedCitiesChange"
     >
-      <div class="select-order__card d-flex" v-for="city in cartItems">
+      <div class="select-order__card d-flex" v-for="product in basketProducts">
         <div class="d-flex align-items-center">
-          <el-checkbox :key="city.title" :label="(city.title)"></el-checkbox>
+          <el-checkbox :key="product.id" :label="(product.id)"></el-checkbox>
         </div>
         <div class="select-order__card-img">
           <div><img src="../../assets/images/Rectangle 8.png" alt="" /></div>
         </div>
         <div class="select-order__card-body d-flex justify-content-between">
           <div class="sc-title">
-            <h6>ОФИСНОЕ КРЕСЛО 6206A-2</h6>
+            <h6>{{ product.product.name }} ewre erew r ere wrewrere re rewr</h6>
             <p>Размер: <span>M</span></p>
             <p>Цвет: <span>Сине-чёрное</span></p>
           </div>
 
           <div class="sc-count">
             <div class="sc-count-btn">
-              <span
+              <span @click="product.quantity > 0 ? product.quantity-- : product.quantity"
                 ><svg
                   width="17"
                   height="2"
@@ -44,8 +44,8 @@
                   />
                 </svg>
               </span>
-              <p>1</p>
-              <span
+              <p>{{ product.quantity }}</p>
+              <span @click="product.quantity++"
                 ><svg
                   width="17"
                   height="17"
@@ -98,6 +98,7 @@
               </svg>
 
               <svg
+                @click="deleteProductFromCart(product.id)"
                 width="22"
                 height="22"
                 viewBox="0 0 22 22"
@@ -127,7 +128,7 @@
                 />
               </svg>
             </div>
-            <div class="sc-last-price">2 000 000 сум</div>
+            <div class="sc-last-price">{{ product.price }} сум</div>
             <span class="sc-first-price">2 200 000 сум</span>
           </div>
         </div>
@@ -138,42 +139,45 @@
 <script>
 const cityOptions = ["Shanghai", "Beijing", "Guangzhou", "Shenzhen"];
 export default {
+  props: ["basketProducts", "deleteProductFromCart", "takeCheckedProducts"],
   data() {
     return {
       checkAll: false,
-      checkedCities: ["Shanghai", "Beijing"],
+      checkedCities: [],
       cities: cityOptions,
       isIndeterminate: true,
-      cartItems: [
-        {
-          title: "test1",
-          count: 1,
-          price: 200000,
-        },
-        {
-          title: "test2",
-          count: 1,
-          price: 200000,
-        },
-        {
-          title: "test3",
-          count: 1,
-          price: 200000,
-        },
-      ],
+      count: 1,
     };
   },
   methods: {
     handleCheckAllChange(val) {
-      this.checkedCities = val ? this.cartItems.map((item) => item.title) : [];
+      this.checkedCities = val
+        ? this.basketProducts.map((item) => item.id)
+        : [];
+      let select = val
+        ? this.basketProducts.map((item) => {
+            return item;
+          })
+        : [];
       this.isIndeterminate = false;
+      this.takeCheckedProducts(select);
     },
     handleCheckedCitiesChange(value) {
-      console.log(value);
       let checkedCount = value.length;
-      this.checkAll = checkedCount === this.cartItems.length;
+
+      this.checkAll = checkedCount === this.basketProducts.length;
       this.isIndeterminate =
-        checkedCount > 0 && checkedCount < this.cartItems.length;
+        checkedCount > 0 && checkedCount < this.basketProducts.length;
+      let select = value.map((item) => {
+        return this.basketProducts.find((product) => {
+          if (product.id == item) {
+            console.log(item,product);
+            return product;
+          }
+        });
+      });
+      console.log(select);
+      this.takeCheckedProducts(select);
     },
   },
 };
@@ -262,6 +266,7 @@ export default {
       flex-direction: column;
       justify-content: space-around;
       margin-left: 33px;
+      width: 40%;
       h6 {
         font-family: "Inter";
         font-style: normal;
@@ -270,6 +275,11 @@ export default {
         line-height: 20px;
         color: #020105;
         margin-bottom: 0;
+        overflow: hidden;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        text-overflow: ellipsis;
       }
       p {
         font-family: "Inter";

@@ -6,16 +6,10 @@
           <h2>Категории</h2>
           <ul class="category__list">
             <li v-for="category in categories">
-              <span @click="$router.push(`/category/${category?.id}`)"
-                >{{category?.name}}</span
-              >
+              <span @click="$router.push(`/category/${category?.id}`)">{{
+                category?.name
+              }}</span>
             </li>
-            <!-- <li><span>Мебель для гостинной</span></li>
-            <li><span>Мебель для кухни</span></li>
-            <li><span>Мебель для прихожей</span></li>
-            <li><span>Мебель для спальни</span></li>
-            <li><span>Мягкая мебель</span></li>
-            <li><span>Садовая и прочее</span></li> -->
           </ul>
         </div>
         <div class="col-10">
@@ -74,14 +68,14 @@ export default {
           to: "/",
         },
       ],
-      categories: []
+      categories: [],
     };
   },
   async created() {
     const categories = await this.$store.dispatch(
       "fetchCategories/fetchAllCategories"
     );
-this.categories = categories;
+    this.categories = categories;
   },
   components: {
     BreadCrumb,

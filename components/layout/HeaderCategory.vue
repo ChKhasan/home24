@@ -127,7 +127,11 @@
           class="col-4 header-search__product-links justify-content-between d-flex align-items-center"
         >
           <nuxt-link to="/comparison">
-            <el-badge :value="200" :max="99" class="item">
+            <el-badge
+              :value="$store.state.comparison.length"
+              :max="99"
+              class="item"
+            >
               <svg
                 width="18"
                 height="20"
@@ -168,7 +172,7 @@
             Сравнение</nuxt-link
           >
           <nuxt-link to="/favorites">
-            <el-badge :value="200" :max="99" class="item">
+            <el-badge :value="$store.state.like.length" :max="99" class="item">
               <svg
                 width="22"
                 height="20"
@@ -198,7 +202,7 @@
           >
 
           <nuxt-link to="/basket">
-            <el-badge :value="200" :max="99" class="item">
+            <el-badge :value="$store.state.cart.length" :max="99" class="item">
               <svg
                 width="21"
                 height="22"
@@ -303,7 +307,7 @@
                 stroke-linecap="round"
                 stroke-linejoin="round"
               /></svg
-            >{{ $store.state.auth }}</b-button
+            >Кабинет</b-button
           >
         </div>
       </div>
@@ -706,7 +710,10 @@
       <div>
         <div class="auth-user-modal">
           <div class="auth-user-modal__m-header">
-            <h1 class="m-header-title">Войти или создать профиль</h1>
+            <h1 v-if="registrType.type" class="m-header-title">
+              Войти или создать профиль
+            </h1>
+            <h1 v-else class="m-header-title">Создать профиль</h1>
             <span @click="hide('sign-or-create-modal')">
               <svg
                 width="64"
@@ -732,10 +739,7 @@
               </svg>
             </span>
           </div>
-          <div
-            class="auth-user-modal__m-body"
-            :class="{ numberErrorClass: errors.numberError }"
-          >
+          <div class="auth-user-modal__m-body" :class="errorClassObject">
             <div class="number-form">
               <label class="number__label">Номер телефона</label>
 
@@ -753,7 +757,7 @@
             </div>
             <div
               class="sms-from mt-4"
-              v-if="(registrType.type && registrType.hide)"
+              v-if="(!registrType.type && registrType.hide)"
             >
               <label class="sms__label">СМС-код</label>
               <input
@@ -762,10 +766,37 @@
                 v-model="registrModal.smsCode"
                 placeholder="Введите СМС-код"
               />
+              <span class="number-linght-false" v-if="errors.smsError"
+                >Смс код пользователя неверны
+              </span>
+              <div
+                class="d-flex justify-content-center py-3"
+                style="cursor: pointer;"
+              >
+                <span class="number-linght-false" v-if="errors.smsError"
+                  ><svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M15.9933 16.714C13.3893 19.318 9.16833 19.318 6.56433 16.714C3.96033 14.11 3.96033 9.88903 6.56433 7.28503C9.16833 4.68103 13.3903 4.68103 15.9933 7.28503L19.3883 10.68M19.3873 5.86103V10.679H14.5693"
+                      stroke="#EF3F27"
+                      stroke-width="1.5"
+                      stroke-miterlimit="10"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  Отправить код еще раз
+                </span>
+              </div>
             </div>
             <div
               class="password-from mt-4"
-              v-if="(!registrType.type && registrType.hide)"
+              v-if="(registrType.type && registrType.hide)"
             >
               <label class="sms__label">Пароль</label>
               <input
@@ -786,263 +817,7 @@
               class="forgot-your-password"
               v-if="(registrType.type && registrType.hide)"
             >
-              <span>Забыли пароль?</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </modal>
-
-    <modal name="want-password-modal" width="590px" height="auto">
-      <div>
-        <div class="auth-user-modal">
-          <div class="auth-user-modal__m-header">
-            <h1 class="m-header-title">Вы хотите придумать новый пароль ?</h1>
-            <span @click="hide('create-profile-modal')">
-              <svg
-                width="64"
-                height="64"
-                viewBox="0 0 64 64"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M42.3806 21.5771L21.6152 42.3425"
-                  stroke="#EF3F27"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M42.3862 42.3554L21.6035 21.5684"
-                  stroke="#EF3F27"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </span>
-          </div>
-          <div class="auth-user-modal__m-body" :class="errorClassObject">
-            <div class="auth-user-modal__m-btn two-btn-control">
-              <div class="show-btn" @click="hide('want-password-modal')">
-                Нет
-              </div>
-              <div class="show-btn" @click="wantChangePass">
-                ДА
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </modal>
-
-    <modal name="change-password-modal" width="590px" height="auto">
-      <div>
-        <div class="auth-user-modal">
-          <div class="auth-user-modal__m-header">
-            <h1 class="m-header-title">Изменить пароль</h1>
-            <span @click="hide('change-password-modal')">
-              <svg
-                width="64"
-                height="64"
-                viewBox="0 0 64 64"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M42.3806 21.5771L21.6152 42.3425"
-                  stroke="#EF3F27"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-                <path
-                  d="M42.3862 42.3554L21.6035 21.5684"
-                  stroke="#EF3F27"
-                  stroke-width="3"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
-            </span>
-          </div>
-          <div class="auth-user-modal__m-body" :class="errorClassObject">
-            <label class="sms__label">Пароль</label>
-            <div class="password-input">
-              <input
-                :type="passwordHide.first"
-                placeholder="Пароль"
-                v-model="registrModal.password"
-              />
-              <span
-                @click="passwordHide.first = 'password'"
-                v-if="passwordHide.first == 'text'"
-                ><svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9.76094 14.3677C9.18594 13.7937 8.83594 13.0137 8.83594 12.1387C8.83594 10.3857 10.2479 8.97266 11.9999 8.97266C12.8669 8.97266 13.6649 9.32366 14.2299 9.89766"
-                    stroke="#9A999B"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M15.1054 12.6992C14.8734 13.9892 13.8574 15.0072 12.5684 15.2412"
-                    stroke="#9A999B"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M6.655 17.472C5.068 16.226 3.724 14.406 2.75 12.137C3.734 9.85798 5.087 8.02798 6.684 6.77198C8.271 5.51598 10.102 4.83398 12 4.83398C13.909 4.83398 15.739 5.52598 17.336 6.79098"
-                    stroke="#9A999B"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M19.4478 8.99023C20.1358 9.90423 20.7408 10.9592 21.2498 12.1362C19.2828 16.6932 15.8068 19.4382 11.9998 19.4382C11.1368 19.4382 10.2858 19.2982 9.46777 19.0252"
-                    stroke="#9A999B"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M19.8873 4.25L4.11328 20.024"
-                    stroke="#9A999B"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </span>
-              <span @click="passwordHide.first = 'text'" v-else>
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M15.1619 12.0526C15.1619 13.7986 13.7459 15.2136 11.9999 15.2136C10.2539 15.2136 8.83887 13.7986 8.83887 12.0526C8.83887 10.3056 10.2539 8.89062 11.9999 8.89062C13.7459 8.89062 15.1619 10.3056 15.1619 12.0526Z"
-                    stroke="#9A999B"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M11.998 19.354C15.806 19.354 19.289 16.616 21.25 12.052C19.289 7.488 15.806 4.75 11.998 4.75H12.002C8.194 4.75 4.711 7.488 2.75 12.052C4.711 16.616 8.194 19.354 12.002 19.354H11.998Z"
-                    stroke="#9A999B"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  /></svg
-              ></span>
-            </div>
-            <label class="sms__label mt-3">Повтирите новый</label>
-            <div class="password-input">
-              <input
-                :type="passwordHide.last"
-                placeholder="Повтирите новый"
-                v-model="registrModal.password"
-              />
-              <span
-                @click="passwordHide.last = 'password'"
-                v-if="passwordHide.last == 'text'"
-                ><svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M9.76094 14.3677C9.18594 13.7937 8.83594 13.0137 8.83594 12.1387C8.83594 10.3857 10.2479 8.97266 11.9999 8.97266C12.8669 8.97266 13.6649 9.32366 14.2299 9.89766"
-                    stroke="#9A999B"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M15.1054 12.6992C14.8734 13.9892 13.8574 15.0072 12.5684 15.2412"
-                    stroke="#9A999B"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M6.655 17.472C5.068 16.226 3.724 14.406 2.75 12.137C3.734 9.85798 5.087 8.02798 6.684 6.77198C8.271 5.51598 10.102 4.83398 12 4.83398C13.909 4.83398 15.739 5.52598 17.336 6.79098"
-                    stroke="#9A999B"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M19.4478 8.99023C20.1358 9.90423 20.7408 10.9592 21.2498 12.1362C19.2828 16.6932 15.8068 19.4382 11.9998 19.4382C11.1368 19.4382 10.2858 19.2982 9.46777 19.0252"
-                    stroke="#9A999B"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M19.8873 4.25L4.11328 20.024"
-                    stroke="#9A999B"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </span>
-              <span @click="passwordHide.last = 'text'" v-else>
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M15.1619 12.0526C15.1619 13.7986 13.7459 15.2136 11.9999 15.2136C10.2539 15.2136 8.83887 13.7986 8.83887 12.0526C8.83887 10.3056 10.2539 8.89062 11.9999 8.89062C13.7459 8.89062 15.1619 10.3056 15.1619 12.0526Z"
-                    stroke="#9A999B"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M11.998 19.354C15.806 19.354 19.289 16.616 21.25 12.052C19.289 7.488 15.806 4.75 11.998 4.75H12.002C8.194 4.75 4.711 7.488 2.75 12.052C4.711 16.616 8.194 19.354 12.002 19.354H11.998Z"
-                    stroke="#9A999B"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  /></svg
-              ></span>
-            </div>
-
-            <div class="auth-user-modal__m-btn create-password">
-            <span></span>
-            <span></span>
-              <div class="show-btn">
-                Отмена
-              </div>
-              <div class="show-btn">
-                Сохранить
-              </div>
-            
+              <span @click="registrType.type = false">Забыли пароль?</span>
             </div>
           </div>
         </div>
@@ -1074,7 +849,11 @@ export default {
         smsCode: "",
         password: "",
       },
+      smsCode: null,
     };
+  },
+  mounted() {
+    this.$store.commit("setUser", localStorage.getItem("Auth"));
   },
   computed: {
     errorClassObject() {
@@ -1085,7 +864,7 @@ export default {
     },
   },
   methods: {
-    search() {
+    async search() {
       if (this.registrModal.number.length == "") {
         this.errors.numberLinght = false;
         this.errors.numberError = false;
@@ -1093,22 +872,82 @@ export default {
         this.errors.numberLinght = true;
         this.registrType.hide = false;
       } else {
-        this.registrType.type = true;
-        this.registrType.hide = true;
         this.errors.numberLinght = false;
         this.errors.numberError = false;
+        const authNumber = await this.$store.dispatch("fetchAuth/fetchNumber", {
+          nbm: `+998${this.registrModal.number}`,
+        });
+        this.registrType.type = await authNumber.is_user;
+        this.registrType.hide = true;
+        this.sendSms(authNumber.is_user);
       }
+    },
+    async sendSms(user) {
+      if (!user) {
+        const smsCode = await this.$store.dispatch("fetchAuth/fetchSendSms", {
+          nbm: `+998${this.registrModal.number}`,
+        });
+        console.log(smsCode);
+        this.smsCode = smsCode.code;
+      }
+    },
+    async smsCodeValidate() {
+      const smsCodeValidate = await this.$store.dispatch(
+        "fetchAuth/fetchSmsCodeValidate",
+        {
+          code: this.registrModal.smsCode,
+          nbm: `+998${this.registrModal.number}`,
+        }
+      );
+      if (smsCodeValidate.correct) {
+        this.registerWithSmsCode();
+        console.log("true");
+      } else {
+        console.log("false");
+        this.errors.smsError = true;
+      }
+    },
+    async registerWithSmsCode() {
+      const registerSms = await this.$store.dispatch(
+        "fetchAuth/fetchRegisterWithSmsCode",
+        {
+          nbm: `+998${this.registrModal.number}`,
+        }
+      );
+      await localStorage.setItem("Auth", registerSms.token.access);
+      await this.$store.commit("setUser");
+      // this.registrModal.number = "";
+      if (registerSms.token.access) {
+        await this.$modal.hide("sign-or-create-modal");
+        await this.$router.push("/profile");
+        console.log("truee");
+      } else {
+        console.log(localStorage.getItem("Auth"));
+      }
+    },
+    async userLogin() {
+      const registerSms = await this.$store.dispatch(
+        "fetchAuth/fetchUserLogin",
+        {
+          nbm: `+998${this.registrModal.number}`,
+          password: this.registrModal.password,
+        }
+      );
+      await localStorage.setItem("Auth", registerSms.access);
+      await this.$store.commit("setUser");
+      await this.$modal.hide("sign-or-create-modal");
+        await this.$router.push("/profile");
     },
     signOrCreate() {
       if (this.registrModal.number.length < 9) {
         console.log("Error");
         this.errors.numberError = true;
       } else {
-        this.$store.commit("setUser", this.registrModal.number);
-        // this.registrModal.number = "";
-        // this.$router.push("/profile");
-        this.$modal.hide("sign-or-create-modal");
-        this.$modal.show("want-password-modal");
+        if (this.registrType.type) {
+          this.userLogin();
+        } else {
+          this.smsCodeValidate();
+        }
       }
     },
     createSmsProfile() {
@@ -1122,10 +961,7 @@ export default {
 
       this.$modal.show("sign-in-modal");
     },
-    wantChangePass() {
-      this.$modal.hide("want-password-modal");
-      this.$modal.show("change-password-modal");
-    },
+
     show(name) {
       this.$modal.show(name);
     },

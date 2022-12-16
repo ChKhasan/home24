@@ -7,7 +7,7 @@
           <TitleBasket title="Избранное" />
 
           <div class="favorites-select">
-            <nuxt-link to="/">Очистить</nuxt-link>
+            <span @click="deteleLikes">Очистить</span>
             <el-select v-model="value" placeholder="Select">
               <el-option
                 v-for="item in options"
@@ -28,19 +28,13 @@
     </div>
     <div class="row">
       <div class="col-12">
-      <!-- <emptyBlog /> -->
-        <div class="favorites__products">
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
+        <emptyBlog v-if="likeProducts.length == 0"/>
+        <div class="favorites__products" v-else>
+          <CardProduct
+            v-for="product in likeProducts"
+            :product="product"
+            :key="product.id"
+          />
         </div>
       </div>
     </div>
@@ -48,6 +42,7 @@
     <div class="container">
       <div class="row">
         <div class="col-12 category__product-controller">
+          <!-- <CardProduct />
           <CardProduct />
           <CardProduct />
           <CardProduct />
@@ -58,8 +53,7 @@
           <CardProduct />
           <CardProduct />
           <CardProduct />
-          <CardProduct />
-          <CardProduct />
+          <CardProduct /> -->
         </div>
       </div>
     </div>
@@ -98,6 +92,7 @@ export default {
           label: "Option5",
         },
       ],
+      likeProducts: [],
       value: "Option1",
       links: [
         {
@@ -107,7 +102,33 @@ export default {
       ],
     };
   },
-  components: { BreadCrumb, TitleCategory, TitleBasket, CardProduct, emptyBlog, HomeTitlies },
+  async created() {
+    const like = await this.$store.dispatch(
+      "fetchLike/postLike",
+      JSON.parse(localStorage.getItem("like"))
+    );
+    this.likeProducts = like;
+
+  },
+  methods: {
+   async deteleLikes() {
+      localStorage.setItem("like",JSON.stringify([]));
+      const like = await this.$store.dispatch(
+      "fetchLike/postLike",
+      JSON.parse(localStorage.getItem("like"))
+    );
+    this.likeProducts = like;
+    this.$store.commit("reloadStore");
+    }
+  },
+  components: {
+    BreadCrumb,
+    TitleCategory,
+    TitleBasket,
+    CardProduct,
+    emptyBlog,
+    HomeTitlies,
+  },
 };
 </script>
 <style lang="scss">
@@ -118,7 +139,7 @@ export default {
     display: flex;
     justify-content: space-between;
     .favorites-select {
-      a {
+      span {
         font-family: "Inter";
         font-style: normal;
         font-weight: 500;
@@ -127,6 +148,7 @@ export default {
         text-decoration-line: underline;
         margin-right: 40px;
         color: #ff7e00;
+        cursor: pointer;
       }
       .el-input--suffix .el-input__inner {
         padding-right: 30px;

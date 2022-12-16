@@ -4,7 +4,7 @@
       <div
         class="product-modal__m-header d-flex align-items-center justify-content-between"
       >
-        <h5>ОФИСНОЕ КРЕСЛО 6206A-2</h5>
+        <h5>{{ product.product.name }}</h5>
         <svg
           @click="hide"
           width="64"
@@ -33,24 +33,26 @@
         <div>
           <div class="product-modal__carousel">
             <div class="carousel-banner">
-              <img src="../../assets/images/image 40.png" alt="" />
+              <img
+                :src="
+                  `https://said26dadamuh.pythonanywhere.com` +
+                  product.images[0].image
+                "
+                alt=""
+              />
             </div>
             <div class="carousel-items">
-              <div class="carousel-img activeImg">
+              <div
+                class="carousel-img activeImg"
+                v-for="image in product.images"
+              >
                 <img
-                  src="../../assets/images/image 24.png"
-                  @click="carouselChange = '../../assets/images/image 24.png'"
-                  alt=""
-                />
-              </div>
-              <div class="carousel-img">
-                <img
-                  src="../../assets/images/image 24.png"
+                  :src="`https://said26dadamuh.pythonanywhere.com` + image.image"
                   @click="carouselChange = '../../assets/images/image 34.png'"
                   alt=""
                 />
               </div>
-              <div class="carousel-img">
+              <!-- <div class="carousel-img">
                 <img
                   src="../../assets/images/image 34.png"
                   @click="carouselChange = '../../assets/images/image 40.png'"
@@ -71,13 +73,13 @@
               </div>
               <div class="carousel-img">
                 <img src="../../assets/images/image 40.png" alt="" />
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
         <div class="product-modal__m-left">
-          <ProductHeaderInfo :hide="false" />
-          <CardProductPrice />
+          <ProductHeaderInfo :hide="false" :product="product" />
+          <CardProductPrice :product="product" />
           <div>
             <ProductCharactertable />
             <ProductCharactertable />
@@ -96,7 +98,7 @@ import ProductCharactertable from "../product/productCharactertable.vue";
 import ProductHeaderInfo from "../product/productHeaderInfo.vue";
 
 export default {
-  props: ["modal", "hide"],
+  props: ["modal", "hide", "product"],
   components: { CardProductPrice, ProductCharactertable, ProductHeaderInfo },
 };
 </script>

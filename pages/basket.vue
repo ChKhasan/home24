@@ -15,10 +15,18 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12 basket__orders-control">
-          <!-- <EmptyBlog /> -->
-          <SelectToOrder />
-          <div>
+        <div
+          class="col-12 basket__orders-control"
+          :class="{ order_grid: basketProducts.length > 0 }"
+        >
+          <EmptyBlog v-if="basketProducts.length == 0" />
+          <SelectToOrder
+            v-else
+            :basketProducts="basketProducts"
+            :deleteProductFromCart="deleteProductFromCart"
+            :takeCheckedProducts="takeCheckedProducts"
+          />
+          <div v-if="basketProducts.length != 0">
             <div class="basket__order-info">
               <h1>Ваш заказ</h1>
               <div class="order-info-text">
@@ -34,7 +42,7 @@
                 <p>4 000 000 сум</p>
               </div>
               <div
-                @click="$router.push('/send-order')"
+                @click="saveSelectedProducts"
                 class="basket__order-btn"
               >
                 Перейти к оформлению
@@ -84,24 +92,47 @@ export default {
           to: "/",
         },
       ],
+      basketProducts: [],
+      selectedProducts: []
     };
   },
   components: { TitleBasket, BreadCrumb, EmptyBlog, SelectToOrder },
+  methods: {
+    async deleteProductFromCart(id) {
+      console.log(id);
+      let basket = await JSON.parse(localStorage.getItem("cart"));
+      const index = await basket.indexOf(id);
+      if (index > -1) {
+        await basket.splice(index, 1);
+        await localStorage.setItem("cart", JSON.stringify(basket));
+      }
+      const cart = await this.$store.dispatch(
+        "fetchBasket/postCart",
+        JSON.parse(localStorage.getItem("cart"))
+      );
+      this.basketProducts = cart;
+      this.$store.commit("reloadStore");
+    },
+    saveSelectedProducts() {
+      // this.takeCheckedProducts()
+      localStorage.setItem("selectedProducts", JSON.stringify(this.selectedProducts));
+      console.log(this.selectedProducts);
+      this.$router.push('/send-order')
+    },
+    takeCheckedProducts(products) {
+      this.selectedProducts = products
+      console.log(this.selectedProducts);
+      
+    },
+  },
   async created() {
     const basket = await this.$store.dispatch(
-      "fetchBasket/postProductToCart",
-     {id: 1, count: 3}
+      "fetchBasket/postCart",
+      JSON.parse(localStorage.getItem("cart"))
     );
-    
+    this.basketProducts = basket;
     console.log(basket);
   },
-  async mounted(){
-    const getBasket = await this.$store.dispatch(
-      "fetchBasket/fetchBasket",
-
-    );
-    console.log(getBasket);
-  }
 };
 </script>
 <style lang="scss">
@@ -128,6 +159,8 @@ export default {
   }
   &__orders-control {
     padding-top: 32px;
+  }
+  .order_grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
     grid-gap: 24px;
