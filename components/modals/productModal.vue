@@ -34,21 +34,26 @@
           <div class="product-modal__carousel">
             <div class="carousel-banner">
               <img
-                :src="
-                  `https://said26dadamuh.pythonanywhere.com` +
-                  product.images[0].image
-                "
-                alt=""
-              />
+        v-if="product.images.length == 0"
+        src="../../assets/images/image 107.png"
+        alt=""
+      />
+              <img v-else :src="product.images[0].image" alt="" />
             </div>
             <div class="carousel-items">
               <div
                 class="carousel-img activeImg"
                 v-for="image in product.images"
               >
+              <img
+        v-if="product.images.length == 0"
+        src="../../assets/images/image 107.png"
+        alt=""
+      />
                 <img
-                  :src="`https://said26dadamuh.pythonanywhere.com` + image.image"
-                  @click="carouselChange = '../../assets/images/image 34.png'"
+                v-else
+                  :src="image.image"
+                  @click="carouselChange = product.images[0].image"
                   alt=""
                 />
               </div>

@@ -5,108 +5,25 @@
         <div class="col-12">
           <div class="grid_block">
             <div class="category__list-box1">
-              <h2>Категории</h2>
-              <ul class="category__list1">
-                <li>
-                  <div v-if="skeleton">
-                    <b-skeleton animation="wave" width="50%"></b-skeleton>
-                  </div>
-                  <span
-                    @click="
-                      $router.push(
-                        categoryById?.parent?.parent.id
-                          ? `/categories/${categoryById?.parent?.parent.id}`
-                          : `/categories/${categoryById?.parent.id}`
-                      )
-                    "
-                    v-else
-                    >{{
-                      categoryById?.parent?.parent?.name
-                        ? categoryById?.parent?.parent?.name
-                        : categoryById?.parent?.name
-                    }}</span
-                  >
-                  <ul>
-                    <li>
-                      <div v-if="skeleton">
-                        <b-skeleton animation="wave" width="50%"></b-skeleton>
-                      </div>
-                      <span
-                        v-else
-                        @click="
-                      $router.push(
-                        categoryById?.parent?.parent.id
-                          ? `/categoryId/${categoryById?.parent?.id}`
-                          : `/categoryId/${categoryById?.parent?.id}`
-                      )
-                    "
-                        :class="{
-                          listActive: categoryById?.parent?.parent?.name
-                            ? false
-                            : true,
-                        }"
-                        >{{
-                          categoryById?.parent?.parent?.name
-                            ? categoryById?.parent?.name
-                            : categoryById?.name
-                        }}</span
-                      >
-                      <ul>
-                        <div v-if="skeleton">
-                          <b-skeleton animation="wave" width="50%"></b-skeleton>
-                        </div>
-                        <li v-else v-if="categoryById?.parent?.parent.name">
-                          <span
-                            :class="{
-                              listActive: categoryById?.parent?.parent.name
-                                ? true
-                                : false,
-                            }"
-                            @click="$router.push(`/categoryId/${category.id}`)"
-                            >{{ categoryById?.name }}</span
-                          >
-                        </li>
-
-                        <li v-else v-for="category in categoryById?.children">
-                          <span
-                            @click="$router.push(`/categoryId/${category.id}`)"
-                            >{{ category.name }}</span
-                          >
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-              <h2>Сортировать</h2>
-              <ul>
-                <b-form-group v-slot="{ ariaDescribedby }">
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="A"
-                    >по популярности
-                  </b-form-radio>
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="B"
-                    >добавлено недавно</b-form-radio
-                  >
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="C"
-                    >цена</b-form-radio
-                  >
-                </b-form-group>
-                <div class="mt-3">
-                  Selected: <strong>{{ selected }}</strong>
+              <div class="brand_card">
+                <div
+                  class="brand-card"
+                  @click="toAllBrand"
+                >
+                  <img :src="brand.image" alt="" />
                 </div>
-              </ul>
+              </div>
+              <div class="brand_categories">
+                <span
+                  v-for="category in brand_categies"
+                  :key="category.id"
+                  :class="{
+                    activeCategory: $route.query.category == category.id,
+                  }"
+                  @click="brandCategories(category.id)"
+                  >{{ category.name }}</span
+                >
+              </div>
               <h2>Цена</h2>
               <div class="category__range">
                 <MultiRangeSlider
@@ -130,41 +47,6 @@
                   </div>
                 </div>
               </div>
-              <div v-for="atribut in categoryById.atributs">
-                <h2>{{ atribut?.name }}</h2>
-                <div class="range-checkbox">
-                  <div v-for="option in atribut.options">
-                    <input
-                      type="checkbox"
-                      name=""
-                      id=""
-                      :checked="
-                        Object.keys($route.query).includes(
-                          `atribut_${option?.id}`
-                        )
-                      "
-                      @click="optionFilter(option?.id)"
-                    /><span>{{ option.name }}</span>
-                  </div>
-                </div>
-              </div>
-              <h2>Цвет</h2>
-              <div class="category__colors">
-                <div v-for="color in colors">
-                  <div
-                    class="checkbox"
-                    :style="{
-                      background: color?.hex,
-                      border: `1px solid ${color?.hex}`,
-                    }"
-                    @click="colorFilter(color?.id, color.hex)"
-                  >
-                    <span
-                      v-if="(Object.keys($route.query).includes(`color_${color?.id}`))"
-                    ></span>
-                  </div>
-                </div>
-              </div>
             </div>
             <div class="">
               <b-skeleton
@@ -172,7 +54,7 @@
                 animation="wave"
                 width="40%"
               ></b-skeleton>
-              <BreadCrumb v-else :links="links" last="Офисная мебель" />
+              <BreadCrumb v-else :links="links" :last="brand.name" />
               <div class="category-title">
                 <b-skeleton
                   v-if="skeleton"
@@ -181,7 +63,7 @@
                   height="40px"
                 ></b-skeleton>
 
-                <h1 v-else>{{ categoryById.name }}</h1>
+                <h1 v-else>{{ brand.name }}</h1>
                 <div class="category-control">
                   <div>
                     <span>Сортировка</span>
@@ -305,7 +187,6 @@
                 </div>
               </div>
               <div
-              v-if="productsByCategory.length > 0"
                 class="category__category-controller"
                 :class="{ three: gridControl == 3 }"
               >
@@ -338,16 +219,18 @@
                 <CardProduct
                   v-else
                   modal="id1"
-                  v-for="product in productsByCategory"
+                  v-for="product in brand_products"
                   :product="product"
                 />
               </div>
-              <emptyBlog v-else/>
-              <div class="category__pagination" v-if="productsByCategory.length > 0">
+              <div
+                class="category__pagination"
+                v-if="brand_products.length > 0"
+              >
                 <el-pagination
                   layout="prev, pager, next"
                   @current-change="handleCurrentChange"
-                  :current-page.sync="currentPage1"
+                  :current-page.sync="currentPage"
                   :total="totalPage * 10"
                 >
                 </el-pagination>
@@ -358,25 +241,6 @@
       </div>
 
       <div class="row"></div>
-    </div>
-    <homeTitliesVue title="Хиты продаж" link="Все товары" />
-    <div class="container">
-      <div class="row">
-        <div class="col-12 category__product-controller">
-          <!-- <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct /> -->
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -389,188 +253,125 @@ import homeTitliesVue from "@/components/homeTitlies.vue";
 import RangeSlider from "vue-range-slider";
 import "vue-range-slider/dist/vue-range-slider.css";
 import MultiRangeSlider from "multi-range-slider-vue";
-import emptyBlog from "../../components/emptyBlog.vue"
+import CardBrand from "../../components/cards/cardBrand.vue";
 
 export default {
   data() {
     return {
       selected: "",
-      currentPage1: 1,
+      currentPage: 1,
       sliderValue: 50,
       barMinValue: 100000,
       barMaxValue: 1000000,
       checkbox: "",
       gridControl: 5,
-      totalPage: 1,
+      totalPage: 5,
+      brand_categies: [],
+      brand_products: [],
       links: [
         {
           name: "Главный",
           to: "/",
         },
         {
-          name: "Мебель",
-          to: "/category",
+          name: "Популярные бренды",
+          to: "/brands",
         },
       ],
-      categoryById: {},
-      productsByCategory: {},
-      colors: [],
+      brand: {},
       skeleton: true,
     };
   },
   async created() {
-    if (Object.keys(this.$route.query).length == 0) {
-      await this.$router.replace({
-        path: `/categoryId/${this.$route.params.index}`,
-        query: {
-          category: this.$route.params.index,
-          page: this.currentPage1,
-          ...this.$route.query,
-        },
-      });
-    }
-
-    const productsByCategory = await this.$store.dispatch(
-      "fetchProduct/fetchProductByCategory",
-      {...this.$route.query,page_size: 1}
-    );
-    this.productsByCategory = productsByCategory.results;
-    this.totalPage = productsByCategory.count
-    this.currentPage1 = JSON.parse(this.$route.query.page);
-    const categoryById = await this.$store.dispatch(
-      "fetchCategories/fetchAllCategoryById",
-      this.$route.params.index
-    );
-    const colors = await this.$store.dispatch("fetchColors/fetchColors");
-
-    this.colors = colors;
-    this.categoryById = categoryById;
-    console.log(Object.keys(this.$route.query).includes("ctg_id"));
-    this.skeleton = false;
+   this.toAllBrand()
+    this._GET_BRAND();
+    this._GET_BRAND_CATEGORIES();
+    this._GET_BRAND_PRODUCTS();
   },
   methods: {
+    async toAllBrand() {
+      if (!Object.keys(this.$route.query).includes("brand") || Object.keys(this.$route.query).includes("category")) {
+        
+      await this.$router.replace({
+        path: `/brand_categories/${this.$route.params.index}`,
+        query: {
+          brand: this.$route.params.index,
+          page: 1,
+        },
+      });
+    this._GET_BRAND_PRODUCTS();
+
+    } 
+    this.currentPage = await JSON.parse(this.$route.query.page);
+    },
+    async _GET_BRAND() {
+      const brand = await this.$store.dispatch(
+        "fetchBrands/fetchBrandsById",
+        this.$route.params.index
+      );
+      this.brand = brand;
+      console.log(brand);
+    },
+    async _GET_BRAND_CATEGORIES() {
+      const brand_categies = await this.$store.dispatch(
+        "fetchBrands/fetchBrandsCategories",
+        this.$route.params.index
+      );
+      this.brand_categies = brand_categies;
+    },
+    async _GET_BRAND_PRODUCTS() {
+      const brand_products = await this.$store.dispatch(
+        "fetchBrands/fetchProductByBrand",
+        this.$route.query
+      );
+
+      this.brand_products = brand_products.results;
+      this.totalPage = brand_products.count;
+      this.skeleton = false;
+    },
+    async brandCategories(id) {
+      await this.$router.replace({
+        path: `/brand_categories/${this.$route.params.index}`,
+        query: {
+          ...this.$route.query,
+          brand: this.$route.params.index,
+          category: id,
+        },
+      });
+      const brand_products = await this.$store.dispatch(
+        "fetchBrands/fetchProductByBrand",
+        this.$route.query
+      );
+
+      this.brand_products = brand_products.results;
+      this.totalPage = brand_products.count;
+    },
     async UpdateValues(e) {
       this.barMinValue = e.minValue;
       this.barMaxValue = e.maxValue;
-
-      let colorObj = {};
-      colorObj = {
-        min_price: this.barMinValue,
-        max_price: this.barMaxValue,
-        ctg_id: this.categoryById.id,
-      };
-      colorObj = { ...colorObj };
-      if (Object.keys(this.$route.query).includes(`min_price`)) {
-        // await delete colorObj[`min_price`];
-        // await delete colorObj[`max_price`];
-        colorObj = await { ...colorObj };
-        if (Object.keys(colorObj).length == 1) {
-          await delete colorObj[`ctg_id`];
-        }
-      }
-      if (Object.keys(colorObj).length == 0) {
-        await this.$router.replace({
-          path: `/categoryId/${this.$route.params.index}`,
-          query: { ...colorObj },
-        });
-        const productsByCategory = await this.$store.dispatch(
-          "fetchProduct/fetchProductByCategory",
-          this.$route.params.index
-        );
-        this.productsByCategory = productsByCategory.results;
-      } else {
-        await this.$router.replace({
-          path: `/categoryId/${this.$route.params.index}`,
-          query: {
-            ...colorObj,
-            ctg_id: this.categoryById.id,
-          },
-        });
-        const productsByCategory = await this.$store.dispatch(
-          "fetchProduct/fetchProductByCategory",
-          this.$route.query
-        );
-        this.productsByCategory = productsByCategory.results;
-      }
     },
-    async optionFilter(id) {
-      let colorObj = {};
-      console.log(this.$route.query);
-      colorObj[`atribut_${id}`] = id;
-
-      colorObj[`atribut_${id}`] = id;
-      colorObj = {
-        ...colorObj,
-        ...this.$route.query,
-        page: 1,
-        filter: 1,
-        
-      };   
-      if (Object.keys(this.$route.query).includes(`atribut_${id}`)) {
-        await delete colorObj[`atribut_${id}`];
-        if (!Object.keys(colorObj).toString().includes("atribut")) {
-          await delete colorObj[`filter`];
-        }
-      }
+    async handleCurrentChange(val) {
+      console.log(val);
 
       await this.$router.replace({
-        path: `/categoryId/${this.$route.params.index}`,
-        query: {
-          ...colorObj,
-        },
-      });
-      const productsByCategory = await this.$store.dispatch(
-        "fetchProduct/fetchProductByCategory",
-        this.$route.query
-      );
-      
-      this.productsByCategory = productsByCategory.results;
-      this.totalPage = productsByCategory.count
-    this.currentPage1 = JSON.parse(this.$route.query.page);
-    },
-    async colorFilter(id) {
-      let colorObj = {};
-      colorObj[`color_${id}`] = id;
-      colorObj = { ...colorObj, ...this.$route.query, filter: 1,page: 1 };
-      if (Object.keys(this.$route.query).includes(`color_${id}`)) {
-        await delete colorObj[`color_${id}`];
-        if (!Object.keys(colorObj).toString().includes("color")) {
-          await delete colorObj[`filter`];
-        }
-      }
-
-      await this.$router.replace({
-        path: `/categoryId/${this.$route.params.index}`,
-        query: {
-          ...colorObj,
-        },
-      });
-      const productsByCategory = await this.$store.dispatch(
-        "fetchProduct/fetchProductByCategory",
-        this.$route.query
-      );
-      this.productsByCategory = productsByCategory.results;
-      this.totalPage = productsByCategory.count
-    this.currentPage1 = JSON.parse(this.$route.query.page);
-    },
-   async handleCurrentChange(val) {
-      console.log(`current page: ${val}`);
-      console.log(this.$route.query);
-      await this.$router.replace({
-        path: `/categoryId/${this.$route.params.index}`,
+        path: `/brand_categories/${this.$route.params.index}`,
         query: {
           ...this.$route.query,
+          brand: this.$route.params.index,
           page: val,
         },
       });
-      const productsByCategory = await this.$store.dispatch(
-      "fetchProduct/fetchProductByCategory",
-      {...this.$route.query,page_size: 1}
-    );
-    this.productsByCategory = productsByCategory.results;
-    this.totalPage = productsByCategory.count;
+      const brand_products = await this.$store.dispatch(
+        "fetchBrands/fetchProductByBrand",
+        this.$route.query
+      );
+      this.currentPage = await JSON.parse(this.$route.query.page);
+
+      console.log(this.currentPage);
+      this.brand_products = brand_products.results;
     },
   },
+
   components: {
     BreadCrumb,
     TitleCategory,
@@ -579,12 +380,31 @@ export default {
     homeTitliesVue,
     RangeSlider,
     MultiRangeSlider,
-    emptyBlog
+    CardBrand,
   },
 };
 </script>
 <style lang="scss">
 .category {
+  .brand_categories {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    .activeCategory {
+      color: #ff7e00;
+    }
+    span {
+      margin-bottom: 18px;
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: #000000;
+      cursor: pointer;
+    }
+  }
   .grid_block {
     display: grid;
     grid-template-columns: 2fr 10fr;

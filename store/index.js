@@ -8,12 +8,13 @@ export const state = () => ({
 export const mutations = {
   setUser(state) {
     if (localStorage.getItem("Auth")) {
-      console.log("true");
       state.auth = true;
     } else {
-      console.log("false");
       state.auth = false;
     }
+  },
+  getCategories(state, payload) {
+    state.categories = payload;
   },
   addToStore(state, payload) {
     let cart = JSON.parse(localStorage.getItem(payload.name));
@@ -40,7 +41,6 @@ export const mutations = {
     }
     if (localStorage.getItem("comparison")) {
       const comparison = JSON.parse(localStorage.getItem("comparison"));
-
       state.comparison = comparison;
     } else {
       localStorage.setItem("comparison", JSON.stringify([]));

@@ -128,7 +128,7 @@
                 />
               </svg>
             </div>
-            <div class="sc-last-price">{{ product.price }} сум</div>
+            <div class="sc-last-price">{{ product.price * product.quantity }} сум</div>
             <span class="sc-first-price">2 200 000 сум</span>
           </div>
         </div>
@@ -139,7 +139,7 @@
 <script>
 const cityOptions = ["Shanghai", "Beijing", "Guangzhou", "Shenzhen"];
 export default {
-  props: ["basketProducts", "deleteProductFromCart", "takeCheckedProducts"],
+  props: ["basketProducts", "deleteProductFromCart", "takeCheckedProducts","sendOrderCount"],
   data() {
     return {
       checkAll: false,
@@ -151,6 +151,8 @@ export default {
   },
   methods: {
     handleCheckAllChange(val) {
+      localStorage.setItem("order_count",JSON.stringify(this.basketProducts.map((item) => item.id)));
+
       this.checkedCities = val
         ? this.basketProducts.map((item) => item.id)
         : [];
@@ -164,7 +166,7 @@ export default {
     },
     handleCheckedCitiesChange(value) {
       let checkedCount = value.length;
-
+      localStorage.setItem("order_count",value);
       this.checkAll = checkedCount === this.basketProducts.length;
       this.isIndeterminate =
         checkedCount > 0 && checkedCount < this.basketProducts.length;

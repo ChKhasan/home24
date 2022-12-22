@@ -10,6 +10,7 @@
         <div class="product__img-carousel">
           <div class="carousel-items">
             <div
+              v-if="product.images?.length > 0"
               v-for="img in product.images"
               class="carousel-img"
               :class="{ activeImg: carouselChange == img.image }"
@@ -20,26 +21,70 @@
                 alt=""
               />
             </div>
+            <div v-else class="carousel-img activeImg">
+              <img src="../../assets/images/image 34.png" alt="" />
+            </div>
           </div>
           <div class="carousel-banner">
-            <img :src="carouselChange" alt="" />
+            <img
+              v-if="product.images?.length > 0"
+              :src="carouselChange"
+              alt=""
+            />
+            <img v-else src="../../assets/images/image 34.png" alt="" />
           </div>
         </div>
         <div class="product__types">
-          <ProductHeaderInfo :hide="true" :product="product" />
+          <b-skeleton
+            v-if="skeleton"
+            animation="wave"
+            width="100%"
+          ></b-skeleton>
+          <ProductHeaderInfo
+            v-else
+            :hide="true"
+            :product="product"
+            :commentCount="comments.length"
+          />
           <div class="product__types-title">
-            <h1>{{ product.product?.name }}</h1>
+            <b-skeleton
+              v-if="skeleton"
+              animation="wave"
+              height="40px"
+              width="100%"
+            ></b-skeleton>
+
+            <h1 v-else>{{ product.product?.name }}</h1>
           </div>
-          <p v-if="product.product?.brand">
-            Производитель: <span>{{ product.product?.brand }}</span>
+          <p>
+            Производитель:
+            <b-skeleton
+              v-if="skeleton"
+              animation="wave"
+              width="25%"
+            ></b-skeleton
+            ><span v-else>{{ product.product?.brand }}</span>
           </p>
           <p>
-            Модель: <span>{{ product.product?.model }}</span>
+            Модель: <b-skeleton
+              v-if="skeleton"
+              animation="wave"
+              width="25%"
+            ></b-skeleton
+            > <span v-else>{{ product.product?.model }}</span>
           </p>
           <div class="product__types-colors">
             <p>Цвет:</p>
             <div class="product__types-color">
+              <b-skeleton
+              v-if="skeleton"
+              animation="wave"
+              height="70px"
+              width="25%"
+            ></b-skeleton
+            >
               <div
+              v-else
                 v-for="color in product.colors"
                 @click="fetchProductByOption(color?.variant)"
                 :class="{
@@ -50,11 +95,25 @@
               </div>
             </div>
           </div>
+          <b-skeleton
+              v-if="skeleton"
+              animation="wave"
+              width="25%"
+            ></b-skeleton
+            >
+            <b-skeleton
+              v-if="skeleton"
+              animation="wave"
+              height="70px"
+              width="45%"
+            ></b-skeleton
+            >
           <div
+          v-else
             class="product__types-sizies"
             v-for="attrebut in product?.atributs"
-          >
-            <p>{{ attrebut?.name }}:</p>
+          > 
+            <p >{{ attrebut?.name }}:</p>
             <div class="product__types-size">
               <div
                 class="options_style"
@@ -107,37 +166,23 @@
           <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="Описание товара" name="first">
               <div class="product__desc">
-                <p class="">
-                  Геймерские <Svg /> кресла 6206A-2 выполнено в сочетание
-                  фиолетового и черного. Модель выглядит элегантно и лаконично,
-                  поэтому она подойдет как в современный офис, так и в более
-                  консервативные заведения. Полозья выполнены из крепкого
-                  металла, при этом они разбираются, что очень удобно при
-                  сборке. Для более удобного долгого сидения сделаны широкие
-                  подлокотники из прочного пластика. Геймерские кресла 6206A-2
-                  соответствует американскому стандарту Cougar, который создан
-                  компетентным техническим комитетом. Обивка выполнена из
-                  нескольких материалов - сидение сделано из дышащей ткани
-                  черного цвета для комфортного нахождения в кресле, а спинка из
-                  воздухопроницаемой сетки того же оттенка. Нагрузка на модель
-                  не может превышать 120 кг.
-                </p>
+                <p class="" v-html="product.matching"></p>
               </div>
             </el-tab-pane>
-            <el-tab-pane label="Отзывы (1)" name="second"
+            <el-tab-pane :label="`Отзывы (${comments.length})`" name="second"
               ><div class="product__comment-block">
                 <div class="comments_blog">
-                  <CardComment />
-                  <CardComment />
-                  <CardComment />
-                  <CardComment />
-                  <CardComment />
-                  <CardComment />
+                  <CardComment
+                    v-for="comment in comments"
+                    :key="comment.id"
+                    :comment="comment"
+                  />
                 </div>
                 <div class="comments_reyting">
                   <div class="comments_reyting__c-header">
                     <el-rate
                       v-model="value"
+                      disabled
                       :texts="[
                         '1 оценок',
                         '2 оценок',
@@ -152,21 +197,48 @@
                   </div>
                   <div class="comments_reyting__c-body">
                     <div class="reyting_card">
-                      <el-rate v-model="rate"></el-rate>
-                      <div class="progress"><span></span></div>
-                      <p>5</p>
-                    </div>
-                    <div class="reyting_card">
-                      <el-rate v-model="rate"></el-rate>
-                      <div class="progress"><span></span></div>
-                      <p>5</p>
-                    </div>
-                    <div class="reyting_card">
-                      <el-rate v-model="rate"></el-rate>
+                      <el-rate v-model="rate.rate1" disabled></el-rate>
                       <div class="progress">
-                        <span :style="{ width: `${(rate * 100) / 5}%` }"></span>
+                        <span
+                          :style="{ width: `${(rate.rate1 * 100) / 5}%` }"
+                        ></span>
                       </div>
-                      <p>{{ rate }}</p>
+                      <p>{{ rate.rate1 }}</p>
+                    </div>
+                    <div class="reyting_card">
+                      <el-rate v-model="rate.rate2" disabled></el-rate>
+                      <div class="progress">
+                        <span :style="{ width: `${(rate.rate2 * 100) / 5}%` }">
+                        </span>
+                      </div>
+                      <p>{{ rate.rate2 }}</p>
+                    </div>
+                    <div class="reyting_card">
+                      <el-rate v-model="rate.rate3" disabled></el-rate>
+                      <div class="progress">
+                        <span
+                          :style="{ width: `${(rate.rate3 * 100) / 5}%` }"
+                        ></span>
+                      </div>
+                      <p>{{ rate.rate3 }}</p>
+                    </div>
+                    <div class="reyting_card">
+                      <el-rate v-model="rate.rate4" disabled></el-rate>
+                      <div class="progress">
+                        <span
+                          :style="{ width: `${(rate.rate4 * 100) / 5}%` }"
+                        ></span>
+                      </div>
+                      <p>{{ rate.rate4 }}</p>
+                    </div>
+                    <div class="reyting_card">
+                      <el-rate v-model="rate.rate5" disabled></el-rate>
+                      <div class="progress">
+                        <span
+                          :style="{ width: `${(rate.rate5 * 100) / 5}%` }"
+                        ></span>
+                      </div>
+                      <p>{{ rate.rate5 }}</p>
                     </div>
                   </div>
                   <div class="comments_reyting__c-btn">
@@ -247,7 +319,7 @@
           <div class="send-review-modal__m-body">
             <div class="send-review-modal__m-rate">
               <p>Ваша оценка:</p>
-              <el-rate v-model="rate"></el-rate>
+              <el-rate v-model="commentBox.rating"></el-rate>
             </div>
             <div class="send-review-modal__m-comment">
               <p>Отзыв</p>
@@ -256,7 +328,7 @@
                 name="w3review"
                 rows="4"
                 cols="50"
-                v-model="comment"
+                v-model="commentBox.body"
                 placeholder="Опишите общее впечателение: срок использования, критерии при выборе"
               />
             </div>
@@ -339,18 +411,31 @@ import ProductHeaderInfo from "../../components/product/productHeaderInfo.vue";
 export default {
   data() {
     return {
-      rate: null,
+      userRate: null,
+      rate: {
+        rate1: 5,
+        rate2: 4,
+        rate3: 3,
+        rate4: 2,
+        rate5: 1,
+      },
       comment: "",
-      value: null,
+      value: 5,
       product: {},
       optionId: null,
+      skeleton: true,
       product_parametrs: {
         productColor: "red",
         productSize: 32,
         productSizeRam: 4,
         productSim: "sim",
       },
+      comments: [],
       carouselChange: null,
+      commentBox: {
+        body: "",
+        rating: 0,
+      },
       activeName: "first",
       links: [
         {
@@ -387,17 +472,31 @@ export default {
       "fetchProduct/fetchProductByOption",
       this.$route.params.index
     );
-    this.carouselChange = product.images[0].image;
+    const comments = await this.$store.dispatch(
+      "fetchProductComment/fetchComment",
+      this.$route.params.index
+    );
+    this.comments = comments;
+    this.carouselChange = product.images[0]?.image
+      ? product.images[0]?.image
+      : "../../assets/images/image 34.png";
     this.product = product;
-    console.log(product);
+    this.skeleton = await false;
   },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
     },
-    sendComment() {
-      this.$modal.hide("new-review-modal");
-      this.$modal.show("review-accepted-modal");
+    async sendComment() {
+      const postComment = await this.$store.dispatch(
+        "fetchProductComment/fetchSendComment",
+        {
+          comment: { ...this.commentBox, product: this.$route.params.index },
+          token: localStorage.getItem("Auth"),
+        }
+      );
+      await this.$modal.hide("new-review-modal");
+      await this.$modal.show("review-accepted-modal");
     },
     show(name) {
       this.$modal.show(name);
@@ -413,8 +512,6 @@ export default {
       await this.$router.replace({
         path: `/product/${optionId}`,
       });
-
-      console.log("tre", product);
     },
   },
 };

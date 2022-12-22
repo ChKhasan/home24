@@ -1,7 +1,13 @@
 <template lang="html">
   <div class="product-card">
     <div class="product-card__img" id="show-btn">
-      <img :src="`https://said26dadamuh.pythonanywhere.com`+product.images[0].image" alt="" />
+      <img
+        v-if="product.images.length == 0"
+        src="../../assets/images/image 107.png"
+        alt=""
+      />
+
+      <img v-else :src="product.images[0].image" alt="" />
       <!-- <div class="product-card__hover-link abs-block"> -->
 
       <span
@@ -97,9 +103,7 @@
         <span> {{ product.price }} сум </span>
         <div
           class="to_cart"
-          @click="
-            $store.commit('addToStore', { id: product.id, name: 'cart' })
-          "
+          @click="$store.commit('addToStore', { id: product.id, name: 'cart' })"
           :class="{ disabled: includes($store.state.cart, product.id) }"
         >
           <svg
@@ -162,10 +166,10 @@
       </div>
       <div
         class="product-card__name"
-        @click="$router.push(`product/${product.id}`)"
+        @click="$router.push(`/product/${product.id}`)"
       >
         <p>
-          {{ product.product.name }} erewrew ewr ewre wr ew r eewrewir
+          {{ product.product?.name }} erewrew ewr ewre wr ew r eewrewir
           uieriueiwruiew ewir uiewrwr ew(Чёрный)
         </p>
       </div>
@@ -201,7 +205,6 @@ export default {
         true;
       }
     },
-
 
     show() {
       this.$modal.show(`modal${this.product.id}`);

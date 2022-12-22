@@ -128,7 +128,11 @@
         </div>
         <div class="profile__area">
           <div class="order-wait-select">
-            <el-select v-model="value" placeholder="Select">
+            <el-select
+              v-model="value"
+              placeholder="Select"
+              @change="statusFilter"
+            >
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -153,76 +157,64 @@
                 <div class="btn" @click="$router.push('/')">На главную</div>
               </div> -->
               <div class="orders">
-                <div>
-                  <CardOrder />
+                <div v-for="order in orders" v-if="orders.length > 0">
+                  <CardOrder :order="order" />
                 </div>
-                <div>
-                  <CardOrder />
-                </div>
-                <div>
-                  <CardOrder />
-                </div>
-                <div>
-                  <CardOrder />
-                </div>
+                <EmptyBlog v-else />
               </div>
             </el-tab-pane>
             <el-tab-pane label="Неоплаченные" name="second">
-            <div>
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
-            </div>
+              <div>
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+              </div>
             </el-tab-pane>
           </el-tabs>
         </div>
       </div>
     </div>
     <modal name="log-out-modal" width="590px" height="auto">
-            <div>
-              <div
-                class="log-out-modal">
-                <div class="log-out-modal__m-header">
-                  <h1 class="m-header-title">Хотите выйти из аккаунта?</h1>
-                  <span @click="hide('log-out-modal')">
-                    <svg
-                      width="64"
-                      height="64"
-                      viewBox="0 0 64 64"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M42.3806 21.5771L21.6152 42.3425"
-                        stroke="#EF3F27"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                      <path
-                        d="M42.3862 42.3554L21.6035 21.5684"
-                        stroke="#EF3F27"
-                        stroke-width="3"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </span>
-                </div>
-             
-              
-                  <div class="log-out-modal__m-btn">
-                    <div class="show-btn" @click="hide('log-out-modal')">
-                      Нет
-                    </div>
-                    <div class="show-btn" @click="logout">
-                      ДА
-                    </div>
-                  </div>
-               
-               
-              </div>
+      <div>
+        <div class="log-out-modal">
+          <div class="log-out-modal__m-header">
+            <h1 class="m-header-title">Хотите выйти из аккаунта?</h1>
+            <span @click="hide('log-out-modal')">
+              <svg
+                width="64"
+                height="64"
+                viewBox="0 0 64 64"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M42.3806 21.5771L21.6152 42.3425"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M42.3862 42.3554L21.6035 21.5684"
+                  stroke="#EF3F27"
+                  stroke-width="3"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
+
+          <div class="log-out-modal__m-btn">
+            <div class="show-btn" @click="hide('log-out-modal')">
+              Нет
             </div>
+            <div class="show-btn" @click="logout">
+              ДА
+            </div>
+          </div>
+        </div>
+      </div>
     </modal>
   </div>
 </template>
@@ -231,7 +223,9 @@ import BreadCrumb from "../../components/category/breadCrumb.vue";
 import TitleCategory from "../../components/category/titleCategory.vue";
 import HomeTitlies from "../../components/homeTitlies.vue";
 import CardOrder from "../../components/cards/cardOrder.vue";
+import EmptyBlog from "../../components/emptyBlog.vue";
 export default {
+  props: ["myOrders"],
   middleware: "auth",
 
   data() {
@@ -239,27 +233,36 @@ export default {
       activeName: "first",
       options: [
         {
-          value: "Option1",
-          label: "Option1",
+          value: "Все",
+          label: "Все",
         },
         {
-          value: "Option2",
-          label: "Option2",
+          value: "Ожидание",
+          label: "Ожидание",
         },
         {
-          value: "Option3",
-          label: "Option3",
+          value: "Ожидание модерации",
+          label: "Ожидание модерации",
         },
         {
-          value: "Option4",
-          label: "Option4",
+          value: "На доставке",
+          label: "На доставке",
         },
         {
-          value: "Option5",
-          label: "Option5",
+          value: "Ожидание сборки",
+          label: "Ожидание сборки",
+        },
+        {
+          value: "Отмено",
+          label: "Отмено",
+        },
+        {
+          value: "Доставлено",
+          label: "Доставлено",
         },
       ],
-      value: "Option1",
+      value: "Все",
+      orders: [],
       links: [
         {
           name: "Главная",
@@ -277,13 +280,50 @@ export default {
     TitleCategory,
     HomeTitlies,
     CardOrder,
+    EmptyBlog,
   },
-
+  created() {
+    this.fetchOrders();
+  },
   methods: {
-    logout() {
+    async fetchOrders() {
+      const myOrders = await this.$store.dispatch("fetchOrder/fetchMyOrders", {
+        token: localStorage.getItem("Auth"),
+      });
+      this.orders = myOrders;
+    },
+    async statusFilter() {
+      if (this.value == "Все") {
+        const myOrders = await this.$store.dispatch(
+          "fetchOrder/fetchMyOrders",
+          {
+            token: localStorage.getItem("Auth"),
+          }
+        );
+        this.orders = myOrders;
+      } else {
+        const myOrders = await this.$store.dispatch(
+          "fetchOrder/fetchMyOrders",
+          {
+            status: { params: { status: this.value } },
+            token: localStorage.getItem("Auth"),
+          }
+        );
+        this.orders = myOrders;
+      }
+    },
+    async logout() {
+      // const logOut = await this.$store.dispatch("fetchAuth/fetchLogOut", {
+      //   token: localStorage.getItem("Auth"),
+      //   refresh_token: localStorage.getItem("Refresh"),
+      // });
+      // if (logOut.success) {
       localStorage.removeItem("Auth");
+      localStorage.removeItem("Refresh");
+      localStorage.removeItem("password_access");
       this.$store.commit("setUser");
       this.$router.push("/");
+      // }
     },
     show(name) {
       this.$modal.show(name);
@@ -334,7 +374,7 @@ export default {
     .order-wait-select {
       position: absolute;
       right: 0;
-      z-index: 100;
+      z-index: 10;
       .el-input--suffix .el-input__inner {
         padding-right: 30px;
         background: #f8f8f8;

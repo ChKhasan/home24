@@ -44,11 +44,14 @@
             />
           </svg>
           <h5>Заказ №32839 оформлен. Мы свяжемся с вами в ближайшее время</h5>
-          <div class="send-order-modal__m-btn">
-            <div class="proceed-btn">Продолжить покупку</div>
-            <div class="show-btn" @click="$router.push('/')">
+          <div class="send-order-modal__m-btn" v-if="auth">
+            <div class="proceed-btn" >Продолжить покупку</div>
+            <div class="show-btn" @click="$router.push('/profile/orders')">
               Перейти к просмотру
             </div>
+          </div>
+          <div class="send-order-modal__m-btn auth_grid" v-else>
+            <div class="proceed-btn">Продолжить покупку</div>
           </div>
         </div>
       </div>
@@ -57,7 +60,7 @@
 </template>
 <script>
 export default {
-  props: ["modal", "hide"],
+  props: ["modal", "hide","auth"],
   methods: {
     hideModal() {
       this.$router.push("/");
@@ -135,6 +138,9 @@ export default {
         background: rgba(255, 100, 24, 0.6);
       }
     }
+  }
+  .auth_grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>

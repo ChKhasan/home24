@@ -38,7 +38,7 @@
             </div>
             <div class="b-card-body">
               <p>
-                {{ product.product.name }}
+                {{ product.product?.name }}
               </p>
               <div class="c-card-footer">
                 <h6>{{ product.price }} сум</h6>
@@ -65,7 +65,7 @@
                         />
                       </svg>
                     </span>
-                    <p>{{ product.quantity }}</p>
+                    <p>{{ product?.quantity }}</p>
                     <span @click="product.quantity++"
                       ><svg
                         width="17"
@@ -99,12 +99,21 @@
           </div>
           <form class="buy-one-click__form drop-form">
             <label for="">Ф.И.О<span>*</span></label>
-            <input type="text" placeholder="Ф.И.О" />
+            <input
+              type="text"
+              @input="userName"
+              v-model="user_name"
+              placeholder="Ф.И.О"
+            />
             <label for="">Телефон<span>*</span></label>
-            <input type="text" placeholder="+998 (--)--- -- --" />
+            <input
+              type="text"
+              v-model="order.nbm"
+              placeholder="+998 (--)--- -- --"
+            />
           </form>
           <div class="buy-one-click__m-btn">
-            <div class="show-btn" @click="$router.push('/')">Оформить</div>
+            <div class="show-btn" @click="sendAplication">Оформить</div>
           </div>
         </div>
       </div>
@@ -114,9 +123,39 @@
 <script>
 export default {
   props: ["modal", "hide", "product"],
+  data() {
+   return {
+    user_name: "",
+    errors: {
+      userNameError: false
+    },
+      order: {
+        nbm: "",
+        patronymic: "",
+        last_name: "",
+        name: ""
+      }
+    }
+  },
   methods: {
     hideModal() {
       this.$router.push("/");
+    },
+    async sendAplication() {
+      const hitProducts = await this.$store.dispatch(
+      "fetchOrder/fetchSendAplication",{...this.order,count: this.product.quantity,product: this.product.id}
+    );
+    console.log(hitProducts);
+    this.hide()
+    },
+    userName() {
+      const array = this.user_name.split(" ");
+      (this.order.name = array[0]),
+        (this.order.last_name = array[1]),
+        (this.order.patronymic = array[2]);
+      if (array.length >= 3) {
+        this.errors.userNameError = false;
+      }
     },
   },
 };

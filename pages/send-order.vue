@@ -16,10 +16,7 @@
               <p>Способ получения</p>
               <div class="pickup">
                 <div class="d-flex">
-                  <div
-                    class="pickup__checkbox"
-                    @click="pickupCheck = !pickupCheck"
-                  >
+                  <div class="pickup__checkbox" @click="orderType(true)">
                     <span v-if="pickupCheck"></span>
                   </div>
                   <h1>Самовывоз Home24.uz</h1>
@@ -31,18 +28,34 @@
                   <div>Показать на карте</div>
                 </div>
               </div>
-              <form class="send-order__form" v-if="pickupCheck">
-                <label for="">Ф.И.О<span>*</span></label>
-                <input type="text" placeholder="Ф.И.О" />
-                <label for="">Телефон<span>*</span></label>
-                <input type="text" placeholder="+998 (--)--- -- --" />
+              <form
+                class="send-order__form"
+                :class="errorClassObject"
+                v-if="pickupCheck"
+              >
+                <label class="label_username">Ф.И.О<span>*</span></label>
+                <input
+                  type="text"
+                  class="input_username"
+                  v-model="user_name"
+                  @change="userName"
+                  required="true"
+                  placeholder="Ф.И.О"
+                />
+                <p v-if="errors.userNameError" class="error_place">
+                  This field may not be blank.
+                </p>
+                <label for="" class="label_number">Телефон<span>*</span></label>
+                <input
+                  type="text"
+                  class="input_number"
+                  v-model="orderContainer.tel"
+                  placeholder="+998 (--)--- -- --"
+                />
               </form>
               <div class="pickup">
                 <div class="d-flex">
-                  <div
-                    class="pickup__checkbox"
-                    @click="pickupCheck = !pickupCheck"
-                  >
+                  <div class="pickup__checkbox" @click="orderType(false)">
                     <span v-if="!pickupCheck"></span>
                   </div>
                   <h1>Курьером до двери</h1>
@@ -52,35 +65,57 @@
                 </div>
               </div>
 
-              <form class="send-order__form" v-if="!pickupCheck">
-                <label for="">Ф.И.О<span>*</span></label>
-                <input type="text" placeholder="Ф.И.О" />
+              <form
+                class="send-order__form"
+                v-if="!pickupCheck"
+                :class="errorClassObject"
+              >
+                <label class="label_username">Ф.И.О<span>*</span></label>
+                <input
+                  type="text"
+                  class="input_username"
+                  v-model="user_name"
+                  @change="userName"
+                  required="true"
+                  placeholder="Ф.И.О"
+                />
+                <p v-if="errors.userNameError" class="error_place">
+                  This field may not be blank.
+                </p>
                 <label for="">Телефон<span>*</span></label>
-                <input type="text" placeholder="+998 (--)--- -- --" />
+                <input
+                  type="text"
+                  v-model="orderContainer.tel"
+                  placeholder="+998 (--)--- -- --"
+                />
                 <label for="">Область </label>
-                <el-select v-model="regionVal">
+                <el-select v-model="orderContainer.state">
                   <el-option
                     v-for="item in regions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    :key="item?.id"
+                    :label="item?.name"
+                    :value="item?.id"
                   >
                   </el-option>
                 </el-select>
                 <label for="">Город / Район<span>*</span></label>
 
-                <el-select v-model="cityVal">
+                <el-select v-model="orderContainer.city">
                   <el-option
                     v-for="item in city"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
+                    :key="item?.id"
+                    :label="item?.name"
+                    :value="item?.id"
                   >
                   </el-option>
                 </el-select>
 
                 <label for="">Адрес <span>*</span></label>
-                <input type="text" placeholder="Адрес " />
+                <input
+                  type="text"
+                  v-model="orderContainer.adres"
+                  placeholder="Адрес "
+                />
               </form>
             </div>
             <div
@@ -143,12 +178,21 @@
             >
               <form class="send-order__form drop-form">
                 <label for="">Индекс почты</label>
-                <input type="text" placeholder="Индекс почты" />
+                <input
+                  type="text"
+                  v-model="orderContainer.post_ind"
+                  placeholder="Индекс почты"
+                />
                 <label for="">E-mail</label>
-                <input type="text" placeholder="E-mail:" />
+                <input
+                  type="text"
+                  v-model="orderContainer.email"
+                  placeholder="E-mail:"
+                />
                 <h2>Оставьте комментарии</h2>
                 <p>Комментарий</p>
                 <textarea
+                  v-model="orderContainer.comment"
                   id="w3review"
                   name="w3review"
                   rows="4"
@@ -156,6 +200,40 @@
                   placeholder="Комментарий"
                 />
               </form>
+            </div>
+          </div>
+          <div class="payment-types">
+            <p class="pay_title">Способ оплаты</p>
+            <div class="payment-types__container">
+              <div
+                class="payment-types__box"
+                :class="{ paymet_active: payment.type == payments.id }"
+                v-for="payments in paymentTypes"
+              >
+                <div class="payment-types__p-header">
+                  <div
+                    class="pickup__checkbox"
+                    @click="payment.type = payments.id"
+                  >
+                    <span v-if="payment.type == payments.id"></span>
+                  </div>
+                  <p class="payment-types__title">{{ payments?.name }}</p>
+                </div>
+                <div class="payment-types__body">
+                  <div class="payment-types__card-control">
+                    <div
+                      class="payment-types__card"
+                      v-for="types in payments.children"
+                      @click="checkPayment(payments, types)"
+                      :class="{
+                        payActiveCard: orderContainer.payment == types.id,
+                      }"
+                    >
+                      <img src="../assets/images/image 268.png" alt="" />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -167,7 +245,7 @@
             </div>
             <div class="order-info-text">
               <p>Товары, 2 шт</p>
-              <p>4 000 000 сум</p>
+              <p>{{ orderContainer.price }} сум</p>
             </div>
             <div class="order-info-text">
               <span>Доставка:</span>
@@ -175,7 +253,7 @@
             </div>
             <div class="order-info-text">
               <p>Итого</p>
-              <p>4 000 000 сум</p>
+              <p>{{ orderContainer.price }} сум</p>
             </div>
             <div class="send-order__promo-code">
               <div class="d-flex">
@@ -206,11 +284,11 @@
               Оформит заказ
             </div>
           </div>
-          <SelectedProducts :products="selected_products" />
+          <SelectedProducts :products="products" />
         </div>
       </div>
     </div>
-    <SendOrderModal :modal="modal" :hide="hide" />
+    <SendOrderModal :modal="modal" :hide="hide" :auth="auth_modal"/>
   </div>
 </template>
 <script>
@@ -226,53 +304,32 @@ export default {
       dorpForm: false,
       showMap: false,
       modal: "orderModal",
-      selected_products: [],
-      city: [
+      user_name: "",
+      city: [],
+      regions: [],
+      paymentImg: [
         {
-          value: "Option1",
-          label: "Option1",
+          name: "Payme",
+          img: "../assets/images/image 268.png",
         },
         {
-          value: "Option2",
-          label: "Option2",
+          name: "Click",
+          img: "../assets/images/image 270.png",
         },
         {
-          value: "Option3",
-          label: "Option3",
+          name: "Apelsin",
+          img: "../assets/images/image 269.png",
         },
         {
-          value: "Option4",
-          label: "Option4",
+          name: "Картой",
+          img: "../assets/images/image 271.png",
         },
         {
-          value: "Option5",
-          label: "Option5",
-        },
-      ],
-      cityVal: "Option1",
-      regions: [
-        {
-          value: "Option1",
-          label: "Option1",
-        },
-        {
-          value: "Option2",
-          label: "Option2",
-        },
-        {
-          value: "Option3",
-          label: "Option3",
-        },
-        {
-          value: "Option4",
-          label: "Option4",
-        },
-        {
-          value: "Option5",
-          label: "Option5",
+          name: "Наличными",
+          img: "../assets/images/image 272.png",
         },
       ],
-      regionVal: "Option1",
+      products: [],
       links: [
         {
           name: "Главная",
@@ -283,23 +340,138 @@ export default {
           to: "/basket",
         },
       ],
+      errors: {
+        userNameError: false,
+        numberError: false
+      },
+      payment: {
+        type: 1,
+        activeCard: 1,
+      },
+      paymentTypes: [],
+      auth_modal: null,
+      orderContainer: {
+        price: 0,
+        payment: 1,
+        first_name: "",
+        last_name: "",
+        patronymic: "",
+        adres: "",
+        state: null,
+        promocode: "",
+        email: "",
+        post_ind: "",
+        comment: "",
+        shipping: "",
+        products: [],
+        tel: "",
+        city: null,
+      },
     };
+  },
+  computed: {
+    errorClassObject() {
+      return {
+        formErrorClass: this.errors.userNameError,
+        formNumberError: this.errors.numberError,
+      };
+    },
   },
   components: { BreadCrumb, TitleBasket, SendOrderModal, SelectedProducts },
   async created() {
-    this.selected_products = JSON.parse(
+    this.auth_modal = localStorage.getItem("Auth")
+
+    this.orderContainer.shipping = this.pickupCheck
+      ? "Самовывоз"
+      : "Курьером до двери";
+    this.products = JSON.parse(localStorage.getItem("selectedProducts"));
+    this.orderContainer.products = this.products.map((item) => {
+      return {
+        id: item.id,
+        count: item.quantity,
+      };
+    });
+    this.orderContainer.price = JSON.parse(
       localStorage.getItem("selectedProducts")
-    );
+    ).reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+    this.orderItems();
   },
   methods: {
-   async sendOrder() {
-      const userInfo = await this.$store.dispatch(
-        "fetchBasket/fetchPlaceOrder",
-        { info: this.registrModal, token: localStorage.getItem("Auth") }
+    async orderItems() {
+      const orderStates = await this.$store.dispatch("fetchOrder/fetchStates");
+      const orderCIties = await this.$store.dispatch("fetchOrder/fetchCities");
+      const paymentTypes = await this.$store.dispatch(
+        "fetchOrder/fetchPaymentTypes"
       );
+      this.paymentTypes = paymentTypes;
+
+      this.city = orderCIties.results;
+      this.regions = orderStates.results;
+      this.orderContainer.city = orderCIties.results[0].id;
+      this.orderContainer.state = orderStates.results[0].id;
+    },
+    orderType(type) {
+      this.pickupCheck = type;
+      this.orderContainer.shipping = type ? "Самовывоз" : "Курьером до двери";
+    },
+    userName() {
+      const array = this.user_name.split(" ");
+      (this.orderContainer.first_name = array[0]),
+        (this.orderContainer.last_name = array[1]),
+        (this.orderContainer.patronymic = array[2]);
+      if (array.length >= 3) {
+        this.errors.userNameError = false;
+      }
+    },
+    async sendOrder() {
+      if (localStorage.getItem("Auth")) {
+        try {
+          const userInfo = await this.$store.dispatch(
+            "fetchOrder/fetchPlaceOrder",
+            { order: this.orderContainer, token: localStorage.getItem("Auth") }
+          );
+          this.show("orderModal");
+        } catch ({ response }) {
+          console.log(Object.keys(response.data));
+          if (
+            Object.keys(response.data).includes("first_name") ||
+            Object.keys(response.data).includes("last_name") ||
+            Object.keys(response.data).includes("patronymic")
+          ) {
+            this.errors.userNameError = true;
+          }
+          if(Object.keys(response.data).includes("tel")) {
+            this.errors.numberError = true;
+            console.log("tel error");
+          }
+        }
+      } else {
+        try {
+          const userInfo = await this.$store.dispatch(
+            "fetchOrder/fetchPlaceOrderNoToken",
+            { order: this.orderContainer }
+          );
+          this.show("orderModal");
+        } catch ({ response }) {
+          console.log(Object.keys(response.data));
+          if (
+            Object.keys(response.data).includes("first_name") ||
+            Object.keys(response.data).includes("last_name") ||
+            Object.keys(response.data).includes("patronymic")
+          ) {
+            this.errors.userNameError = true;
+          }
+        }
+      }
+    },
+    checkPayment(payments, types) {
+      this.orderContainer.payment = types.id;
+      if (payments.children.find((item) => item.id == types.id)) {
+        console.log();
+      }
     },
     async show() {
-      // await this.$router.push("/");
       await this.$modal.show(this.modal);
     },
     hide() {
@@ -309,11 +481,122 @@ export default {
   mount() {
     this.show();
   },
+  watch: {
+    user_name(oldVal, newVal) {
+      const array = newVal.split(" ");
+      (this.orderContainer.first_name = array[0]),
+        (this.orderContainer.last_name = array[1]),
+        (this.orderContainer.patronymic = array[2]);
+      if (array.length >= 3) {
+        this.errors.userNameError = false;
+      }
+    },
+  },
 };
 </script>
 <style lang="scss">
 .send-order {
   padding-top: 32px;
+  .error_place {
+    margin-top: 5px;
+    color: red;
+  }
+  .formErrorClass {
+    .label_username {
+      color: red !important;
+      span {
+        color: red !important;
+      }
+    }
+    .input_username {
+      border: 1px solid red !important;
+    }
+   
+
+  }
+  .formNumberError {
+    .label_number {
+      color: red !important;
+      span {
+        color: red !important;
+      }
+    }
+    .input_number {
+      border: 1px solid red !important;
+    }
+  }
+  .payment-types {
+    margin-top: 32px;
+    &__p-header {
+      display: flex;
+    }
+    &__body {
+      padding-left: 29px;
+    }
+    &__card-control {
+      padding-top: 16px;
+      display: flex;
+    }
+    &__card {
+      width: 85px;
+      padding: 8px;
+      height: 60px;
+      border: 1px solid #ebebeb;
+      border-radius: 4px;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    .pay_title {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: #727474;
+      margin-bottom: 12px;
+    }
+    &__sub_title {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 20px;
+      /* identical to box height, or 143% */
+
+      /* Grey */
+
+      color: #727474;
+    }
+    &__title {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: #020105;
+    }
+
+    &__container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 24px;
+    }
+    .paymet_active {
+      border: 1px solid #ff7e00 !important;
+    }
+    .payActiveCard {
+      border: 1px solid #ff7e00 !important;
+    }
+    &__box {
+      border: 1px solid #ebebeb;
+      border-radius: 8px;
+      padding: 19px;
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
   &__form {
     display: flex;
     flex-direction: column;
@@ -348,6 +631,77 @@ export default {
     display: grid;
     grid-template-columns: 2fr 1fr;
     grid-gap: 24px;
+  }
+  .pickup {
+    margin-top: 12px;
+    padding: 23px;
+    background: #f8f8f8;
+    &__show-card {
+      padding-top: 16px;
+      display: flex;
+      justify-content: center;
+      div {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        color: #ff6418;
+        padding: 16px 53px;
+        cursor: pointer;
+        transition: 0.3s;
+        border-radius: 6px;
+        &:hover {
+          background: rgba(255, 100, 24, 0.1);
+        }
+      }
+    }
+    &__text {
+      padding-left: 33px;
+      border-bottom: 1px solid #ebebeb;
+      padding-bottom: 20px;
+
+      p {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        color: #727474;
+        margin-top: 13px;
+      }
+    }
+    .border-b-none {
+      border-bottom: none !important;
+    }
+    h1 {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      color: #020105;
+      margin-bottom: 0;
+    }
+    &__checkbox {
+      margin-right: 11px;
+      width: 18px;
+      height: 18px;
+      border: 1px solid #ff6418;
+      background: #fff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      span {
+        display: block;
+        width: 10px;
+        height: 10px;
+        background: #ff6418;
+        border-radius: 50%;
+      }
+    }
   }
   &__register-blog {
     padding: 32px;

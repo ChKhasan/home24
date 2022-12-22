@@ -1,6 +1,6 @@
 <template lang="html">
   <div>
-    <nuxt-child :userInfo="userInfo" :fetchUserInfo="fetchUserInfo" />
+    <nuxt-child :userInfo="userInfo" :fetchUserInfo="fetchUserInfo" :myOrders="my_orders"/>
     <modal name="want-password-modal" width="590px" height="auto">
       <div>
         <div class="auth-user-modal">
@@ -277,6 +277,10 @@ export default {
         smsError: false,
       },
       userInfo: {},
+      my_orders: {},
+      month: '',
+      year: '',
+      date: ""
     };
   },
   asyncData({ store }) {
@@ -292,20 +296,24 @@ export default {
   },
   methods: {
     async updatePassword() {
-      const userInfo = await this.$store.dispatch(
-        "fetchAuth/fetchUserUpdatePassword",
-        { info: this.registrModal, token: localStorage.getItem("Auth") }
-      );
-      await this.$modal.hide("change-password-modal");
+      try {
+        const userInfo = await this.$store.dispatch(
+          "fetchAuth/fetchUserUpdatePassword",
+          { password: this.registrModal, token: localStorage.getItem("Auth") }
+        );
+        await this.$modal.hide("change-password-modal");
+      } catch (e) {}
     },
     wantChangePass() {
       this.$modal.hide("want-password-modal");
       this.$modal.show("change-password-modal");
     },
     show(name) {
+      localStorage.setItem("password_access",JSON.stringify(true));
       this.$modal.show(name);
     },
     hide(name) {
+      localStorage.setItem("password_access",JSON.stringify(true));
       this.$modal.hide(name);
     },
     async fetchUserInfo() {
@@ -314,8 +322,17 @@ export default {
         "fetchAuth/fetchUserProfile",
         localStorage.getItem("Auth")
       );
+      const myOrders = await this.$store.dispatch(
+        "fetchOrder/fetchMyOrders",
+        localStorage.getItem("Auth")
+      );
+      this.my_orders = myOrders
+   
+
       this.userInfo = userInfo;
-      this.$modal.show("want-password-modal");
+      if (!JSON.parse(localStorage.getItem("password_access"))) {
+        this.$modal.show("want-password-modal");
+      }
     },
   },
   mounted() {

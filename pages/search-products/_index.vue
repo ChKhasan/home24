@@ -5,107 +5,17 @@
         <div class="col-12">
           <div class="grid_block">
             <div class="category__list-box1">
-              <h2>Категории</h2>
+              <h2 @click="categ">Категории</h2>
               <ul class="category__list1">
-                <li>
+                <li v-for="category in searchCategories">
                   <div v-if="skeleton">
                     <b-skeleton animation="wave" width="50%"></b-skeleton>
                   </div>
-                  <span
-                    @click="
-                      $router.push(
-                        categoryById?.parent?.parent.id
-                          ? `/categories/${categoryById?.parent?.parent.id}`
-                          : `/categories/${categoryById?.parent.id}`
-                      )
-                    "
-                    v-else
-                    >{{
-                      categoryById?.parent?.parent?.name
-                        ? categoryById?.parent?.parent?.name
-                        : categoryById?.parent?.name
-                    }}</span
-                  >
-                  <ul>
-                    <li>
-                      <div v-if="skeleton">
-                        <b-skeleton animation="wave" width="50%"></b-skeleton>
-                      </div>
-                      <span
-                        v-else
-                        @click="
-                      $router.push(
-                        categoryById?.parent?.parent.id
-                          ? `/categoryId/${categoryById?.parent?.id}`
-                          : `/categoryId/${categoryById?.parent?.id}`
-                      )
-                    "
-                        :class="{
-                          listActive: categoryById?.parent?.parent?.name
-                            ? false
-                            : true,
-                        }"
-                        >{{
-                          categoryById?.parent?.parent?.name
-                            ? categoryById?.parent?.name
-                            : categoryById?.name
-                        }}</span
-                      >
-                      <ul>
-                        <div v-if="skeleton">
-                          <b-skeleton animation="wave" width="50%"></b-skeleton>
-                        </div>
-                        <li v-else v-if="categoryById?.parent?.parent.name">
-                          <span
-                            :class="{
-                              listActive: categoryById?.parent?.parent.name
-                                ? true
-                                : false,
-                            }"
-                            @click="$router.push(`/categoryId/${category.id}`)"
-                            >{{ categoryById?.name }}</span
-                          >
-                        </li>
-
-                        <li v-else v-for="category in categoryById?.children">
-                          <span
-                            @click="$router.push(`/categoryId/${category.id}`)"
-                            >{{ category.name }}</span
-                          >
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
+                  <span @click="searchProductsWithCategory(category.id)" v-else>{{
+                    category.name
+                      }}</span>
+                 
                 </li>
-              </ul>
-              <h2>Сортировать</h2>
-              <ul>
-                <b-form-group v-slot="{ ariaDescribedby }">
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="A"
-                    >по популярности
-                  </b-form-radio>
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="B"
-                    >добавлено недавно</b-form-radio
-                  >
-                  <b-form-radio
-                    v-model="selected"
-                    :aria-describedby="ariaDescribedby"
-                    name="some-radios"
-                    value="C"
-                    >цена</b-form-radio
-                  >
-                </b-form-group>
-                <div class="mt-3">
-                  Selected: <strong>{{ selected }}</strong>
-                </div>
               </ul>
               <h2>Цена</h2>
               <div class="category__range">
@@ -130,24 +40,7 @@
                   </div>
                 </div>
               </div>
-              <div v-for="atribut in categoryById.atributs">
-                <h2>{{ atribut?.name }}</h2>
-                <div class="range-checkbox">
-                  <div v-for="option in atribut.options">
-                    <input
-                      type="checkbox"
-                      name=""
-                      id=""
-                      :checked="
-                        Object.keys($route.query).includes(
-                          `atribut_${option?.id}`
-                        )
-                      "
-                      @click="optionFilter(option?.id)"
-                    /><span>{{ option.name }}</span>
-                  </div>
-                </div>
-              </div>
+
               <h2>Цвет</h2>
               <div class="category__colors">
                 <div v-for="color in colors">
@@ -181,7 +74,7 @@
                   height="40px"
                 ></b-skeleton>
 
-                <h1 v-else>{{ categoryById.name }}</h1>
+                <h1 v-else>Результаты поиска по запросу</h1>
                 <div class="category-control">
                   <div>
                     <span>Сортировка</span>
@@ -305,7 +198,7 @@
                 </div>
               </div>
               <div
-              v-if="productsByCategory.length > 0"
+                v-if="searchProduct.length > 0"
                 class="category__category-controller"
                 :class="{ three: gridControl == 3 }"
               >
@@ -338,12 +231,12 @@
                 <CardProduct
                   v-else
                   modal="id1"
-                  v-for="product in productsByCategory"
+                  v-for="product in searchProduct"
                   :product="product"
                 />
               </div>
-              <emptyBlog v-else/>
-              <div class="category__pagination" v-if="productsByCategory.length > 0">
+              <emptyBlog v-else />
+              <div class="category__pagination" v-if="searchProduct.length > 0">
                 <el-pagination
                   layout="prev, pager, next"
                   @current-change="handleCurrentChange"
@@ -359,25 +252,6 @@
 
       <div class="row"></div>
     </div>
-    <homeTitliesVue title="Хиты продаж" link="Все товары" />
-    <div class="container">
-      <div class="row">
-        <div class="col-12 category__product-controller">
-          <!-- <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct /> -->
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 <script>
@@ -389,7 +263,7 @@ import homeTitliesVue from "@/components/homeTitlies.vue";
 import RangeSlider from "vue-range-slider";
 import "vue-range-slider/dist/vue-range-slider.css";
 import MultiRangeSlider from "multi-range-slider-vue";
-import emptyBlog from "../../components/emptyBlog.vue"
+import emptyBlog from "../../components/emptyBlog.vue";
 
 export default {
   data() {
@@ -412,122 +286,61 @@ export default {
           to: "/category",
         },
       ],
-      categoryById: {},
-      productsByCategory: {},
+      categories: [],
+      searchProduct: [],
       colors: [],
       skeleton: true,
+      searchCategories: [],
     };
   },
   async created() {
     if (Object.keys(this.$route.query).length == 0) {
       await this.$router.replace({
-        path: `/categoryId/${this.$route.params.index}`,
+        path: `/search-products/${this.$route.params.index}`,
         query: {
-          category: this.$route.params.index,
           page: this.currentPage1,
           ...this.$route.query,
         },
       });
     }
 
-    const productsByCategory = await this.$store.dispatch(
-      "fetchProduct/fetchProductByCategory",
-      {...this.$route.query,page_size: 1}
+    const searchProduct = await this.$store.dispatch(
+      "fetchSearch/fetchSearchProduct",
+      { ...this.$route.query, page_size: 1 }
     );
-    this.productsByCategory = productsByCategory.results;
-    this.totalPage = productsByCategory.count
+    const searchCategories = await this.$store.dispatch(
+      "fetchSearch/fetchSearchCategories",
+      { ...this.$route.query, page_size: 1 }
+    );
+    this.searchCategories = searchCategories.categories;
+    console.log(searchCategories);
+    this.searchProduct = searchProduct.results;
+    this.categories = await searchProduct;
+    this.totalPage = searchProduct.count;
     this.currentPage1 = JSON.parse(this.$route.query.page);
-    const categoryById = await this.$store.dispatch(
-      "fetchCategories/fetchAllCategoryById",
-      this.$route.params.index
-    );
+    // this.categories = await categories.map(item => {
+
+    //   return this.$store.dispatch(
+    //     "fetchCategories/fetchAllCategoryById",
+    //     item.id
+    //   );
+    // })
     const colors = await this.$store.dispatch("fetchColors/fetchColors");
 
     this.colors = colors;
-    this.categoryById = categoryById;
+    // this.categoryById = categoryById;
     console.log(Object.keys(this.$route.query).includes("ctg_id"));
     this.skeleton = false;
   },
   methods: {
+    categ() {
+      console.log(this.categories);
+    },
     async UpdateValues(e) {
       this.barMinValue = e.minValue;
       this.barMaxValue = e.maxValue;
-
-      let colorObj = {};
-      colorObj = {
-        min_price: this.barMinValue,
-        max_price: this.barMaxValue,
-        ctg_id: this.categoryById.id,
-      };
-      colorObj = { ...colorObj };
-      if (Object.keys(this.$route.query).includes(`min_price`)) {
-        // await delete colorObj[`min_price`];
-        // await delete colorObj[`max_price`];
-        colorObj = await { ...colorObj };
-        if (Object.keys(colorObj).length == 1) {
-          await delete colorObj[`ctg_id`];
-        }
-      }
-      if (Object.keys(colorObj).length == 0) {
-        await this.$router.replace({
-          path: `/categoryId/${this.$route.params.index}`,
-          query: { ...colorObj },
-        });
-        const productsByCategory = await this.$store.dispatch(
-          "fetchProduct/fetchProductByCategory",
-          this.$route.params.index
-        );
-        this.productsByCategory = productsByCategory.results;
-      } else {
-        await this.$router.replace({
-          path: `/categoryId/${this.$route.params.index}`,
-          query: {
-            ...colorObj,
-            ctg_id: this.categoryById.id,
-          },
-        });
-        const productsByCategory = await this.$store.dispatch(
-          "fetchProduct/fetchProductByCategory",
-          this.$route.query
-        );
-        this.productsByCategory = productsByCategory.results;
-      }
     },
-    async optionFilter(id) {
-      let colorObj = {};
-      console.log(this.$route.query);
-      colorObj[`atribut_${id}`] = id;
 
-      colorObj[`atribut_${id}`] = id;
-      colorObj = {
-        ...colorObj,
-        ...this.$route.query,
-        page: 1,
-        filter: 1,
-        
-      };   
-      if (Object.keys(this.$route.query).includes(`atribut_${id}`)) {
-        await delete colorObj[`atribut_${id}`];
-        if (!Object.keys(colorObj).toString().includes("atribut")) {
-          await delete colorObj[`filter`];
-        }
-      }
-
-      await this.$router.replace({
-        path: `/categoryId/${this.$route.params.index}`,
-        query: {
-          ...colorObj,
-        },
-      });
-      const productsByCategory = await this.$store.dispatch(
-        "fetchProduct/fetchProductByCategory",
-        this.$route.query
-      );
-      
-      this.productsByCategory = productsByCategory.results;
-      this.totalPage = productsByCategory.count
-    this.currentPage1 = JSON.parse(this.$route.query.page);
-    },
     async colorFilter(id) {
       let colorObj = {};
       colorObj[`color_${id}`] = id;
@@ -540,36 +353,49 @@ export default {
       }
 
       await this.$router.replace({
-        path: `/categoryId/${this.$route.params.index}`,
+        path: `/search-products/${this.$route.params.index}`,
         query: {
           ...colorObj,
         },
       });
-      const productsByCategory = await this.$store.dispatch(
-        "fetchProduct/fetchProductByCategory",
-        this.$route.query
-      );
-      this.productsByCategory = productsByCategory.results;
-      this.totalPage = productsByCategory.count
+      const searchProduct = await this.$store.dispatch(
+      "fetchSearch/fetchSearchProduct",
+      { ...this.$route.query, page_size: 1 }
+    );
+    this.searchProduct = searchProduct.results;
     this.currentPage1 = JSON.parse(this.$route.query.page);
     },
-   async handleCurrentChange(val) {
-      console.log(`current page: ${val}`);
-      console.log(this.$route.query);
+    async searchProductsWithCategory(id) {
       await this.$router.replace({
-        path: `/categoryId/${this.$route.params.index}`,
+        path: `/search-products/${this.$route.params.index}`,
+        query: {
+          page: this.currentPage1,
+          ...this.$route.query,
+          category: id
+        },
+      });
+      const searchProduct = await this.$store.dispatch(
+      "fetchSearch/fetchSearchProduct",
+      { ...this.$route.query, page_size: 1 }
+    );
+    this.searchProduct = searchProduct.results
+    },
+   async handleCurrentChange(val) {
+      await this.$router.replace({
+        path: `/search-products/${this.$route.params.index}`,
         query: {
           ...this.$route.query,
           page: val,
         },
       });
-      const productsByCategory = await this.$store.dispatch(
-      "fetchProduct/fetchProductByCategory",
-      {...this.$route.query,page_size: 1}
+     
+      const searchProduct = await this.$store.dispatch(
+      "fetchSearch/fetchSearchProduct",
+      { ...this.$route.query, page_size: 1 }
     );
-    this.productsByCategory = productsByCategory.results;
-    this.totalPage = productsByCategory.count;
-    },
+    this.searchProduct = searchProduct.results;
+    this.currentPage1 = JSON.parse(this.$route.query.page);
+    }
   },
   components: {
     BreadCrumb,
@@ -579,7 +405,7 @@ export default {
     homeTitliesVue,
     RangeSlider,
     MultiRangeSlider,
-    emptyBlog
+    emptyBlog,
   },
 };
 </script>

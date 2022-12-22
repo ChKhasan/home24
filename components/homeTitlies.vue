@@ -3,10 +3,10 @@
     <div class="row">
       <div class="col-12 d-flex flex-row home-title align-items-end">
         <div class="home-title__title">
-          <h1>{{title}}</h1>
+          <h1>{{ title }}</h1>
         </div>
         <div v-if="link" class="home-title__link">
-          <nuxt-link to="/">{{link}}</nuxt-link>
+          <nuxt-link :to="to ?? `/${to}`">{{ link }}</nuxt-link>
         </div>
       </div>
     </div>
@@ -14,7 +14,7 @@
 </template>
 <script>
 export default {
-    props: ["title","link"]
+  props: ["title", "link", "to"],
 };
 </script>
 <style lang="scss">

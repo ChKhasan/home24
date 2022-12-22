@@ -43,8 +43,8 @@
         <div class="d-flex">
           <span
             class="comparison-card__heart"
-            @click="addToLike(product.id)"
-            :class="{ disabledLike: includes(likeP, product.id) }"
+            @click="$store.commit('addToStore', { id: product.id, name: 'like' })"
+        :class="{ disabledClass: includes($store.state.like, product.id) }"
             ><svg
               width="16"
               height="16"
@@ -72,8 +72,10 @@
           </span>
           <span
             class="comparison-card__buy"
-            @click="addToBasket(product.id)"
-            :class="{ disabledLike: includes(cartP, product.id) }"
+            @click="
+            $store.commit('addToStore', { id: product.id, name: 'cart' })
+          "
+          :class="{ disabledClass: includes($store.state.cart, product.id) }"
           >
             <svg
               width="16"
@@ -259,6 +261,14 @@ export default {
   &__reviews {
     padding-top: 26px;
   }
+  .disabledClass {
+      background: white;
+      svg {
+        path {
+          stroke: #ff6418;
+        }
+      }
+    }
   .disabledLike {
     pointer-events: none !important;
     background: #ff6418 !important;
@@ -277,6 +287,15 @@ export default {
     height: 32px;
     background: #f8f8fa;
     border-radius: 50%;
+    background: #ff6418;
+    border: 1px solid #ff6418;
+    
+
+    svg {
+        path {
+          stroke: #fff;
+        }
+      }
   }
   &__buy {
     cursor: pointer;
@@ -289,6 +308,12 @@ export default {
     border-radius: 50%;
     transition: 0.3s;
     margin-left: 16px;
+    background: #ff6418;
+    svg {
+        path {
+          stroke: #fff;
+        }
+      }
     svg {
       transition: 0.3s;
     }

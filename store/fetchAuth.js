@@ -45,11 +45,15 @@ export const actions = {
   },
   async fetchUserUpdateProfile({}, payload) {
     try {
-      const res = await this.$axios.$patch(`/account/update_profile`, payload.info ,{
-        headers: {
-          Authorization: `Bearer ${payload.token}`,
-        },
-      });
+      const res = await this.$axios.$patch(
+        `/account/update_profile`,
+        payload.info,
+        {
+          headers: {
+            Authorization: `Bearer ${payload.token}`,
+          },
+        }
+      );
       return res;
     } catch (e) {
       console.log("error", e);
@@ -57,11 +61,15 @@ export const actions = {
   },
   async fetchUserUpdatePassword({}, payload) {
     try {
-      const res = await this.$axios.$patch(`/account/update_password`, payload.password ,{
-        headers: {
-          Authorization: `Bearer ${payload.token}`,
-        },
-      });
+      const res = await this.$axios.$patch(
+        `/account/update_password`,
+        payload.password,
+        {
+          headers: {
+            Authorization: `Bearer ${payload.token}`,
+          },
+        }
+      );
       return res;
     } catch (e) {
       console.log("error", e);
@@ -69,7 +77,31 @@ export const actions = {
   },
   async fetchUserLogin({}, payload) {
     try {
-      const res = await this.$axios.$post(`/account/login`, payload );
+      const res = await this.$axios.$post(`/account/login`, payload);
+      return res;
+    } catch (e) {
+      console.log("error", e);
+    }
+  },
+  async fetchNewPassword({}, payload) {
+    try {
+      const res = await this.$axios.$post(`/account/new_password`, payload);
+      return res;
+    } catch (e) {
+      console.log("error", e);
+    }
+  },
+  async fetchLogOut({}, payload) {
+    try {
+      const res = await this.$axios.$post(
+        `/account/logout`,
+        { refresh_token: payload.refresh_token },
+        {
+          headers: {
+            Authorization: `Bearer ${payload.token}`,
+          },
+        }
+      );
       return res;
     } catch (e) {
       console.log("error", e);

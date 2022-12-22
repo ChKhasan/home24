@@ -105,7 +105,7 @@
         </div>
       </div>
     </div>
-    <homeTitlies title="Хиты продаж" link="Все товары" />
+    <homeTitlies title="Хиты продаж" link="Все товары" to="/categories/3" />
     <div class="container">
       <div class="row">
         <div class="col-12 homepage__grid-product">
@@ -203,22 +203,11 @@
         </div>
       </div>
     </div>
-    <homeTitlies title="Популярные бренды" link="Все товары" />
+    <homeTitlies title="Популярные бренды" link="Все бренды" to="brands" />
     <div class="container">
       <div class="row">
         <div class="col-12 homepage__grid-product">
-          <CardBrand img="../assets/images/Frame 8.png" />
-          <CardBrand img="../../assets/images/Frame 8.png" />
-          <CardBrand img="./assets/images/Frame 8.png" />
-          <CardBrand img="./images/Frame 8.png" />
-          <CardBrand img="../images/Frame 8.png" />
-          <CardBrand img="./Frame 8.png" />
-          <CardBrand img="./Frame 8.png" />
-          <CardBrand img="./Frame 8.png" />
-          <CardBrand img="./Frame 8.png" />
-          <CardBrand img="./Frame 8.png" />
-          <CardBrand img="./Frame 8.png" />
-          <CardBrand img="./Frame 8.png" />
+          <CardBrand :brand="brand" :key="brand.id" v-for="brand in brands" />
         </div>
       </div>
     </div>
@@ -289,9 +278,14 @@ export default {
       hitProducts: [],
       popularCategories: [],
       skeleton: true,
+      brands: [],
     };
   },
   async created() {
+    const brands = await this.$store.dispatch("fetchBrands/fetchBrands", {
+      page_size: 6,
+      ...this.$route.query,
+    });
     const popularCategories = await this.$store.dispatch(
       "fetchCategories/fetchPopularCategories"
     );
@@ -301,10 +295,13 @@ export default {
     const hitProducts = await this.$store.dispatch(
       "fetchProduct/fetchHitProduct"
     );
+
+    this.brands = brands.results;
     this.hitProducts = hitProducts;
     this.popularCategories = popularCategories;
     this.$store.commit("reloadStore");
     this.$store.commit("setUser");
+
     this.productOfDay = await productOfDay;
     this.skeleton = await false;
   },

@@ -2,7 +2,7 @@
   <div>
     <div class="price-card">
       <div class="title">
-        <!-- <BuyOneClick :modal="modal" :hide="hide" :product="product" /> -->
+        <BuyOneClick :modal="modal" :hide="hide" :product="product" />
         <h2>{{ product?.price }} СУМ</h2>
         <span>
           <span
@@ -209,6 +209,7 @@ export default {
 
     show() {
       this.$modal.show(this.modal);
+      console.log(this.product);
     },
     hide() {
       this.$modal.hide(this.modal);

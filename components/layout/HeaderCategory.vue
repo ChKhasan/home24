@@ -94,8 +94,102 @@
         </div>
         <div class="col-5">
           <div class="header-search__input-block">
-            <input type="text" class="header-search__input" />
-            <button class="header-search__search-btn">
+            <div
+              class="header-search__search_items"
+              v-if="searchProduct.length > 0 && checkInputFocus"
+            >
+              <div class="search_item" v-for="product in searchProduct">
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 21 21"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="9.76663"
+                    cy="9.76659"
+                    r="8.98856"
+                    stroke="#020105"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M16.0183 16.4851L19.5423 20"
+                    stroke="#020105"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                <div class="search_val_text">
+                  <p class="search_p_value">
+                    {{ product.product.name.substring(0, searchVal.length) }}
+                  </p>
+                  <p
+                    @click="$router.push(`/product/${product.id}`)"
+                    class="search_p_name"
+                  >
+                    {{ product.product.name }}
+                  </p>
+                </div>
+              </div>
+              <div v-if="searchCategories.length > 0" class="serach_categories">
+                <p>Категории</p>
+                <span
+                  @click="$router.push(`/categoryId/${category.id}`)"
+                  v-for="category in searchCategories"
+                  :key="category.id"
+                  ><svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M16.2858 2.6H19.5524C20.5675 2.6 21.4003 3.4322 21.4003 4.47018V7.7641C21.4003 8.80121 20.5674 9.63429 19.5524 9.63429H16.2858C15.2697 9.63429 14.4369 8.80105 14.4369 7.7641V4.47018C14.4369 3.43237 15.2695 2.6 16.2858 2.6Z"
+                      stroke="#020105"
+                      stroke-width="1.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M4.44892 2.6H7.71449C8.73078 2.6 9.56341 3.43237 9.56341 4.47018V7.7641C9.56341 8.80105 8.73062 9.63429 7.71449 9.63429H4.44892C3.43279 9.63429 2.6 8.80105 2.6 7.7641V4.47018C2.6 3.43237 3.43263 2.6 4.44892 2.6Z"
+                      stroke="#020105"
+                      stroke-width="1.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M4.44892 14.3656H7.71449C8.73062 14.3656 9.56341 15.1978 9.56341 16.2368V19.5297C9.56341 20.5675 8.73078 21.3999 7.71449 21.3999H4.44892C3.43263 21.3999 2.6 20.5675 2.6 19.5297V16.2368C2.6 15.1978 3.43279 14.3656 4.44892 14.3656Z"
+                      stroke="#020105"
+                      stroke-width="1.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M16.2858 14.3656H19.5524C20.5674 14.3656 21.4003 15.1977 21.4003 16.2368V19.5297C21.4003 20.5677 20.5675 21.3999 19.5524 21.3999H16.2858C15.2695 21.3999 14.4369 20.5675 14.4369 19.5297V16.2368C14.4369 15.1978 15.2697 14.3656 16.2858 14.3656Z"
+                      stroke="#020105"
+                      stroke-width="1.2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  {{ category.name }}</span
+                >
+              </div>
+            </div>
+            <input
+              type="text"
+              class="header-search__input"
+              v-model="searchVal"
+              ref="search"
+              @change="checkFocus"
+              @input="searchProductInput"
+            />
+            <button class="header-search__search-btn" @click="searchProducts">
               <svg
                 width="21"
                 height="21"
@@ -317,29 +411,12 @@
         <div class="row">
           <div class="col-12 category-dropdown__controller">
             <div>
-              <nuxt-link to="/">
-                <svg
-                  width="22"
-                  height="14"
-                  viewBox="0 0 22 14"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g clip-path="url(#clip0_1480_42570)">
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M19.9066 1.56731C21.0608 1.56731 22 2.47838 22 3.59822C22 4.56872 21.2945 5.38177 20.3551 5.58158C20.1323 7.36513 19.6605 9.61539 18.6625 11.1462V13.0213C18.6625 13.3685 18.3724 13.65 18.0147 13.65H3.98535C3.62751 13.65 3.33746 13.3685 3.33746 13.0213V11.1462C2.33944 9.61539 1.86763 7.36497 1.6449 5.58158C0.705459 5.38194 0 4.56872 0 3.59822C0 2.47838 0.939102 1.56731 2.09339 1.56731C3.24766 1.56731 4.18677 2.47838 4.18677 3.59822C4.18677 4.13656 3.96924 4.62637 3.61542 4.99015C4.24468 5.67309 5.15844 6.10412 6.17458 6.10412C7.81947 6.10412 9.19716 4.97598 9.5305 3.4756C9.1458 3.1071 8.90661 2.59562 8.90661 2.03091C8.90661 0.911074 9.84572 0 11 0C12.1543 0 13.0934 0.911074 13.0934 2.03091C13.0934 2.59562 12.8544 3.1071 12.4695 3.4756C12.8029 4.97598 14.1805 6.10412 15.8255 6.10412C16.8416 6.10412 17.7553 5.67309 18.3845 4.99015C18.0307 4.62637 17.8134 4.13656 17.8134 3.59822C17.8134 2.47838 18.7523 1.56731 19.9066 1.56731ZM19.9069 2.82456C19.4671 2.82456 19.1092 3.17172 19.1092 3.59836C19.1092 4.025 19.4671 4.372 19.9069 4.372C20.3468 4.372 20.7048 4.025 20.7048 3.59836C20.7048 3.17172 20.3468 2.82456 19.9069 2.82456ZM10.2024 2.03076C10.2024 1.60412 10.5604 1.25695 11.0002 1.25695C11.4401 1.25695 11.7979 1.60412 11.7979 2.03076C11.7979 2.4574 11.4401 2.8044 11.0002 2.8044C10.5604 2.8044 10.2024 2.4574 10.2024 2.03076ZM2.09405 2.82456C1.65416 2.82456 1.2962 3.17172 1.2962 3.59836C1.2962 4.025 1.65416 4.372 2.09405 4.372C2.53394 4.372 2.89173 4.025 2.89173 3.59836C2.89173 3.17172 2.53394 2.82456 2.09405 2.82456ZM4.63327 12.3923V11.5875H17.3668V12.3923H4.63327ZM4.34248 10.3308H17.6596C18.3426 9.20727 18.7341 7.63084 18.9586 6.20814C18.1238 6.92559 17.0265 7.36151 15.8264 7.36151C13.6725 7.36151 11.8508 5.95736 11.2816 4.04321C11.1898 4.05526 11.0961 4.06194 11.001 4.06194C10.9058 4.06194 10.8121 4.05526 10.7203 4.04321C10.1511 5.95736 8.32933 7.36151 6.17553 7.36151C4.97576 7.36151 3.87905 6.92592 3.04435 6.20911C3.26893 7.63198 3.66052 9.20857 4.34248 10.3308Z"
-                      fill="#727474"
-                    />
-                  </g>
-                  <defs>
-                    <clipPath id="clip0_1480_42570">
-                      <rect width="22" height="14" fill="white" />
-                    </clipPath>
-                  </defs></svg
-                >Подарки
-              </nuxt-link>
+              <span
+                @click="categoryTab(category.id)"
+                v-for="category in categories"
+              >
+                <img :src="category.icon" alt="" />{{ category.name }} api
+              </span>
               <nuxt-link to="/category">
                 <svg
                   width="25"
@@ -521,168 +598,19 @@
               </nuxt-link>
             </div>
             <div class="category-dropdown__body">
-              <h1>Техника</h1>
+              <h1>{{ categoryChilds?.name }}</h1>
               <div class="category-dropdown__categories">
-                <div class="category">
-                  <h5>Для красоты и здоровья</h5>
-                  <nuxt-link to="/">-Выпрямители</nuxt-link>
-                  <nuxt-link to="/">-Машинки для стрижки волос</nuxt-link>
-                  <nuxt-link to="/">-Плойки</nuxt-link>
-                  <nuxt-link to="/">-Для педикюра и маникюра</nuxt-link>
-                  <el-dropdown
-                    class="header-category__pot-dropdown"
-                    :hide-on-click="false"
+                <div
+                  class="category"
+                  v-for="child1 in categoryChilds?.children"
+                >
+                  <h5>{{ child1?.name }}</h5>
+                  <span
+                    @click="toCategory(child2.id)"
+                    v-for="child2 in child1?.children"
+                    >-{{ child2?.name }}</span
                   >
-                    <span type="primary">
-                      Ещё<i class="el-icon-arrow-down el-icon--right"></i>
-                    </span>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item>Action 1</el-dropdown-item>
-                      <el-dropdown-item>Action 2</el-dropdown-item>
-                      <el-dropdown-item>Action 3</el-dropdown-item>
-                      <el-dropdown-item>Action 4</el-dropdown-item>
-                      <el-dropdown-item>Action 5</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </div>
-                <div class="category">
-                  <h5>Для красоты и здоровья</h5>
-                  <nuxt-link to="/">-Выпрямители</nuxt-link>
-                  <nuxt-link to="/">-Машинки для стрижки волос</nuxt-link>
-                  <nuxt-link to="/">-Плойки</nuxt-link>
-                  <nuxt-link to="/">-Для педикюра и маникюра</nuxt-link>
-                  <el-dropdown
-                    class="header-category__pot-dropdown"
-                    :hide-on-click="false"
-                  >
-                    <span type="primary">
-                      Ещё<i class="el-icon-arrow-down el-icon--right"></i>
-                    </span>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item>Action 1</el-dropdown-item>
-                      <el-dropdown-item>Action 2</el-dropdown-item>
-                      <el-dropdown-item>Action 3</el-dropdown-item>
-                      <el-dropdown-item>Action 4</el-dropdown-item>
-                      <el-dropdown-item>Action 5</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </div>
-                <div class="category">
-                  <h5>Для красоты и здоровья</h5>
-                  <nuxt-link to="/">-Выпрямители</nuxt-link>
-                  <nuxt-link to="/">-Машинки для стрижки волос</nuxt-link>
-                  <nuxt-link to="/">-Плойки</nuxt-link>
-                  <nuxt-link to="/">-Для педикюра и маникюра</nuxt-link>
-                  <el-dropdown
-                    class="header-category__pot-dropdown"
-                    :hide-on-click="false"
-                  >
-                    <span type="primary">
-                      Ещё<i class="el-icon-arrow-down el-icon--right"></i>
-                    </span>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item>Action 1</el-dropdown-item>
-                      <el-dropdown-item>Action 2</el-dropdown-item>
-                      <el-dropdown-item>Action 3</el-dropdown-item>
-                      <el-dropdown-item>Action 4</el-dropdown-item>
-                      <el-dropdown-item>Action 5</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </div>
-                <div class="category">
-                  <h5>Для красоты и здоровья</h5>
-                  <nuxt-link to="/">-Выпрямители</nuxt-link>
-                  <nuxt-link to="/">-Машинки для стрижки волос</nuxt-link>
-                  <nuxt-link to="/">-Плойки</nuxt-link>
-                  <nuxt-link to="/">-Для педикюра и маникюра</nuxt-link>
-                  <el-dropdown
-                    class="header-category__pot-dropdown"
-                    :hide-on-click="false"
-                  >
-                    <span type="primary">
-                      Ещё<i class="el-icon-arrow-down el-icon--right"></i>
-                    </span>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item>Action 1</el-dropdown-item>
-                      <el-dropdown-item>Action 2</el-dropdown-item>
-                      <el-dropdown-item>Action 3</el-dropdown-item>
-                      <el-dropdown-item>Action 4</el-dropdown-item>
-                      <el-dropdown-item>Action 5</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </div>
-                <div class="category">
-                  <h5>Для красоты и здоровья</h5>
-                  <nuxt-link to="/">-Выпрямители</nuxt-link>
-                  <nuxt-link to="/">-Машинки для стрижки волос</nuxt-link>
-                  <nuxt-link to="/">-Плойки</nuxt-link>
-                  <nuxt-link to="/">-Для педикюра и маникюра</nuxt-link>
-                  <el-dropdown
-                    class="header-category__pot-dropdown"
-                    :hide-on-click="false"
-                  >
-                    <span type="primary">
-                      Ещё<i class="el-icon-arrow-down el-icon--right"></i>
-                    </span>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item>Action 1</el-dropdown-item>
-                      <el-dropdown-item>Action 2</el-dropdown-item>
-                      <el-dropdown-item>Action 3</el-dropdown-item>
-                      <el-dropdown-item>Action 4</el-dropdown-item>
-                      <el-dropdown-item>Action 5</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </div>
-                <div class="category">
-                  <h5>Для красоты и здоровья</h5>
-                  <nuxt-link to="/">-Выпрямители</nuxt-link>
-                  <nuxt-link to="/">-Машинки для стрижки волос</nuxt-link>
-                  <nuxt-link to="/">-Плойки</nuxt-link>
-                  <nuxt-link to="/">-Для педикюра и маникюра</nuxt-link>
-                  <el-dropdown
-                    class="header-category__pot-dropdown"
-                    :hide-on-click="false"
-                  >
-                    <span type="primary">
-                      Ещё<i class="el-icon-arrow-down el-icon--right"></i>
-                    </span>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item>Action 1</el-dropdown-item>
-                      <el-dropdown-item>Action 2</el-dropdown-item>
-                      <el-dropdown-item>Action 3</el-dropdown-item>
-                      <el-dropdown-item>Action 4</el-dropdown-item>
-                      <el-dropdown-item>Action 5</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </div>
-                <div class="category">
-                  <h5>Для красоты и здоровья</h5>
-                  <nuxt-link to="/">-Выпрямители</nuxt-link>
-                  <nuxt-link to="/">-Машинки для стрижки волос</nuxt-link>
-                  <nuxt-link to="/">-Плойки</nuxt-link>
-                  <nuxt-link to="/">-Для педикюра и маникюра</nuxt-link>
-                  <el-dropdown
-                    class="header-category__pot-dropdown"
-                    :hide-on-click="false"
-                  >
-                    <span type="primary">
-                      Ещё<i class="el-icon-arrow-down el-icon--right"></i>
-                    </span>
-                    <el-dropdown-menu slot="dropdown">
-                      <el-dropdown-item>Action 1</el-dropdown-item>
-                      <el-dropdown-item>Action 2</el-dropdown-item>
-                      <el-dropdown-item>Action 3</el-dropdown-item>
-                      <el-dropdown-item>Action 4</el-dropdown-item>
-                      <el-dropdown-item>Action 5</el-dropdown-item>
-                    </el-dropdown-menu>
-                  </el-dropdown>
-                </div>
-                <div class="category">
-                  <h5>Для красоты и здоровья</h5>
-                  <nuxt-link to="/">-Выпрямители</nuxt-link>
-                  <nuxt-link to="/">-Машинки для стрижки волос</nuxt-link>
-                  <nuxt-link to="/">-Плойки</nuxt-link>
-                  <nuxt-link to="/">-Для педикюра и маникюра</nuxt-link>
+
                   <el-dropdown
                     class="header-category__pot-dropdown"
                     :hide-on-click="false"
@@ -798,15 +726,17 @@
               class="password-from mt-4"
               v-if="(registrType.type && registrType.hide)"
             >
-              <label class="sms__label">Пароль</label>
+              <label class="password__label">Пароль</label>
               <input
-                class="sms__input"
+                class="password__input"
                 type="text"
                 v-model="registrModal.password"
                 placeholder="Пароль"
               />
             </div>
-            <!-- <span class="number-linght-true" v-else> </span> -->
+            <span class="number-linght-false" v-if="errors.passwordError"
+              >Парол пользователя неверны
+            </span>
 
             <div class="auth-user-modal__m-btn">
               <div class="show-btn" @click="signOrCreate">
@@ -817,7 +747,13 @@
               class="forgot-your-password"
               v-if="(registrType.type && registrType.hide)"
             >
-              <span @click="registrType.type = false">Забыли пароль?</span>
+              <span @click="forgetPassword">Забыли пароль?</span>
+            </div>
+            <div
+              class="forgot-your-password"
+              v-if="(!registrType.type && registrType.hide)"
+            >
+              <span @click="signUpWithPassword">Войти</span>
             </div>
           </div>
         </div>
@@ -827,13 +763,16 @@
 </template>
 <script>
 export default {
+  props: ["categories"],
   data() {
     return {
       categoryDrop: false,
+      searchVal: "",
       registrType: {
         type: true,
         hide: false,
       },
+      registeredUser: false,
       passwordHide: {
         first: "text",
         last: "text",
@@ -843,27 +782,50 @@ export default {
         smsLinght: false,
         numberError: false,
         smsError: false,
+        passwordError: false,
       },
       registrModal: {
         number: "",
         smsCode: "",
         password: "",
       },
+      searchProduct: [],
+      searchCategories: [],
       smsCode: null,
+      categoryChilds: {},
+      checkInputFocus: true,
     };
   },
-  mounted() {
+  async mounted() {
     this.$store.commit("setUser", localStorage.getItem("Auth"));
+    const categories = await this.$store.dispatch(
+      "fetchCategories/fetchAllCategories"
+    );
+
+    this.categoryChilds = categories[0];
   },
   computed: {
+    routerName() {
+      return this.$route.name;
+    },
+    routerParams() {
+      return this.$route.params.index;
+    },
     errorClassObject() {
       return {
         numberErrorClass: this.errors.numberError,
         smsErrorClass: this.errors.smsError,
+        passwordErrorClass: this.errors.passwordError,
       };
     },
   },
   methods: {
+    categoryTab(id) {
+      const categoryChild = this.categories.find(
+        (category) => category.id == id
+      );
+      this.categoryChilds = categoryChild;
+    },
     async search() {
       if (this.registrModal.number.length == "") {
         this.errors.numberLinght = false;
@@ -879,17 +841,15 @@ export default {
         });
         this.registrType.type = await authNumber.is_user;
         this.registrType.hide = true;
-        this.sendSms(authNumber.is_user);
+        this.sendSms();
       }
     },
-    async sendSms(user) {
-      if (!user) {
-        const smsCode = await this.$store.dispatch("fetchAuth/fetchSendSms", {
-          nbm: `+998${this.registrModal.number}`,
-        });
-        console.log(smsCode);
-        this.smsCode = smsCode.code;
-      }
+
+    async sendSms() {
+      const smsCode = await this.$store.dispatch("fetchAuth/fetchSendSms", {
+        nbm: `+998${this.registrModal.number}`,
+      });
+      this.smsCode = smsCode.code;
     },
     async smsCodeValidate() {
       const smsCodeValidate = await this.$store.dispatch(
@@ -900,10 +860,12 @@ export default {
         }
       );
       if (smsCodeValidate.correct) {
-        this.registerWithSmsCode();
-        console.log("true");
+        if (this.registeredUser) {
+          this.newPassword();
+        } else {
+          this.registerWithSmsCode();
+        }
       } else {
-        console.log("false");
         this.errors.smsError = true;
       }
     },
@@ -915,58 +877,144 @@ export default {
         }
       );
       await localStorage.setItem("Auth", registerSms.token.access);
+      await localStorage.setItem("Refresh", registerSms.token.refresh);
       await this.$store.commit("setUser");
-      // this.registrModal.number = "";
       if (registerSms.token.access) {
         await this.$modal.hide("sign-or-create-modal");
         await this.$router.push("/profile");
-        console.log("truee");
       } else {
         console.log(localStorage.getItem("Auth"));
       }
     },
     async userLogin() {
-      const registerSms = await this.$store.dispatch(
-        "fetchAuth/fetchUserLogin",
-        {
-          nbm: `+998${this.registrModal.number}`,
-          password: this.registrModal.password,
-        }
-      );
-      await localStorage.setItem("Auth", registerSms.access);
-      await this.$store.commit("setUser");
-      await this.$modal.hide("sign-or-create-modal");
+      try {
+        const registerSms = await this.$store.dispatch(
+          "fetchAuth/fetchUserLogin",
+          {
+            nbm: `+998${this.registrModal.number}`,
+            password: this.registrModal.password,
+          }
+        );
+        await localStorage.setItem("Auth", registerSms.access);
+        await localStorage.setItem("Refresh", registerSms.refresh);
+
+        await this.$store.commit("setUser");
+        await this.$modal.hide("sign-or-create-modal");
         await this.$router.push("/profile");
+      } catch (e) {
+        this.errors.passwordError = true;
+      }
     },
     signOrCreate() {
       if (this.registrModal.number.length < 9) {
-        console.log("Error");
         this.errors.numberError = true;
       } else {
         if (this.registrType.type) {
+          localStorage.setItem(
+            "password_access",
+            JSON.stringify(this.registrType.type)
+          );
           this.userLogin();
         } else {
           this.smsCodeValidate();
         }
       }
     },
-    createSmsProfile() {
-      if (this.registrModal.smsCode.length < 9) {
-        this.errors.smsError = true;
-      }
-      if (this.registrModal.number.length < 9) {
-        this.errors.numberError = true;
-      }
-      this.$modal.hide("create-profile-modal");
+    async newPassword() {
+      const registerSms = await this.$store.dispatch(
+        "fetchAuth/fetchNewPassword",
+        {
+          nbm: `+998${this.registrModal.number}`,
+        }
+      );
+      console.log(registerSms);
+      await localStorage.setItem("Auth", registerSms.token.access);
+      await localStorage.setItem("Refresh", registerSms.token.refresh);
 
-      this.$modal.show("sign-in-modal");
+      await this.$store.commit("setUser");
+      if (registerSms.token.access) {
+        await this.$modal.hide("sign-or-create-modal");
+        await this.$router.push("/profile");
+      } else {
+        console.log(localStorage.getItem("Auth"));
+      }
     },
+    forgetPassword() {
+      this.registrType.type = false;
+      this.errors.passwordError = false;
+      this.registeredUser = true;
+      this.sendSms();
+    },
+    signUpWithPassword() {
+      registrType.type = true;
+      this.registeredUser = false;
+    },
+    searchProducts() {
+      
+      this.$router.replace({
+        path: `/search-products/3`,
+        query: {
+          query: this.searchVal,
+          page: 1,
+          ...this.$route.query,
+        },
+      });
+    },
+    async searchProductInput() {
+      if (this.searchVal.length <= 1) {
+        this.searchProduct = [];
+      } else {
+        this.checkInputFocus = true;
 
+        const searchProduct = await this.$store.dispatch(
+          "fetchSearch/fetchSearchProduct",
+          { query: this.searchVal, page_size: 10 }
+        );
+        const searchCategories = await this.$store.dispatch(
+          "fetchSearch/fetchSearchCategories",
+          { query: this.searchVal, page_size: 10 }
+        );
+        this.searchCategories = searchCategories.categories;
+        console.log(searchCategories.categories);
+        this.searchProduct = searchProduct.results.filter(
+          (item) => item.default == true
+        );
+      }
+    },
+    checkFocus() {
+      console.log(this.$refs.search);
+      const elem = this.$refs.search;
+      if (elem === document.activeElement) {
+        console.log("Element has focus!");
+      } else {
+        console.log(`Element is not focused.`);
+        this.checkInputFocus = false;
+      }
+    },
+    toCategory(id) {
+      this.categoryDrop = false;
+      this.$router.push(`/categoryId/${id}`);
+    },
     show(name) {
       this.$modal.show(name);
     },
     hide(name) {
       this.$modal.hide(name);
+    },
+  },
+
+  watch: {
+    routerName(oldVal, newVal) {
+      if (oldVal !== newVal) {
+        this.checkInputFocus = false;
+        this.categoryDrop = false;
+      }
+    },
+    routerParams(oldVal, newVal) {
+      if (oldVal !== newVal) {
+        this.checkInputFocus = false;
+        this.categoryDrop = false;
+      }
     },
   },
   mount() {
@@ -990,6 +1038,14 @@ export default {
       color: red !important;
     }
     .sms__input {
+      border: 1px solid red !important;
+    }
+  }
+  .passwordErrorClass {
+    .password__label {
+      color: red !important;
+    }
+    .password__input {
       border: 1px solid red !important;
     }
   }
@@ -1169,7 +1225,8 @@ export default {
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 130px;
     .category {
-      a {
+      a,
+      span {
         font-family: "Inter";
         font-style: normal;
         font-weight: 400;
@@ -1177,6 +1234,7 @@ export default {
         line-height: 20px;
         color: #27282a;
         margin-bottom: 16px;
+        cursor: pointer;
       }
       h5 {
         font-family: "Inter";
@@ -1202,7 +1260,8 @@ export default {
   &__controller {
     display: grid;
     grid-template-columns: 1fr 6fr;
-    a {
+    a,
+    span {
       font-family: "Inter", sans-serif;
       font-size: 18px;
       font-weight: 400;
@@ -1213,7 +1272,8 @@ export default {
       display: flex;
       align-items: center;
       margin-bottom: 56px;
-      svg {
+      svg,
+      img {
         margin-right: 9px;
       }
     }
@@ -1251,11 +1311,84 @@ export default {
       margin-right: 8px;
     }
   }
+  &__search_items {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 50px;
+    background: #ffffff;
+    border: 1px solid #ebebeb;
+    border-radius: 4px;
+    padding: 18px;
+    .serach_categories {
+      margin-top: 32px;
+      p {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 24px;
+        color: #020105;
+        margin-bottom: 14px;
+      }
+      span {
+        cursor: pointer;
+        svg {
+          margin-right: 8px;
+        }
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        color: #020105;
+      }
+    }
+    .search_item {
+      display: flex;
+      align-items: center;
+      p {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        margin-left: 10px;
+
+        white-space: nowrap;
+      }
+      .search_val_text {
+        position: relative;
+        width: 100%;
+        height: 20px;
+        .search_p_value {
+          color: #020105;
+          z-index: 5;
+          cursor: pointer;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+        .search_p_name {
+          color: #727474;
+          cursor: pointer;
+
+          &::first-letter {
+            color: green;
+          }
+        }
+        .search_p_name::nth-letter(2) {
+          color: red !important;
+        }
+      }
+    }
+  }
   &__input-block {
     height: 44px;
     display: flex;
     border: 1px solid #ebebeb;
     border-radius: 4px;
+    position: relative;
     input {
       height: 100%;
       width: 100%;

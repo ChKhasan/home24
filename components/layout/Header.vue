@@ -110,7 +110,7 @@
         </div>
       </div>
     </div>
-    <HeaderCategory :user="user" />
+    <HeaderCategory :user="user" :categories="categories"/>
 
     <div class="header-fluid">
       <div class="container header-category">
@@ -118,14 +118,13 @@
           <div
             class="col-12 header-category__category-links d-flex justify-content-between"
           >
-            <nuxt-link v-for="category in categories" :to="`/categories/${category.id}`">
-              <img :src="category.icon" alt="" /> {{ category.name }}
+            <nuxt-link
+              v-for="category in categories"
+              :to="`/categories/${category.id}`"
+            >
+              <img :src="category.icon" alt="" /> {{ category?.name }}
             </nuxt-link>
 
-
-
-
-            
             <nuxt-link to="/">
               <svg
                 width="22"
@@ -388,6 +387,7 @@ export default {
       categoryDrop: false,
     };
   },
+
   methods: {
     async userLogin() {
       try {

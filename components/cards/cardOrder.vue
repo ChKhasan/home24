@@ -2,36 +2,59 @@
   <div class="order-card">
     <div class="order-card__header">
       <div class="title">
-        <h4>ID заказа 32839</h4>
-        <p>Обновлен 8 ноября 2022 г., 13:00</p>
+        <h4>ID заказа {{ order.id }}</h4>
+        <p>
+          Обновлен
+          {{
+            ` ${new Date(order.date).getDate()} ${
+              monthNames[new Date(order.date).getMonth()]
+            } ${new Date(order.date).getFullYear()}г., ${new Date(
+              order.date
+            ).getHours()}:${new Date(order.date).getMinutes()}`
+          }}
+        </p>
+        <!-- const event = new Date(myOrders.date);
+      this.month = event.getMonth();
+      this.date = event.getDate();
+      this.year = event.getFullYear(); -->
       </div>
       <div class="status">
         <!-- <div class="wait"><span>Ожидания</span></div> -->
-        <div class="wait-mode"><span>Ожидание модерации</span></div>
+        <div class="wait-mode" :data-name="order.status">
+          <span>{{ order.status }}</span>
+        </div>
       </div>
     </div>
     <div class="order-card__body">
       <div class="order-info">
         <span>Дата заказа</span>
-        <p>8 ноября 2022 г, 12:59</p>
+        <p>
+          {{
+            ` ${new Date(order.date).getDate()} ${
+              monthNames[new Date(order.date).getMonth()]
+            } ${new Date(order.date).getFullYear()}г., ${new Date(
+              order.date
+            ).getHours()}:${new Date(order.date).getMinutes()}`
+          }}
+        </p>
       </div>
       <div class="order-info">
-        <span>Дата заказа</span>
-        <p>8 ноября 2022 г, 12:59</p>
+        <span>Способ доставки</span>
+        <p>{{ order.shipping }}</p>
       </div>
       <div class="order-info">
-        <span>Дата заказа</span>
-        <p>8 ноября 2022 г, 12:59</p>
+        <span>Способ оплаты</span>
+        <p>{{ order.payment }}</p>
       </div>
       <div class="order-info">
-        <span>Дата заказа</span>
-        <p>8 ноября 2022 г, 12:59</p>
+        <span>Сумма заказа</span>
+        <p>{{ order.price }} сум</p>
       </div>
     </div>
     <div class="order-card__footer">
       <div class="dropdown">
         <div class="o-dropdown-header" @click="dropdownHide = !dropdownHide">
-          <span>2 товара</span>
+          <span>{{ order.products.length }} товара</span>
           <svg
             v-if="dropdownHide"
             width="24"
@@ -66,9 +89,11 @@
           </svg>
         </div>
         <div class="o-dropdown-body" v-show="dropdownHide">
-          <CardInDropdown />
-          <CardInDropdown />
-          <CardInDropdown />
+          <CardInDropdown
+            v-for="product in order.products"
+            :key="product.id"
+            :product="product"
+          />
         </div>
       </div>
     </div>
@@ -77,9 +102,24 @@
 <script>
 import CardInDropdown from "../cards/cardInDropdown.vue";
 export default {
+  props: ["order"],
   data() {
     return {
       dropdownHide: false,
+      monthNames: [
+        "Январь",
+        "Февраль",
+        "Март",
+        "Апреля",
+        "Май",
+        "Июнь",
+        "Июль",
+        "Август",
+        "Сентябрь",
+        "Октябрь",
+        "Ноябрь",
+        "Декабрь",
+      ],
     };
   },
   components: {
@@ -106,6 +146,48 @@ export default {
       display: flex;
       justify-content: end;
       align-items: flex-start;
+      .wait-mode {
+        border-radius: 4px;
+      }
+      [data-name="Ожидание модерации"] {
+        background: #fdf7e7;
+        border: 1px dashed #e9dec1;
+      }
+      [data-name="Ожидание"] {
+        background: #f8f8f8;
+        border: none;
+        span {
+          color: #727474;
+        }
+      }
+      [data-name="Ожидание сборки"] {
+        background: #fff7e4;
+        border: none;
+        span {
+          color: #ff6418;
+        }
+      }
+      [data-name="Отмено"] {
+        background: #fde2de;
+        border: none;
+        span {
+          color: #ef3f27;
+        }
+      }
+      [data-name="на доставке"] {
+        background: #f0f9ea;
+        border: none;
+        span {
+          color: #727474;
+        }
+      }
+      [data-name="Доставлено"] {
+        background: #f0f9ea;
+        border: none;
+        span {
+          color: #009a10;
+        }
+      }
       span {
         display: block;
         border-radius: 4px;
@@ -120,11 +202,6 @@ export default {
       }
       .wait {
         background: #f8f8f8;
-      }
-      .wait-mode {
-        background: #fdf7e7;
-        border: 1px dashed #e9dec1;
-        border-radius: 4px;
       }
     }
     h4 {

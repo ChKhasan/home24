@@ -26,9 +26,9 @@ export const actions = {
   },
   async fetchPlaceOrder({}, payload) {
     try {
-      const res = await this.$axios.$patch(
-        `/account/update_password`,
-        payload.orderInfo,
+      const res = await this.$axios.$post(
+        `/order/orders`,
+        payload.info,
         {
           headers: {
             Authorization: `Bearer ${payload.token}`,

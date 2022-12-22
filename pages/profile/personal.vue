@@ -235,7 +235,8 @@
                     <label for="">Ф.И.О</label>
                     <input
                       type="text"
-                      v-model="user_info.username"
+                      @input="userName"
+                      v-model="userNameVal"
                       placeholder="Ф.И.О"
                     />
                   </div>
@@ -243,7 +244,8 @@
                     <label for="">Телефон</label>
                     <input
                       type="text"
-                      v-model="user_info.nbm"
+                      :value="userInfo.nbm"
+                      disabled
                       placeholder="+998 (--)--- -- --"
                     />
                   </div>
@@ -299,7 +301,7 @@
                     />
                   </div>
                 </div>
-                <h4>Пароль</h4>
+                <!-- <h4>Пароль</h4>
                 <div class="form-control-end">
                   <div class="d-flex flex-column">
                     <label for="">Пароль</label>
@@ -469,9 +471,11 @@
                       ></span>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <div class="form-control-btn">
-                  <div class="info-cancel">Отменить</div>
+                  <div class="info-cancel" @click="changeInfo = true">
+                    Отменить
+                  </div>
                   <div class="info-save" @click="show('save-leave-modal')">
                     Сохранить
                   </div>
@@ -572,13 +576,13 @@
 import BreadCrumb from "../../components/category/breadCrumb.vue";
 import TitleCategory from "../../components/category/titleCategory.vue";
 export default {
-  props: ["userInfo","fetchUserInfo"],
+  props: ["userInfo", "fetchUserInfo"],
   data() {
     return {
       value2: true,
       changeInfo: true,
+      userNameVal: '',
       user_info: {
-        nbm: "",
         first_name: "",
         last_name: "",
         username: "",
@@ -654,6 +658,7 @@ export default {
   methods: {
     logout() {
       localStorage.removeItem("Auth");
+      localStorage.removeItem("password_access");
       this.$store.commit("setUser");
       this.$router.push("/");
     },
@@ -661,11 +666,18 @@ export default {
       this.changeInfo = true;
       const userInfo = await this.$store.dispatch(
         "fetchAuth/fetchUserUpdateProfile",
-        { info: this.user_info, token: localStorage.getItem("Auth") }
+        { info: {...this.user_info,nbm: this.userInfo.nbm}, token: localStorage.getItem("Auth") }
       );
       await this.$modal.hide("save-leave-modal");
-  
-      this.fetchUserInfo()
+
+      this.fetchUserInfo();
+    },
+    userName() {
+      const array = this.userNameVal.split(" ");
+      (this.user_info.username = array[0]);
+      (this.user_info.first_name = array[1]);
+        (this.user_info.last_name = array[2])
+    
     },
     show(name) {
       this.$modal.show(name);
