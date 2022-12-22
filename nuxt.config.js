@@ -47,7 +47,7 @@ export default {
     init(axios) {
       axios.defaults.withCredentials = true;
     },
-    baseURL: "https://said26dadamuh.pythonanywhere.com/api",
+    baseURL: "http://said26dadamuh.pythonanywhere.com/api",
   },
   elementUI: {
     components: ["Button", "DatePicker", "Pagination", "Collapse"],

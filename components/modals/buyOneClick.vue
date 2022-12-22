@@ -124,18 +124,18 @@
 export default {
   props: ["modal", "hide", "product"],
   data() {
-   return {
-    user_name: "",
-    errors: {
-      userNameError: false
-    },
+    return {
+      user_name: "",
+      errors: {
+        userNameError: false,
+      },
       order: {
         nbm: "",
         patronymic: "",
         last_name: "",
-        name: ""
-      }
-    }
+        name: "",
+      },
+    };
   },
   methods: {
     hideModal() {
@@ -143,10 +143,32 @@ export default {
     },
     async sendAplication() {
       const hitProducts = await this.$store.dispatch(
-      "fetchOrder/fetchSendAplication",{...this.order,count: this.product.quantity,product: this.product.id}
-    );
-    console.log(hitProducts);
-    this.hide()
+        "fetchOrder/fetchSendAplication",
+        {
+          ...this.order,
+          count: this.product.quantity,
+          product: this.product.id,
+        }
+      );
+      console.log(hitProducts);
+      if (hitProducts.status == 400) {
+        await this.$toast.open({
+          message: hitProducts.data,
+          type: "error",
+          duration: 2000,
+          dismissible: true,
+          position: "top-right",
+        });
+      } else {
+        await this.hide();
+        await this.$toast.open({
+          message: "Successfully",
+          type: "success",
+          duration: 2000,
+          dismissible: true,
+          position: "top-right",
+        });
+      }
     },
     userName() {
       const array = this.user_name.split(" ");

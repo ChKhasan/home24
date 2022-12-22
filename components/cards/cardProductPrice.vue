@@ -2,7 +2,6 @@
   <div>
     <div class="price-card">
       <div class="title">
-        <BuyOneClick :modal="modal" :hide="hide" :product="product" />
         <h2>{{ product?.price }} СУМ</h2>
         <span>
           <span
@@ -184,6 +183,9 @@
         </div>
       </div>
     </div>
+    <SendOrderModal :modal="modalAccess" :hide="hide" :auth="false"/>
+    <BuyOneClick :modal="modal" :hide="hide" :product="product" />
+
   </div>
 </template>
 <script>
@@ -194,10 +196,12 @@ export default {
   data() {
     return {
       modal: "buyOneClickModal",
+      modalAccess: "buyAccess",
       cartP: [],
     };
   },
   components: { BuyOneClick },
+
   methods: {
     includes(array, id) {
       if (array) {

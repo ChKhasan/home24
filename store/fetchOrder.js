@@ -56,7 +56,7 @@ export const actions = {
       const res = await this.$axios.$post(`/order/add_aplication`, payload);
       return res;
     } catch (e) {
-      console.log("error", e);
+      return e.response
     }
   },
 };

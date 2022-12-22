@@ -434,6 +434,13 @@ export default {
           this.show("orderModal");
         } catch ({ response }) {
           console.log(Object.keys(response.data));
+          await this.$toast.open({
+          message: response.data,
+          type: "error",
+          duration: 2000,
+          dismissible: true,
+          position: "top-right",
+        });
           if (
             Object.keys(response.data).includes("first_name") ||
             Object.keys(response.data).includes("last_name") ||
