@@ -169,8 +169,11 @@
         @click="$router.push(`/product/${product.id}`)"
       >
         <p>
-          {{ product.product?.name }} erewrew ewr ewre wr ew r eewrewir
-          uieriueiwruiew ewir uiewrwr ew(Чёрный)
+          {{ product.product?.name }} ({{
+                        product.product.colors.find(
+                          (item) => item.id == product.color
+                        ).name
+                      }})
         </p>
       </div>
     </div>

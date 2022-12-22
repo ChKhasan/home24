@@ -631,8 +631,7 @@ export default {
       }
     }
   }
-  &__width {
-  }
+
   &__body {
     padding-top: 32px;
     display: grid;

@@ -24,10 +24,10 @@
         <div class="col-3">
           <h3 class="footer__list-title">Мой профиль</h3>
           <ul class="footer__list">
-            <li>Личный кабинет</li>
-            <li>Избранные товары</li>
-            <li>Список сравнения</li>
-            <li>Мои заказы</li>
+            <li @click="$router.push('/profile/personal')">Личный кабинет</li>
+            <li @click="$router.push('/favorites')">Избранные товары</li>
+            <li @click="$router.push('/comparison')">Список сравнения</li>
+            <li @click="$router.push('/profile/orders')">Мои заказы</li>
           </ul>
         </div>
         <div class="col-3">
@@ -255,6 +255,7 @@ export default {};
     list-style: none;
     padding-left: 0;
     li {
+      cursor: pointer;
       margin-bottom: 16px;
       font-family: "Inter", sans-serif;
       font-size: 18px;
@@ -263,6 +264,11 @@ export default {};
       letter-spacing: 0em;
       text-align: left;
       color: #727474;
+      transition: .4s;
+      &:hover {
+      color: #161919;
+
+      }
     }
   }
 }
