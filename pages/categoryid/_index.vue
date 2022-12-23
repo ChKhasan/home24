@@ -110,9 +110,9 @@
               <h2>Цена</h2>
               <div class="category__range">
                 <MultiRangeSlider
-                  :min="100000"
-                  :max="1000000"
-                  :step="100000"
+                  :min="100"
+                  :max="1000"
+                  :step="100"
                   :ruler="false"
                   :label="false"
                   :minValue="barMinValue"
@@ -400,8 +400,8 @@ export default {
       selected: "",
       currentPage1: 1,
       sliderValue: 50,
-      barMinValue: 100000,
-      barMaxValue: 1000000,
+      barMinValue: 100,
+      barMaxValue: 1000,
       checkbox: "",
       gridControl: 5,
       totalPage: 1,
@@ -454,24 +454,53 @@ export default {
     async UpdateValues(e) {
       this.barMinValue = await e.minValue;
       this.barMaxValue = await e.maxValue;
-      if (
-        this.barMinValue == 100000 &&
-        this.barMaxValue == 1000000
-      ) {
-        await this.$router.replace({
-          path: `/categoryId/${this.$route.params.index}`,
-          query: {
-            category: this.$route.params.index,
-            page: this.currentPage1,
-          },
-        });
-       
+      const priceObj = { ...this.$route.query };
+      if (Object.keys(this.$route.query).includes(`price_min`)) {
+        if (this.barMinValue == 100 && this.barMaxValue == 1000) {
+          if (
+            !Object.keys(priceObj).toString().includes("atribut") &&
+            !Object.keys(priceObj).toString().includes("color")
+          ) {
+            await this.$router.replace({
+              path: `/categoryId/${this.$route.params.index}`,
+              query: {
+                category: this.$route.params.index,
+                page: this.currentPage1,
+              },
+            });
+          } else {
+            await delete priceObj[`price_max`];
+            await delete priceObj[`price_min`];
+            await this.$router.replace({
+              path: `/categoryId/${this.$route.params.index}`,
+              query: {
+                ...priceObj,
+                category: this.$route.params.index,
+                page: 1,
+                filter: 1,
+              },
+            });
+          }
+        } else {
+          priceObj.price_max = this.barMaxValue;
+          priceObj.price_min = this.barMinValue;
+          await this.$router.replace({
+            path: `/categoryId/${this.$route.params.index}`,
+            query: {
+              ...priceObj,
+              filter: 1,
+              category: this.$route.params.index,
+              page: this.currentPage1,
+            },
+          });
+        }
       } else {
         await this.$router.replace({
           path: `/categoryId/${this.$route.params.index}`,
           query: {
-            min_price: JSON.stringify(this.barMinValue),
-            max_price: this.barMaxValue,
+            price_max: this.barMaxValue,
+            price_min: this.barMinValue,
+            ...this.$route.query,
             filter: 1,
             category: this.$route.params.index,
             page: this.currentPage1,
@@ -500,7 +529,11 @@ export default {
       };
       if (Object.keys(this.$route.query).includes(`atribut_${id}`)) {
         await delete colorObj[`atribut_${id}`];
-        if (!Object.keys(colorObj).toString().includes("atribut")) {
+        if (
+          !Object.keys(colorObj).toString().includes("atribut") &&
+          !Object.keys(colorObj).toString().includes("color") &&
+          !Object.keys(colorObj).toString().includes("price_min")
+        ) {
           await delete colorObj[`filter`];
         }
       }
@@ -526,7 +559,9 @@ export default {
       colorObj = { ...colorObj, ...this.$route.query, filter: 1, page: 1 };
       if (Object.keys(this.$route.query).includes(`color_${id}`)) {
         await delete colorObj[`color_${id}`];
-        if (!Object.keys(colorObj).toString().includes("color")) {
+        if (!Object.keys(colorObj).toString().includes("atribut") &&
+          !Object.keys(colorObj).toString().includes("color") &&
+          !Object.keys(colorObj).toString().includes("price_min")) {
           await delete colorObj[`filter`];
         }
       }
