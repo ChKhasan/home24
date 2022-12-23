@@ -78,7 +78,7 @@
                   </ul>
                 </li>
               </ul>
-              <h2>Сортировать</h2>
+              <!-- <h2>Сортировать</h2>
               <ul>
                 <b-form-group v-slot="{ ariaDescribedby }">
                   <b-form-radio
@@ -106,7 +106,7 @@
                 <div class="mt-3">
                   Selected: <strong>{{ selected }}</strong>
                 </div>
-              </ul>
+              </ul> -->
               <h2>Цена</h2>
               <div class="category__range">
                 <MultiRangeSlider
