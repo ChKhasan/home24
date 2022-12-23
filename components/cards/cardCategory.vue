@@ -4,13 +4,14 @@
       <img :src="category.image" alt="" />
     </div>
     <div class="card-category__title">
-      <nuxt-link :to="`/categoryId/${category.id}`">{{category.name}}</nuxt-link>
+      <nuxt-link v-if="parent" :to="`/categories/${category.id}`">{{category.name}}</nuxt-link>
+      <nuxt-link v-else :to="`/categoryId/${category.id}`">{{category.name}}</nuxt-link>
     </div>
   </div>
 </template>
 <script>
 export default {
-props: ["category"]
+props: ["category","parent"]
 
 };
 </script>

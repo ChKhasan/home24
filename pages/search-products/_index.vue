@@ -308,13 +308,13 @@ export default {
       "fetchSearch/fetchSearchProduct",
       { ...this.$route.query, page_size: 1 }
     );
+    this.searchProduct = searchProduct.results;
     const searchCategories = await this.$store.dispatch(
       "fetchSearch/fetchSearchCategories",
       { ...this.$route.query, page_size: 1 }
     );
     this.searchCategories = searchCategories.categories;
     console.log(searchCategories);
-    this.searchProduct = searchProduct.results;
     this.categories = await searchProduct;
     this.totalPage = searchProduct.count;
     this.currentPage1 = JSON.parse(this.$route.query.page);
@@ -339,6 +339,38 @@ export default {
     async UpdateValues(e) {
       this.barMinValue = e.minValue;
       this.barMaxValue = e.maxValue;
+      this.barMinValue = await e.minValue;
+      this.barMaxValue = await e.maxValue;
+      if (
+        this.barMinValue == 100000 &&
+        this.barMaxValue == 1000000
+      ) {
+        await this.$router.replace({
+          path: `/search-products/${this.$route.params.index}`,
+          query: {
+            category: this.$route.params.index,
+            page: this.currentPage1,
+          },
+        });
+       
+      } else {
+        await this.$router.replace({
+          path: `/search-products/${this.$route.params.index}`,
+          query: {
+            min_price: JSON.stringify(this.barMinValue),
+            max_price: this.barMaxValue,
+            filter: 1,
+            category: this.$route.params.index,
+            page: this.currentPage1,
+          },
+        });
+      }
+      const searchProduct = await this.$store.dispatch(
+      "fetchSearch/fetchSearchProduct",
+      { ...this.$route.query, page_size: 1 }
+    );
+    this.searchProduct = searchProduct.results;
+    this.totalPage = searchProduct.count
     },
 
     async colorFilter(id) {

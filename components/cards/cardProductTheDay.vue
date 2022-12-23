@@ -32,8 +32,8 @@
       </span>
     </div>
     <div class="product-day__body d-flex">
-      <div class="product-day__img">
-        <img src="../../assets/images/image 24.png" alt="" />
+      <div class="product-day__img" @click="$router.push(`/product/${product.id}`)">
+        <img :src="product.images[0].image" alt="" />
       </div>
       <div class="product-day__info">
         <div class="product-day__aksiya d-flex justify-content-between">
@@ -276,8 +276,11 @@ export default {
   }
   &__img {
     width: 50%;
+    height: 246px;
+    cursor: pointer;
     img {
-      height: 246px;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
     }
   }

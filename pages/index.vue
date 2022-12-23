@@ -101,6 +101,7 @@
             v-for="category in popularCategories"
             :category="category"
             :key="category.id"
+            :parent="true"
           />
         </div>
       </div>

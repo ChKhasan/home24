@@ -444,7 +444,7 @@ export default {
         },
         {
           name: "Офисная мебель",
-          to: "/category",
+          to: "/categoryId",
         },
       ],
     };

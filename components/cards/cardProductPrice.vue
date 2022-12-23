@@ -190,6 +190,7 @@
 </template>
 <script>
 import BuyOneClick from "../modals/buyOneClick.vue";
+import SendOrderModal from "../modals/sendOrderModal.vue"
 
 export default {
   props: ["product"],
@@ -200,7 +201,7 @@ export default {
       cartP: [],
     };
   },
-  components: { BuyOneClick },
+  components: { BuyOneClick,SendOrderModal },
 
   methods: {
     includes(array, id) {

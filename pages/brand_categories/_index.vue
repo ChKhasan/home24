@@ -347,8 +347,34 @@ export default {
       this.totalPage = brand_products.count;
     },
     async UpdateValues(e) {
-      this.barMinValue = e.minValue;
-      this.barMaxValue = e.maxValue;
+      this.barMinValue = await e.minValue;
+      this.barMaxValue = await e.maxValue;
+      if (
+        this.barMinValue == 100000 &&
+        this.barMaxValue == 1000000
+      ) {
+        await this.$router.replace({
+          path: `/brand_categories/${this.$route.params.index}`,
+          query: {
+            category: this.$route.params.index,
+            page: 1,
+          },
+        });
+       
+      } else {
+        await this.$router.replace({
+          path: `/brand_categories/${this.$route.params.index}`,
+          query: {
+            min_price: JSON.stringify(this.barMinValue),
+            max_price: this.barMaxValue,
+            filter: 1,
+            category: this.$route.params.index,
+            page: 1,
+          },
+        });
+      }
+
+      this._GET_BRAND_PRODUCTS()
     },
     async handleCurrentChange(val) {
       console.log(val);

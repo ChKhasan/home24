@@ -34,12 +34,12 @@
                       <span
                         v-else
                         @click="
-                      $router.push(
-                        categoryById?.parent?.parent.id
-                          ? `/categoryId/${categoryById?.parent?.id}`
-                          : `/categoryId/${categoryById?.parent?.id}`
-                      )
-                    "
+                          $router.push(
+                            categoryById?.parent?.parent.id
+                              ? `/categoryId/${categoryById?.parent?.id}`
+                              : `/categoryId/${categoryById?.parent?.id}`
+                          )
+                        "
                         :class="{
                           listActive: categoryById?.parent?.parent?.name
                             ? false
@@ -305,7 +305,7 @@
                 </div>
               </div>
               <div
-              v-if="productsByCategory.length > 0"
+                v-if="productsByCategory.length > 0"
                 class="category__category-controller"
                 :class="{ three: gridControl == 3 }"
               >
@@ -342,8 +342,11 @@
                   :product="product"
                 />
               </div>
-              <emptyBlog v-else/>
-              <div class="category__pagination" v-if="productsByCategory.length > 0">
+              <emptyBlog v-else />
+              <div
+                class="category__pagination"
+                v-if="productsByCategory.length > 0"
+              >
                 <el-pagination
                   layout="prev, pager, next"
                   @current-change="handleCurrentChange"
@@ -389,7 +392,7 @@ import homeTitliesVue from "@/components/homeTitlies.vue";
 import RangeSlider from "vue-range-slider";
 import "vue-range-slider/dist/vue-range-slider.css";
 import MultiRangeSlider from "multi-range-slider-vue";
-import emptyBlog from "../../components/emptyBlog.vue"
+import emptyBlog from "../../components/emptyBlog.vue";
 
 export default {
   data() {
@@ -429,13 +432,12 @@ export default {
         },
       });
     }
-
     const productsByCategory = await this.$store.dispatch(
       "fetchProduct/fetchProductByCategory",
-      {...this.$route.query,page_size: 1}
+      { ...this.$route.query, page_size: 1 }
     );
     this.productsByCategory = productsByCategory.results;
-    this.totalPage = productsByCategory.count
+    this.totalPage = productsByCategory.count;
     this.currentPage1 = JSON.parse(this.$route.query.page);
     const categoryById = await this.$store.dispatch(
       "fetchCategories/fetchAllCategoryById",
@@ -450,49 +452,40 @@ export default {
   },
   methods: {
     async UpdateValues(e) {
-      this.barMinValue = e.minValue;
-      this.barMaxValue = e.maxValue;
-
-      let colorObj = {};
-      colorObj = {
-        min_price: this.barMinValue,
-        max_price: this.barMaxValue,
-        ctg_id: this.categoryById.id,
-      };
-      colorObj = { ...colorObj };
-      if (Object.keys(this.$route.query).includes(`min_price`)) {
-        // await delete colorObj[`min_price`];
-        // await delete colorObj[`max_price`];
-        colorObj = await { ...colorObj };
-        if (Object.keys(colorObj).length == 1) {
-          await delete colorObj[`ctg_id`];
-        }
-      }
-      if (Object.keys(colorObj).length == 0) {
+      this.barMinValue = await e.minValue;
+      this.barMaxValue = await e.maxValue;
+      if (
+        this.barMinValue == 100000 &&
+        this.barMaxValue == 1000000
+      ) {
         await this.$router.replace({
           path: `/categoryId/${this.$route.params.index}`,
-          query: { ...colorObj },
+          query: {
+            category: this.$route.params.index,
+            page: this.currentPage1,
+          },
         });
-        const productsByCategory = await this.$store.dispatch(
-          "fetchProduct/fetchProductByCategory",
-          this.$route.params.index
-        );
-        this.productsByCategory = productsByCategory.results;
+       
       } else {
         await this.$router.replace({
           path: `/categoryId/${this.$route.params.index}`,
           query: {
-            ...colorObj,
-            ctg_id: this.categoryById.id,
+            min_price: JSON.stringify(this.barMinValue),
+            max_price: this.barMaxValue,
+            filter: 1,
+            category: this.$route.params.index,
+            page: this.currentPage1,
           },
         });
-        const productsByCategory = await this.$store.dispatch(
-          "fetchProduct/fetchProductByCategory",
-          this.$route.query
-        );
-        this.productsByCategory = productsByCategory.results;
       }
+
+      const productsByCategory = await this.$store.dispatch(
+        "fetchProduct/fetchProductByCategory",
+        this.$route.query
+      );
+      this.productsByCategory = productsByCategory.results;
     },
+
     async optionFilter(id) {
       let colorObj = {};
       console.log(this.$route.query);
@@ -504,8 +497,7 @@ export default {
         ...this.$route.query,
         page: 1,
         filter: 1,
-        
-      };   
+      };
       if (Object.keys(this.$route.query).includes(`atribut_${id}`)) {
         await delete colorObj[`atribut_${id}`];
         if (!Object.keys(colorObj).toString().includes("atribut")) {
@@ -523,15 +515,15 @@ export default {
         "fetchProduct/fetchProductByCategory",
         this.$route.query
       );
-      
+
       this.productsByCategory = productsByCategory.results;
-      this.totalPage = productsByCategory.count
-    this.currentPage1 = JSON.parse(this.$route.query.page);
+      this.totalPage = productsByCategory.count;
+      this.currentPage1 = JSON.parse(this.$route.query.page);
     },
     async colorFilter(id) {
       let colorObj = {};
       colorObj[`color_${id}`] = id;
-      colorObj = { ...colorObj, ...this.$route.query, filter: 1,page: 1 };
+      colorObj = { ...colorObj, ...this.$route.query, filter: 1, page: 1 };
       if (Object.keys(this.$route.query).includes(`color_${id}`)) {
         await delete colorObj[`color_${id}`];
         if (!Object.keys(colorObj).toString().includes("color")) {
@@ -550,10 +542,10 @@ export default {
         this.$route.query
       );
       this.productsByCategory = productsByCategory.results;
-      this.totalPage = productsByCategory.count
-    this.currentPage1 = JSON.parse(this.$route.query.page);
+      this.totalPage = productsByCategory.count;
+      this.currentPage1 = JSON.parse(this.$route.query.page);
     },
-   async handleCurrentChange(val) {
+    async handleCurrentChange(val) {
       console.log(`current page: ${val}`);
       console.log(this.$route.query);
       await this.$router.replace({
@@ -564,11 +556,11 @@ export default {
         },
       });
       const productsByCategory = await this.$store.dispatch(
-      "fetchProduct/fetchProductByCategory",
-      {...this.$route.query,page_size: 1}
-    );
-    this.productsByCategory = productsByCategory.results;
-    this.totalPage = productsByCategory.count;
+        "fetchProduct/fetchProductByCategory",
+        { ...this.$route.query, page_size: 1 }
+      );
+      this.productsByCategory = productsByCategory.results;
+      this.totalPage = productsByCategory.count;
     },
   },
   components: {
@@ -579,7 +571,7 @@ export default {
     homeTitliesVue,
     RangeSlider,
     MultiRangeSlider,
-    emptyBlog
+    emptyBlog,
   },
 };
 </script>
