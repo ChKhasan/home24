@@ -88,12 +88,14 @@ export default {
 </script>
 <style lang="scss">
 .category {
-  padding-top: 32px;
   &__category-controller {
     padding-top: 32px;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 20px;
+    @media (max-width: 1440px) {
+      padding-top: 24px; 
+    }
   }
   &__product-controller {
     padding-top: 32px;

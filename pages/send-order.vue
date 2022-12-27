@@ -207,15 +207,15 @@
             <div class="payment-types__container">
               <div
                 class="payment-types__box"
-                :class="{ paymet_active: payment.type == payments.id }"
+                :class="{ paymet_active: activePayment == payments.id }"
                 v-for="payments in paymentTypes"
               >
                 <div class="payment-types__p-header">
                   <div
                     class="pickup__checkbox"
-                    @click="payment.type = payments.id"
+                    @click="activePayment = payments.id"
                   >
-                    <span v-if="payment.type == payments.id"></span>
+                    <span v-if="activePayment == payments.id"></span>
                   </div>
                   <p class="payment-types__title">{{ payments?.name }}</p>
                 </div>
@@ -241,7 +241,7 @@
           <div class="send-order__send-blog">
             <div class="b-title">
               <h1>Ваш заказ</h1>
-              <nuxt-link to="/">Перейти в корзину</nuxt-link>
+              <nuxt-link to="/basket">Перейти в корзину</nuxt-link>
             </div>
             <div class="order-info-text">
               <p>Товары, 2 шт</p>
@@ -288,7 +288,7 @@
         </div>
       </div>
     </div>
-    <SendOrderModal :modal="modal" :hide="hide" :auth="auth_modal"/>
+    <SendOrderModal :modal="modal" :hide="hide" :auth="auth_modal" />
   </div>
 </template>
 <script>
@@ -342,7 +342,7 @@ export default {
       ],
       errors: {
         userNameError: false,
-        numberError: false
+        numberError: false,
       },
       payment: {
         type: 1,
@@ -350,6 +350,7 @@ export default {
       },
       paymentTypes: [],
       auth_modal: null,
+      activePayment: null,
       orderContainer: {
         price: 0,
         payment: 1,
@@ -379,22 +380,31 @@ export default {
   },
   components: { BreadCrumb, TitleBasket, SendOrderModal, SelectedProducts },
   async created() {
-    this.auth_modal = localStorage.getItem("Auth")
+    this.auth_modal = localStorage.getItem("Auth");
 
     this.orderContainer.shipping = this.pickupCheck
       ? "Самовывоз"
       : "Курьером до двери";
-    this.products = JSON.parse(localStorage.getItem("selectedProducts"));
+    let cart = JSON.parse(localStorage.getItem("cart"));
+    this.products = JSON.parse(localStorage.getItem("selectedProducts")).map(
+      (item) => {
+        if (item.id == cart.find((item2) => item2.id == item.id).id) {
+          return {
+            ...item,
+            quantity: cart.find((item2) => item2.id == item.id).count,
+          };
+        }
+      }
+    );
     this.orderContainer.products = this.products.map((item) => {
       return {
         id: item.id,
         count: item.quantity,
       };
     });
-    this.orderContainer.price = JSON.parse(
-      localStorage.getItem("selectedProducts")
-    ).reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+    
+this.totalPrice()
     this.orderItems();
   },
   methods: {
@@ -410,6 +420,12 @@ export default {
       this.regions = orderStates.results;
       this.orderContainer.city = orderCIties.results[0].id;
       this.orderContainer.state = orderStates.results[0].id;
+    },
+    totalPrice() {
+      let cart = JSON.parse(localStorage.getItem("cart"));
+      this.orderContainer.price = JSON.parse(
+      localStorage.getItem("selectedProducts")
+    ).reduce((sum, item) => sum + item.price * cart.find(item2 => item2.id == item.id)?.count, 0);
     },
     orderType(type) {
       this.pickupCheck = type;
@@ -432,6 +448,15 @@ export default {
             { order: this.orderContainer, token: localStorage.getItem("Auth") }
           );
           this.show("orderModal");
+          let cart = JSON.parse(localStorage.getItem("cart"));
+      let mewCart = cart
+        .map((item) => {
+          if (!this.products.find((item2) => item2.id == item.id)) {
+            return { id: item.id, count: item.count };
+          }
+        })
+        .filter((element) => element);
+      localStorage.setItem("cart", JSON.stringify(mewCart));
         } catch ({ response }) {
           console.log(Object.keys(response.data));
           await this.$toast.open({
@@ -460,6 +485,15 @@ export default {
             { order: this.orderContainer }
           );
           this.show("orderModal");
+          let cart = JSON.parse(localStorage.getItem("cart"));
+      let mewCart = cart
+        .map((item) => {
+          if (!this.products.find((item2) => item2.id == item.id)) {
+            return { id: item.id, count: item.count };
+          }
+        })
+        .filter((element) => element);
+      localStorage.setItem("cart", JSON.stringify(mewCart));
         } catch ({ response }) {
           console.log(Object.keys(response.data));
           if (
@@ -471,8 +505,10 @@ export default {
           }
         }
       }
+
     },
     checkPayment(payments, types) {
+      this.activePayment = types.parent;
       this.orderContainer.payment = types.id;
       if (payments.children.find((item) => item.id == types.id)) {
         console.log();
@@ -518,8 +554,6 @@ export default {
     .input_username {
       border: 1px solid red !important;
     }
-   
-
   }
   .formNumberError {
     .label_number {

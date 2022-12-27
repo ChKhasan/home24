@@ -62,15 +62,21 @@ export default {};
       width: 100%;
       object-fit: cover;
     }
+    @media (max-width: 1440px) {
+      height: 220px;
+
+    }
   }
   &__desc {
     margin-top: 12px;
+   
     p {
       font-family: "Inter";
       font-style: normal;
       font-weight: 400;
       font-size: 16px;
       line-height: 24px;
+
       /* or 150% */
 
       /* Grey 80% */
@@ -82,6 +88,12 @@ export default {};
       text-overflow: ellipsis;
       flex-grow: 1;
     }
+    @media (max-width: 1440px) {
+      p {
+        font-size: 12px;
+        line-height: 20px;
+      }
+    }
   }
   &__link {
     font-family: "Inter";
@@ -90,10 +102,10 @@ export default {};
     font-size: 16px;
     line-height: 24px;
     color: #ff7e00;
-    transition: .4s;
+    transition: 0.4s;
     &:hover {
       text-decoration-line: none;
-      color: rgba(255, 126, 0,0.4);
+      color: rgba(255, 126, 0, 0.4);
     }
   }
 }

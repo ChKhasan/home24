@@ -178,14 +178,10 @@ export default {
   props: ["product", "deleteProductFromComparison"],
   data() {
     return {
-      likeP: [],
-      cartP: [],
+     
     };
   },
-  mounted() {
-    this.likeP = JSON.parse(localStorage.getItem("like"));
-    this.cartP = JSON.parse(localStorage.getItem("cart"));
-  },
+ 
   methods: {
     includes(array, id) {
       if (array) {
@@ -194,20 +190,7 @@ export default {
         true;
       }
     },
-    addToBasket(id) {
-      let cart = JSON.parse(localStorage.getItem("cart"));
-      cart.push(id);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      this.$store.commit("addToCart");
-      this.cartP = JSON.parse(localStorage.getItem("cart"));
-    },
-    addToLike(id) {
-      let like = JSON.parse(localStorage.getItem("like"));
-      like.push(id);
-      localStorage.setItem("like", JSON.stringify(like));
-      this.$store.commit("addToLike");
-      this.likeP = JSON.parse(localStorage.getItem("like"));
-    },
+   
   },
 };
 </script>

@@ -359,6 +359,9 @@ export default {
     color: #ff7e00 !important;
     font-weight: 500 !important;
   }
+  .el-tabs__content {
+    overflow: visible !important;
+  }
   .el-tabs__nav-wrap::after {
     content: "";
     position: absolute;

@@ -2,7 +2,10 @@
   <div class="container product">
     <div class="row">
       <div class="col-12">
-        <BreadCrumb :links="links" last="Геймерское кресло Audi" />
+        <BreadCrumb
+          :links="[...links, { name: 'Category', to: '/' }]"
+          :last="product.product?.name"
+        />
       </div>
     </div>
     <div class="row">
@@ -56,7 +59,7 @@
 
             <h1 v-else>{{ product.product?.name }}</h1>
           </div>
-          <p>
+          <p v-if="product.product?.brand">
             Производитель:
             <b-skeleton
               v-if="skeleton"
@@ -66,25 +69,25 @@
             ><span v-else>{{ product.product?.brand }}</span>
           </p>
           <p>
-            Модель: <b-skeleton
+            Модель:
+            <b-skeleton
               v-if="skeleton"
               animation="wave"
               width="25%"
-            ></b-skeleton
-            > <span v-else>{{ product.product?.model }}</span>
+            ></b-skeleton>
+            <span v-else>{{ product.product?.model }}</span>
           </p>
           <div class="product__types-colors">
             <p>Цвет:</p>
             <div class="product__types-color">
               <b-skeleton
-              v-if="skeleton"
-              animation="wave"
-              height="70px"
-              width="25%"
-            ></b-skeleton
-            >
+                v-if="skeleton"
+                animation="wave"
+                height="70px"
+                width="25%"
+              ></b-skeleton>
               <div
-              v-else
+                v-else
                 v-for="color in product.colors"
                 @click="fetchProductByOption(color?.variant)"
                 :class="{
@@ -95,25 +98,19 @@
               </div>
             </div>
           </div>
+          <b-skeleton v-if="skeleton" animation="wave" width="25%"></b-skeleton>
           <b-skeleton
-              v-if="skeleton"
-              animation="wave"
-              width="25%"
-            ></b-skeleton
-            >
-            <b-skeleton
-              v-if="skeleton"
-              animation="wave"
-              height="70px"
-              width="45%"
-            ></b-skeleton
-            >
+            v-if="skeleton"
+            animation="wave"
+            height="70px"
+            width="45%"
+          ></b-skeleton>
           <div
-          v-else
+            v-else
             class="product__types-sizies"
             v-for="attrebut in product?.atributs"
-          > 
-            <p >{{ attrebut?.name }}:</p>
+          >
+            <p>{{ attrebut?.name }}:</p>
             <div class="product__types-size">
               <div
                 class="options_style"
@@ -121,6 +118,7 @@
                 @click="fetchProductByOption(elements?.variant)"
                 :class="{
                   activeSize: product?.options.includes(elements.id),
+                  disabledOption: elements?.variant == null,
                 }"
               >
                 {{ elements?.name }}
@@ -129,6 +127,59 @@
                     nullClass: elements?.variant == null,
                   }"
                 ></div>
+              </div>
+            </div>
+            <div class="product_count" v-if="checkCart">
+              <p>Количество:</p>
+              <div class="sc-count">
+                <div class="sc-count-btn">
+                  <span @click="updateCount(false, product)"
+                    ><svg
+                      width="17"
+                      height="2"
+                      viewBox="0 0 17 1"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M0 0.5C0 0.223858 0.152223 0 0.34 0H16.66C16.8478 0 17 0.223858 17 0.5C17 0.776142 16.8478 1 16.66 1H0.34C0.152223 1 0 0.776142 0 0.5Z"
+                        fill="#9A999B"
+                      />
+                    </svg>
+                  </span>
+                  <p>
+                    {{ checkCart.count }}
+                  </p>
+                  <span @click="updateCount(true, product)"
+                    ><svg
+                      width="17"
+                      height="17"
+                      viewBox="0 0 17 17"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <line
+                        x1="0.5"
+                        y1="8.5"
+                        x2="16.5"
+                        y2="8.5"
+                        stroke="black"
+                        stroke-linecap="round"
+                      />
+                      <line
+                        x1="8.5"
+                        y1="0.5"
+                        x2="8.5"
+                        y2="16.5"
+                        stroke="black"
+                        stroke-linecap="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+                <span>Осталось всего {{ product.qty }}</span>
               </div>
             </div>
           </div>
@@ -241,7 +292,7 @@
                       <p>{{ rate.rate5 }}</p>
                     </div>
                   </div>
-                  <div class="comments_reyting__c-btn">
+                  <div class="comments_reyting__c-btn" v-if="checkAuth">
                     <div @click="show('new-review-modal')">
                       Оставить первый отзыв
                     </div>
@@ -421,6 +472,7 @@ export default {
       },
       comment: "",
       value: 5,
+      checkAuth: false,
       product: {},
       optionId: null,
       skeleton: true,
@@ -437,14 +489,12 @@ export default {
         rating: 0,
       },
       activeName: "first",
+      cartProducts: [],
+      checkCart: false,
       links: [
         {
           name: "Главный",
           to: "/",
-        },
-        {
-          name: "Офисная мебель",
-          to: "/categoryId",
         },
       ],
     };
@@ -468,22 +518,73 @@ export default {
     },
   },
   async created() {
-    const product = await this.$store.dispatch(
-      "fetchProduct/fetchProductByOption",
-      this.$route.params.index
-    );
-    const comments = await this.$store.dispatch(
-      "fetchProductComment/fetchComment",
-      this.$route.params.index
-    );
-    this.comments = comments;
-    this.carouselChange = product.images[0]?.image
-      ? product.images[0]?.image
-      : "../../assets/images/image 34.png";
-    this.product = product;
-    this.skeleton = await false;
+    this.checkAuth = localStorage.getItem("Auth");
+
+    this.GET_PRODUCT();
+    this.GET_COMMITS();
   },
   methods: {
+    updateCount(type, product) {
+      if (type) {
+        let cart = JSON.parse(localStorage.getItem("cart"));
+        let newCart = cart.map((item) => {
+          if (item.id == product.id) {
+            item.count++;
+            return item;
+          } else {
+            return item;
+          }
+        });
+        localStorage.setItem("cart", JSON.stringify(newCart));
+        this.cartProducts = JSON.parse(localStorage.getItem("cart"));
+        this.checkCart = this.cartProducts.find(
+          (item) => item.id == product.id
+        );
+      } else {
+        let cart = JSON.parse(localStorage.getItem("cart"));
+        let newCart = cart.map((item) => {
+          if (item.id == product.id) {
+            if (item.count > 1) {
+              item.count--;
+            } else {
+              item.count;
+            }
+            return item;
+          } else {
+            return item;
+          }
+        });
+
+        localStorage.setItem("cart", JSON.stringify(newCart));
+        this.cartProducts = JSON.parse(localStorage.getItem("cart"));
+        this.checkCart = this.cartProducts.find(
+          (item) => item.id == product.id
+        );
+      }
+    },
+    async GET_PRODUCT() {
+      const product = await this.$store.dispatch(
+        "fetchProduct/fetchProductByOption",
+        this.$route.params.index
+      );
+      this.product = await product;
+      this.cartProducts = await JSON.parse(localStorage.getItem("cart"));
+      this.checkCart = await this.cartProducts.find(
+        (item) => item.id == product.id
+      );
+      console.log(this.checkCart);
+      this.carouselChange = product.images[0]?.image
+        ? product.images[0]?.image
+        : "../../assets/images/image 34.png";
+      this.skeleton = await false;
+    },
+    async GET_COMMITS() {
+      const comments = await this.$store.dispatch(
+        "fetchProductComment/fetchComment",
+        this.$route.params.index
+      );
+      this.comments = comments;
+    },
     handleClick(tab, event) {
       console.log(tab, event);
     },
@@ -518,6 +619,9 @@ export default {
 </script>
 <style lang="scss">
 .product {
+  .disabledOption {
+    pointer-events: none !important;
+  }
   .send-review-modal {
     &__m-comment {
       width: 100%;
@@ -1067,8 +1171,7 @@ export default {
       background: red !important;
       top: 50%;
       transform: rotate(45deg);
-      cursor: not-allowed;
-      pointer-events: all !important;
+      pointer-events: none !important;
     }
   }
   &__types-sizies {
@@ -1103,6 +1206,36 @@ export default {
     padding-top: 8px;
   }
   &__types {
+    .product_count {
+      margin-top: 32px;
+    }
+    .sc-count {
+      display: flex;
+      align-items: center;
+      span {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        color: #5d5d5f;
+        margin-left: 16px;
+      }
+      .sc-count-btn {
+        border: 1px solid #f2f2fa;
+        border-radius: 4px;
+        padding: 12px 16px;
+        display: flex;
+        svg {
+          cursor: pointer;
+          height: 100%;
+        }
+        p {
+          padding: 0 27px;
+          margin-bottom: 0;
+        }
+      }
+    }
     p {
       font-family: "Inter", sans-serif;
       font-style: normal;
@@ -1136,7 +1269,8 @@ export default {
     height: 530px;
     overflow: hidden;
     .carousel-items {
-      display: grid;
+      display: flex;
+      flex-direction: column;
       grid-template-columns: 1fr;
       grid-gap: 20px;
       overflow-y: scroll;

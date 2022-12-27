@@ -3,7 +3,7 @@
     <div class="product-day__title d-flex justify-content-between">
       <h2>товар дня</h2>
       <span
-      @click="$store.commit('addToStore', { id: product.id, name: 'like' })"
+        @click="$store.commit('addToStore', { id: product.id, name: 'like' })"
         :class="{ disabledLike: includes($store.state.like, product.id) }"
         ><svg
           width="22"
@@ -32,7 +32,10 @@
       </span>
     </div>
     <div class="product-day__body d-flex">
-      <div class="product-day__img" @click="$router.push(`/product/${product.id}`)">
+      <div
+        class="product-day__img"
+        @click="$router.push(`/product/${product.id}`)"
+      >
         <img :src="product.images[0].image" alt="" />
       </div>
       <div class="product-day__info">
@@ -42,11 +45,11 @@
         </div>
 
         <div class="product-day__price d-flex align-items-center">
-          <h5>{{product.price}}</h5>
+          <h5>{{ product.price }}</h5>
           <span>сум</span>
         </div>
         <div class="product-day__last-price">
-          <span>{{product.price}}</span>
+          <span>{{ product.price }}</span>
         </div>
         <div class="product-day__reviews">
           <p>
@@ -69,14 +72,14 @@
           </p>
         </div>
         <div class="product-day__name">
-          <span> {{product.product.name}} LTE (синий)</span>
+          <span> {{ product.product.name }} LTE (синий)</span>
         </div>
         <div class="product-day__btn">
           <button
-          @click="
-            $store.commit('addToStore', { id: product.id, name: 'cart' })
-          "
-          :class="{ disabled: includes($store.state.cart, product.id) }"
+            @click="
+              $store.commit('addToStore', { id: product.id, name: 'cart' })
+            "
+            :class="{ disabled: includes($store.state.cart, product.id) }"
           >
             <svg
               width="16"
@@ -135,20 +138,6 @@ export default {
     this.likeP = JSON.parse(localStorage.getItem("like"));
   },
   methods: {
-    addToLike(id) {
-      let like = JSON.parse(localStorage.getItem("like"));
-      like.push(id);
-      localStorage.setItem("like", JSON.stringify(like));
-      this.$store.commit("addToLike");
-      this.likeP = JSON.parse(localStorage.getItem("like"));
-    },
-    addToBasket(id) {
-      let cart = JSON.parse(localStorage.getItem("cart"));
-      cart.push(id);
-      localStorage.setItem("cart", JSON.stringify(cart));
-      this.$store.commit("addToCart");
-      this.cartP = JSON.parse(localStorage.getItem("cart"));
-    },
     includes(array, id) {
       if (array) {
         return array.find((item) => item === id) ? true : false;
@@ -164,10 +153,21 @@ export default {
   border-radius: 24px;
   background: #fff;
   padding: 30px 32px;
-  height: 432px !important;
+  height: 432px;
+  @media (max-width: 1440px) {
+    height: 342px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
   &__btn {
     padding-top: 24px;
     button {
+      @media (max-width: 1440px) {
+        white-space: nowrap;
+        padding: 10px 28px;
+      }
       background: #ff6418;
       border-radius: 4px;
       padding: 10px 30px;
@@ -185,6 +185,9 @@ export default {
         margin-right: 13px;
       }
     }
+    @media (max-width: 1370px) {
+      padding-top: 14px;
+    }
   }
   &__name {
     span {
@@ -193,11 +196,13 @@ export default {
       font-weight: 400;
       font-size: 14px;
       line-height: 18px;
-      /* or 129% */
-
-      /* Qora */
-
+    
       color: #020105;
+      @media (max-width: 1370px) {
+      font-size: 12px;
+      line-height: 13px;
+      padding-right: 0;
+    }
     }
   }
   &__reviews {
@@ -254,6 +259,10 @@ export default {
   }
   &__info {
     width: 50%;
+    @media (max-width: 1440px) {
+      width: 66%;
+      padding-left: 10px;
+    }
   }
   &__aksiya {
     background: #f4f5f5;
@@ -270,14 +279,30 @@ export default {
     line-height: 19px;
     letter-spacing: 0em;
     text-align: left;
+    @media (max-width: 1440px) {
+      font-size: 16px;
+      line-height: 19px;
+      padding-right: 0;
+    }
+    @media (max-width: 1370px) {
+      font-size: 14px;
+      line-height: 17px;
+      padding-right: 0;
+    }
   }
   &__body {
     padding-top: 34px;
+    @media (max-width: 1440px) {
+      padding-top: 0;
+    }
   }
   &__img {
     width: 50%;
     height: 246px;
     cursor: pointer;
+    @media (max-width: 1440px) {
+      width: 44%;
+    }
     img {
       width: 100%;
       height: 100%;
@@ -285,6 +310,13 @@ export default {
     }
   }
   &__title {
+    @media (max-width: 1440px) {
+      h2 {
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 26px;
+      }
+    }
     h2 {
       font-family: "TT Firs Neue";
       font-size: 24px;
@@ -338,6 +370,14 @@ export default {
     line-height: 17px;
     letter-spacing: 0em;
     text-align: left;
+    @media (max-width: 1440px) {
+      font-size: 14px;
+      line-height: 17px;
+    }
+    @media (max-width: 1370px) {
+      font-size: 12px;
+      line-height: 16px;
+    }
   }
 }
 </style>

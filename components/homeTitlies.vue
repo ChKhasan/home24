@@ -20,6 +20,9 @@ export default {
 <style lang="scss">
 .home-title {
   padding-top: 120px;
+  @media (max-width: 1440px) {
+    padding-top: 56px;
+  }
   &__title {
     h1 {
       font-family: "TT Firs Neue";

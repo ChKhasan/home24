@@ -34,29 +34,31 @@
           <div class="product-modal__carousel">
             <div class="carousel-banner">
               <img
-        v-if="product.images.length == 0"
-        src="../../assets/images/image 107.png"
-        alt=""
-      />
-              <img v-else :src="product.images[0].image" alt="" />
+                v-if="product.images.length == 0"
+                src="../../assets/images/image 107.png"
+                alt=""
+              />
+              <img v-else :src="carouselChange" alt="" />
             </div>
             <div class="carousel-items">
               <div
-                class="carousel-img activeImg"
+                class="carousel-img"
                 v-for="image in product.images"
+                :class="{ activeImg: carouselChange == image.image }"
               >
-              <img
-        v-if="product.images.length == 0"
-        src="../../assets/images/image 107.png"
-        alt=""
-      />
                 <img
-                v-else
+                  v-if="product.images.length == 0"
+                  src="../../assets/images/image 107.png"
+                  alt=""
+                />
+                <img
+                  v-else
                   :src="image.image"
-                  @click="carouselChange = product.images[0].image"
+                  @click="carouselChange = image.image"
                   alt=""
                 />
               </div>
+              
               <!-- <div class="carousel-img">
                 <img
                   src="../../assets/images/image 34.png"
@@ -104,7 +106,15 @@ import ProductHeaderInfo from "../product/productHeaderInfo.vue";
 
 export default {
   props: ["modal", "hide", "product"],
+  data() {
+    return {
+      carouselChange: null,
+    };
+  },
   components: { CardProductPrice, ProductCharactertable, ProductHeaderInfo },
+  created() {
+    this.carouselChange = this.product.images[0]?.image;
+  },
 };
 </script>
 <style lang="scss">
@@ -138,9 +148,8 @@ export default {
     overflow: hidden;
 
     .carousel-items {
-      display: grid;
+      display: flex;
       grid-auto-flow: column;
-
       overflow-x: scroll;
       height: 80px;
 

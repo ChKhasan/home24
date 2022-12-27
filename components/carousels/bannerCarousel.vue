@@ -92,6 +92,9 @@ export default {
     height: 12px;
   }
   .slick-slider {
+    @media (max-width: 1440px) {
+      height: 342px;
+    }
     border-radius: 24px;
     height: 432px;
     /* overflow: hidden; */

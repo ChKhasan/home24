@@ -13,7 +13,10 @@
       <span
         class="product-card__heart to-favorites"
         @click="$store.commit('addToStore', { id: product.id, name: 'like' })"
-        :class="{ disabledLike: includes($store.state.like, product.id) }"
+        :class="{
+          disabledLike: includes($store.state.like, product.id),
+          activeLike: includes($store.state.like, product.id),
+        }"
         ><svg
           width="16"
           height="16"
@@ -46,6 +49,7 @@
         "
         :class="{
           disabledLike: includes($store.state.comparison, product.id),
+          activeLike: includes($store.state.comparison, product.id),
         }"
       >
         <svg
@@ -95,7 +99,6 @@
       :modal="`modal${product.id}`"
       :hide="hide"
       :product="product"
-     
     />
     <!-- @click="$router.push('/product/1')" -->
     <div class="product-card__body">
@@ -103,8 +106,14 @@
         <span> {{ product.price }} сум </span>
         <div
           class="to_cart"
-          @click="$store.commit('addToStore', { id: product.id, name: 'cart' })"
-          :class="{ disabled: includes($store.state.cart, product.id) }"
+          @click="
+            $store.commit('addToStoreCart', {
+              id: product.id,
+              name: 'cart',
+              count: 1,
+            })
+          "
+          :class="{ disabled: includesCart($store.state.cart, product.id) }"
         >
           <svg
             width="16"
@@ -170,10 +179,9 @@
       >
         <p>
           {{ product.product?.name }} ({{
-                        product.product.colors.find(
-                          (item) => item.id == product.color
-                        ).name
-                      }})
+            product.product.colors.find((item) => item.id == product.color)
+              .name
+          }})
         </p>
       </div>
     </div>
@@ -187,14 +195,12 @@ export default {
   data() {
     return {
       productId: 2,
-      cartP: [],
       likeP: [],
       comparisonP: [],
     };
   },
   components: { ProductModal },
   async mounted() {
-    this.cartP = JSON.parse(localStorage.getItem("cart"));
     this.likeP = JSON.parse(localStorage.getItem("like"));
     this.comparisonP = JSON.parse(localStorage.getItem("comparison"));
     console.log(this.product);
@@ -208,7 +214,13 @@ export default {
         true;
       }
     },
-
+    includesCart(array, id) {
+      if (array) {
+        return array.find((item) => item.id === id) ? true : false;
+      } else {
+        true;
+      }
+    },
     show() {
       this.$modal.show(`modal${this.product.id}`);
     },
@@ -228,6 +240,9 @@ export default {
     background: #f9f9f9;
     margin-top: 8px;
     border-radius: 16px;
+    @media (max-width: 1440px) {
+      padding: 9.6px 10.5px;
+    }
   }
   &__price {
     span {
@@ -239,6 +254,10 @@ export default {
       text-align: left;
       display: flex;
       align-items: center;
+      @media (max-width: 1440px) {
+        font-size: 14px;
+        line-height: 18px;
+      }
     }
     .to_cart {
       display: flex;
@@ -248,6 +267,14 @@ export default {
       width: 32px;
       border-radius: 50%;
       background: #ff6418;
+      @media (max-width: 1440px) {
+      width: 24px;
+      height: 24px; 
+      svg {
+        width: 12px;
+        height: 14px;
+      }
+    }
     }
     .disabled {
       background: white;
@@ -272,10 +299,23 @@ export default {
 
       color: #9a999b;
       margin-bottom: 0 !important;
+      @media (max-width: 1440px) {
+        font-size: 12px;
+        line-height: 16px;
+      }
     }
   }
   &__reviews {
+    display: flex;
     padding-top: 7px;
+    @media (max-width: 1440px) {
+      padding-top: 5.5px;
+      svg {
+        width: 9.5px;
+        height: 9px;
+      }
+    }
+    
     span {
       font-family: "Inter";
       font-size: 13px;
@@ -283,6 +323,10 @@ export default {
       line-height: 12px;
       letter-spacing: 0em;
       text-align: left;
+      @media (max-width: 1440px) {
+        font-size: 10px;
+        line-height: 12px;
+      }
     }
   }
   &__name {
@@ -301,8 +345,15 @@ export default {
       display: -webkit-box;
       text-overflow: ellipsis;
       flex-grow: 1;
+      @media (max-width: 1440px) {
+        font-size: 12px;
+        line-height: 16px;
+      }
     }
     margin-top: 9px;
+    @media (max-width: 1440px) {
+      margin-top: 4.5px;
+    }
   }
   &__hover-link {
     position: absolute;
@@ -335,10 +386,14 @@ export default {
     }
     img {
       height: 300px;
+      @media (max-width: 1440px) {
+        height: 280px;
+      }
       transition: 0.5s;
       object-fit: contain;
       width: 100%;
     }
+
     .disabledLike {
       background: #ff6418 !important;
       svg {
@@ -346,6 +401,9 @@ export default {
           stroke: #fff;
         }
       }
+    }
+    .activeLike {
+      right: 12px !important;
     }
   }
   &__heart {
@@ -362,6 +420,14 @@ export default {
     height: 32px;
     background: #f8f8fa;
     border-radius: 50%;
+    @media (max-width: 1440px) {
+      width: 24px;
+      height: 24px; 
+      svg {
+        width: 12px;
+        height: 14px;
+      }
+    }
   }
   &__buy {
     position: absolute;
@@ -381,6 +447,14 @@ export default {
 
     svg {
       transition: 0.3s;
+    }
+    @media (max-width: 1440px) {
+      width: 24px;
+      height: 24px; 
+      svg {
+        width: 12px;
+        height: 14px;
+      }
     }
     // &:hover {
     //   background: #ff6418;
@@ -408,6 +482,9 @@ export default {
     font-size: 12px;
     line-height: 16px;
     color: #020105;
+    @media (max-width: 1440px) {
+
+    }
   }
 }
 </style>

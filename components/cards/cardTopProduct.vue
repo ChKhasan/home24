@@ -21,6 +21,12 @@ export default {};
   //   background: linear-gradient(0deg, #c8d1ec, #c8d1ec),
   //     linear-gradient(0deg, #f2f2fa, #f2f2fa);
   border-radius: 24px;
+  background-position: center;
+  background-size: cover;
+  @media (max-width: 1440px) {
+    padding: 26px;
+  height: 242px;
+     }
   &__title {
     h2 {
       width: 70%;
@@ -29,10 +35,10 @@ export default {};
       font-weight: 500;
       font-size: 32px;
       line-height: 40px;
-      /* or 125% */
-
-      /* Qora */
-
+     @media (max-width: 1440px) {
+      font-size: 24px;
+line-height: 30px;
+     }
       color: #020105;
     }
   }

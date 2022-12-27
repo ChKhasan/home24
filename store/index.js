@@ -26,6 +26,12 @@ export const mutations = {
     localStorage.setItem(payload.name, JSON.stringify(cart));
     state[payload.name] = cart;
   },
+  addToStoreCart(state, payload) {
+    let cart = JSON.parse(localStorage.getItem(payload.name));
+    cart = [...cart,{ id: payload.id, count: payload.count }];
+    localStorage.setItem(payload.name, JSON.stringify(cart));
+    state[payload.name] = cart;
+  },
   reloadStore(state) {
     if (localStorage.getItem("cart")) {
       const cart = JSON.parse(localStorage.getItem("cart"));

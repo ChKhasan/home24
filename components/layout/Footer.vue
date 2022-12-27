@@ -2,47 +2,49 @@
   <div class="container-fluid footer">
     <div class="container">
       <div class="row">
-        <div class="col-3">
-          <h3 class="footer__list-title">Информация</h3>
-          <ul class="footer__list">
-            <li>О компании</li>
-            <li>Наши партнеры</li>
-            <li>Блог</li>
-            <li>О наших акциях и скидках</li>
-            <li>Пользовательское соглашение</li>
-          </ul>
-        </div>
-        <div class="col-3">
-          <h3 class="footer__list-title">Поддержка и сервис</h3>
-          <ul class="footer__list">
-            <li>Вопросы и ответы</li>
-            <li>Отзывы</li>
-            <li>Контакты</li>
-            <li>Для партнеров</li>
-          </ul>
-        </div>
-        <div class="col-3">
-          <h3 class="footer__list-title">Мой профиль</h3>
-          <ul class="footer__list">
-            <li @click="$router.push('/profile/personal')">Личный кабинет</li>
-            <li @click="$router.push('/favorites')">Избранные товары</li>
-            <li @click="$router.push('/comparison')">Список сравнения</li>
-            <li @click="$router.push('/profile/orders')">Мои заказы</li>
-          </ul>
-        </div>
-        <div class="col-3">
-          <h3 class="footer__list-title">Контакты</h3>
-          <ul class="footer__list">
-            <li>Телефон: +998 (71) 200-7-002</li>
-            <li>Ташкент, ул. Коратош, 106</li>
-          </ul>
-          <div class="footer__qr-code d-flex align-items-center">
-            <img src="../../assets/images/image 34.png" alt="" />
-            <p>
-              Наведите камеру <br />
-              на QR-код, чтобы <br />
-              найти местоположение
-            </p>
+        <div class="col-12 footer__controller">
+          <div class="">
+            <h3 class="footer__list-title">Информация</h3>
+            <ul class="footer__list">
+              <li>О компании</li>
+              <li>Наши партнеры</li>
+              <li>Блог</li>
+              <li>О наших акциях и скидках</li>
+              <li>Пользовательское соглашение</li>
+            </ul>
+          </div>
+          <div class="">
+            <h3 class="footer__list-title">Поддержка и сервис</h3>
+            <ul class="footer__list">
+              <li>Вопросы и ответы</li>
+              <li>Отзывы</li>
+              <li>Контакты</li>
+              <li>Для партнеров</li>
+            </ul>
+          </div>
+          <div class="">
+            <h3 class="footer__list-title">Мой профиль</h3>
+            <ul class="footer__list">
+              <li @click="$router.push('/profile/personal')">Личный кабинет</li>
+              <li @click="$router.push('/favorites')">Избранные товары</li>
+              <li @click="$router.push('/comparison')">Список сравнения</li>
+              <li @click="$router.push('/profile/orders')">Мои заказы</li>
+            </ul>
+          </div>
+          <div class="">
+            <h3 class="footer__list-title">Контакты</h3>
+            <ul class="footer__list">
+              <li>Телефон: +998 (71) 200-7-002</li>
+              <li>Ташкент, ул. Коратош, 106</li>
+            </ul>
+            <div class="footer__qr-code d-flex align-items-center">
+              <img src="../../assets/images/image 34.png" alt="" />
+              <p>
+                Наведите камеру <br />
+                на QR-код, чтобы <br />
+                найти местоположение
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -183,6 +185,10 @@ export default {};
   padding-top: 80px;
   padding-bottom: 40px;
   margin-top: 120px;
+  &__controller {
+    display: grid;
+    grid-template-columns: 6fr 5fr 4fr 6fr;
+  }
   &__end {
     p {
       font-family: "Inter", sans-serif;
@@ -192,12 +198,12 @@ export default {};
       letter-spacing: 0em;
       text-align: left;
       color: #727474;
-
     }
   }
   &__messengers {
     padding-top: 40px;
     padding-bottom: 32px;
+
     p {
       margin-bottom: 0 !important;
       margin-right: 40px;
@@ -264,11 +270,18 @@ export default {};
       letter-spacing: 0em;
       text-align: left;
       color: #727474;
-      transition: .4s;
+      transition: 0.4s;
       &:hover {
-      color: #161919;
-
+        color: #161919;
       }
+    }
+  }
+}
+@media (max-width: 1440px) {
+  .footer {
+    &__messengers {
+      padding-top: 36px;
+      padding-bottom: 32px;
     }
   }
 }

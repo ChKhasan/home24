@@ -35,9 +35,15 @@ export default {
     font-family: "Inter";
     font-style: normal;
     font-weight: 500;
-    font-size: 40px;
+    font-size: 32px;
     line-height: 48px;
     color: #020105;
+  }
+  @media (max-width: 1440px) {
+    h1 {
+      font-size: 32px;
+    line-height: 48px;
+    }
   }
   .category-control {
     span {

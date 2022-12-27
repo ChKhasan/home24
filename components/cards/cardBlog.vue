@@ -20,6 +20,7 @@ export default {};
   display: flex;
   align-items: flex-end;
   position: relative;
+ 
   &__shadow {
     top: 0;
     left: 0;
@@ -38,13 +39,20 @@ export default {};
   p {
     font-family: "Inter";
     font-style: normal;
-    font-weight: 600;
+    font-weight: 400;
     font-size: 20px;
     line-height: 28px;
     /* or 140% */
     z-index: 100;
 
     color: #ffffff;
+  }
+  @media (max-width: 1440px) {
+    height: 226px;
+    p {
+      font-size: 16px;
+line-height: 22px;
+    }
   }
 }
 </style>

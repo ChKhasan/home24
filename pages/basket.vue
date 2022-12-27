@@ -11,7 +11,9 @@
       </div>
       <div class="row">
         <div class="col-12 basket__count">
-          <p>Товаров: <span>{{ basketProducts.length }}</span></p>
+          <p>
+            Товаров: <span>{{ basketProducts.length }}</span>
+          </p>
         </div>
       </div>
       <div class="row">
@@ -97,7 +99,12 @@
                           />
                         </svg>
                       </span>
-                      <p>{{ product.quantity }}</p>
+                      <p>
+                        {{
+                          productCounts.find((item) => item.id == product.id)
+                            ?.count
+                        }}
+                      </p>
                       <span @click="updateCount(true, product)"
                         ><svg
                           width="17"
@@ -128,7 +135,21 @@
                   </div>
                   <div class="sc-price">
                     <div class="sc-price-svg">
-                      <svg
+                     
+
+                      <span
+                        class="select-order__heart to-favorites"
+                        @click="
+                          $store.commit('addToStore', {
+                            id: product.id,
+                            name: 'like',
+                          })
+                        "
+                        :class="{
+                          disabledLike: includes($store.state.like, product.id),
+                          activeLike: includes($store.state.like, product.id),
+                        }"
+                        > <svg
                         width="22"
                         height="22"
                         viewBox="0 0 22 22"
@@ -139,16 +160,20 @@
                           fill-rule="evenodd"
                           clip-rule="evenodd"
                           d="M10.7813 19.116C8.79152 17.8914 6.94051 16.4502 5.26134 14.8181C4.08081 13.6427 3.18208 12.2098 2.634 10.6291C1.64771 7.56278 2.79976 4.05242 6.02385 3.01356C7.7183 2.46807 9.5689 2.77984 10.9967 3.85135C12.4251 2.78114 14.2751 2.46948 15.9696 3.01356C19.1937 4.05242 20.3541 7.56278 19.3678 10.6291C18.8197 12.2098 17.921 13.6427 16.7404 14.8181C15.0613 16.4502 13.2103 17.8914 11.2205 19.116L11.005 19.25L10.7813 19.116Z"
-                          fill="#FF7E00"
+                          fill="white"
+                          stroke="black"
                         />
                         <path
                           d="M14.4277 6.46527C15.4043 6.77721 16.0981 7.65391 16.1848 8.68542"
-                          stroke="white"
                           stroke-width="1.5"
                           stroke-linecap="round"
                           stroke-linejoin="round"
+                          fill="white"
+                          stroke="black"
+
                         />
                       </svg>
+                      </span>
 
                       <svg
                         @click="deleteProductFromCart(product.id)"
@@ -181,9 +206,7 @@
                         />
                       </svg>
                     </div>
-                    <div class="sc-last-price">
-                      {{ product.price * product.quantity }} сум
-                    </div>
+                    <div class="sc-last-price">{{ product.price }} сум</div>
                     <span class="sc-first-price">2 200 000 сум</span>
                   </div>
                 </div>
@@ -194,7 +217,7 @@
             <div class="basket__order-info">
               <h1>Ваш заказ</h1>
               <div class="order-info-text">
-                <p>Товары, {{ basketProducts.length }} шт</p>
+                <p>Товары, {{ allOrders }} шт</p>
                 <p>{{ allPrice }} сум</p>
               </div>
               <div class="order-info-text">
@@ -202,7 +225,7 @@
                 <span>бесплатно</span>
               </div>
               <div class="order-info-text">
-                <p>Товары, {{ basketProducts.length }} шт</p>
+                <p>Товары, {{ allOrders }} шт</p>
                 <p>{{ allPrice }} сум</p>
               </div>
               <div
@@ -233,6 +256,7 @@ export default {
       checkedCities: [],
       cities: cityOptions,
       isIndeterminate: true,
+      allOrders: 0,
       allPrice: 0,
       count: 1,
       options: [
@@ -264,40 +288,44 @@ export default {
           to: "/",
         },
       ],
+      productCounts: [],
       basketProducts: [],
       selectedProducts: [],
     };
   },
   components: { TitleBasket, BreadCrumb, EmptyBlog, SelectToOrder },
   methods: {
-    async deleteProductFromCart(id) {
-      console.log(id);
-      let basket = await JSON.parse(localStorage.getItem("cart"));
-      const index = await basket.indexOf(id);
-      if (index > -1) {
-        await basket.splice(index, 1);
-        await localStorage.setItem("cart", JSON.stringify(basket));
+    includes(array, id) {
+      if (array) {
+        return array.find((item) => item === id) ? true : false;
+      } else {
+        true;
       }
-      const cart = await this.$store.dispatch(
+    },
+    async deleteProductFromCart(id) {
+      let cart = await JSON.parse(localStorage.getItem("cart"));
+
+      const index = await cart.find((item) => item.id == id);
+      if (index) {
+        cart = await cart.filter((item) => item.id != index.id);
+        await localStorage.setItem("cart", JSON.stringify(cart));
+      }
+      const newCart = await this.$store.dispatch(
         "fetchBasket/postCart",
-        JSON.parse(localStorage.getItem("cart"))
+        JSON.parse(localStorage.getItem("cart")).map((item) => item?.id)
       );
-      this.basketProducts = cart;
+      this.basketProducts = newCart;
       this.$store.commit("reloadStore");
     },
+
     saveSelectedProducts() {
-      // this.takeCheckedProducts()
       localStorage.setItem(
         "selectedProducts",
         JSON.stringify(this.selectedProducts)
       );
-      console.log(this.selectedProducts);
       this.$router.push("/send-order");
     },
-    takeCheckedProducts(products) {
-      this.selectedProducts = products;
-      console.log(this.selectedProducts);
-    },
+
     handleCheckAllChange(val) {
       localStorage.setItem(
         "order_count",
@@ -313,7 +341,9 @@ export default {
           })
         : [];
       this.isIndeterminate = false;
-      this.takeCheckedProducts(select);
+      this.selectedProducts = select;
+      this.totalOrders();
+      this.totalPrice();
     },
     handleCheckedCitiesChange(value) {
       let checkedCount = value.length;
@@ -329,30 +359,73 @@ export default {
           }
         });
       });
-      console.log(select);
-      this.takeCheckedProducts(select);
+      this.selectedProducts = select;
+      this.totalOrders();
+      this.totalPrice();
     },
     updateCount(type, product) {
       if (type) {
-        product.quantity++;
+        this.allOrders = this.selectedProducts.reduce((sum, item) => {
+          return sum + item.quantity;
+        }, 0);
+        let quant = this.productCounts.map((item) => {
+          if (item.id == product.id) {
+            item.count++;
+            return item;
+          } else {
+            return item;
+          }
+        });
+        localStorage.setItem("cart", JSON.stringify(quant));
+        this.productCounts = JSON.parse(localStorage.getItem("cart"));
       } else {
-        product.quantity > 0 ? product.quantity-- : product.quantity;
+        let quant = this.productCounts.map((item) => {
+          if (item.id == product.id) {
+            item.count > 1 ? item.count-- : item.count;
+            return item;
+          } else {
+            return item;
+          }
+        });
+        localStorage.setItem("cart", JSON.stringify(quant));
+        this.productCounts = JSON.parse(localStorage.getItem("cart"));
       }
-      this.allPrice = this.basketProducts.reduce((sum, item) => {
-        return sum + item.price * item.quantity;
+      this.totalOrders();
+      this.totalPrice();
+    },
+    totalOrders() {
+      this.allOrders = this.selectedProducts.reduce((sum, item) => {
+        return (
+          sum + this.productCounts.find((item2) => item2.id == item.id)?.count
+        );
       }, 0);
+    },
+    totalPrice() {
+      this.allPrice = this.selectedProducts.reduce((sum, item) => {
+        return (
+          sum +
+          item.price *
+            this.productCounts.find((item2) => item2.id == item.id)?.count
+        );
+      }, 0);
+    },
+    async GET_BASKET_PRODUCTS() {
+      const basket = await this.$store.dispatch(
+        "fetchBasket/postCart",
+        JSON.parse(localStorage.getItem("cart")).map((item) => item.id)
+      );
+      this.basketProducts = basket;
+      this.checkedCities = this.basketProducts.map((item) => item.id);
+      this.selectedProducts = this.basketProducts.map((item) => item);
     },
   },
   async created() {
-    const basket = await this.$store.dispatch(
-      "fetchBasket/postCart",
-      JSON.parse(localStorage.getItem("cart"))
-    );
-    this.basketProducts = basket;
-    this.allPrice = basket.reduce((sum, item) => {
-      return sum + item.price * item.quantity;
-    }, 0);
-    console.log(this.allPrice);
+    await this.GET_BASKET_PRODUCTS();
+    this.productCounts = JSON.parse(localStorage.getItem("cart"));
+    this.totalOrders();
+    this.totalPrice();
+    this.checkAll = true;
+    this.isIndeterminate = false;
   },
 };
 </script>
@@ -361,6 +434,7 @@ export default {
   padding: 41px 53px;
   background: #ffffff;
   border-radius: 8px;
+
   .el-checkbox-group {
     font-size: 1rem !important;
   }
@@ -430,6 +504,28 @@ export default {
         height: 100%;
         object-fit: contain;
       }
+    }
+  }
+  .disabledLike {
+    svg {
+      path {
+        stroke: white;
+        fill: #FF7E00
+
+      }
+    }
+  }
+  &__heart {
+    transition: 0.5s;
+    z-index: 30;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+    border-radius: 50%;
+    svg {
+      margin-left: 0 !important;
     }
   }
   &__card-body {

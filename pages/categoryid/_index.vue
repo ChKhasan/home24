@@ -617,7 +617,6 @@ export default {
     grid-template-columns: 2fr 10fr;
     grid-gap: 40px;
   }
-  padding-top: 32px;
   .five {
     grid-template-columns: repeat(5, 1fr);
   }
@@ -826,6 +825,9 @@ export default {
     padding-top: 32px;
     display: grid;
     grid-gap: 20px;
+    @media (max-width: 1440px) {
+      padding-top: 24px; 
+    }
   }
   &__product-controller {
     padding-top: 32px;
@@ -902,6 +904,12 @@ export default {
     font-size: 40px;
     line-height: 48px;
     color: #020105;
+  }
+  @media (max-width: 1440px) {
+    h1 {
+      font-size: 32px;
+    line-height: 48px;
+    }
   }
   .category-control {
     span {
