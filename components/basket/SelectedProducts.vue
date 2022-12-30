@@ -172,4 +172,38 @@ color: #020105;
     }
   }
 }
+@media (max-width: 1440px) {
+  .selected_products {
+    &__head {
+      h2 {
+        font-size: 20px;
+      }
+    }
+    .s-card {
+      &__body {
+        .title {
+          h5 {
+
+            font-size: 12px;
+  line-height: 16px;
+          }
+        }
+        .count {
+          p {
+            font-size: 12px;
+line-height: 16px;
+          }
+          span {
+            font-size: 12px;
+line-height: 16px;
+          }
+        }
+      }
+      &__img {
+        width: 67px;
+      height: 67px;
+      }
+    }
+  }
+}
 </style>

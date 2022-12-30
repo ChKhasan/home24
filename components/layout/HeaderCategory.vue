@@ -1242,9 +1242,6 @@ export default {
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 130px;
     .category {
-      @media (max-width: 1440px) {
-        padding-top: 0;
-      }
       a,
       span {
         font-family: "Inter";
@@ -1315,25 +1312,11 @@ export default {
     img {
       height: 44px;
     }
-    @media (max-width: 1440px) {
-      align-items: center;
-      svg,
-      img {
-        height: 32px;
-      }
-      div {
-        height: 100%;
-      }
-    }
   }
   &__control {
     display: grid;
     grid-template-columns: 3fr 5fr 4fr;
     grid-gap: 24px;
-    @media (max-width: 1440px) {
-      grid-template-columns: 2fr 3fr 3fr;
-      grid-gap: 22px;
-    }
   }
   .profile-btn {
     @media (max-width: 1370px) {
@@ -1580,6 +1563,19 @@ export default {
     &__product-links {
       a {
         font-size: 16px;
+      }
+    }
+  }
+}
+@media (max-width: 1390px) {
+  .header-search {
+    &__product-links {
+      svg {
+        width: 16px;
+        margin-right: 8px !important;
+      }
+      a {
+        font-size: 15px;
       }
     }
   }

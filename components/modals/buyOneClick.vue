@@ -152,13 +152,16 @@ export default {
       );
       console.log(hitProducts);
       if (hitProducts.status == 400) {
-        await this.$toast.open({
-          message: hitProducts.data,
-          type: "error",
-          duration: 2000,
-          dismissible: true,
-          position: "top-right",
-        });
+        Object.keys(hitProducts.data).forEach(error => {
+
+           this.$toast.open({
+            message: error,
+            type: "error",
+            duration: 2000,
+            dismissible: true,
+            position: "top-right",
+          });
+        })
       } else {
         await this.hide();
         await this.$toast.open({

@@ -18,7 +18,6 @@ export default {
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
-       
       },
     };
   },
@@ -56,7 +55,6 @@ export default {
   }
   .slick-prev:before,
   .slick-next:before {
-    
     width: 100%;
     height: 100%;
     /* font-family: 'slick'; */
@@ -92,12 +90,16 @@ export default {
     height: 12px;
   }
   .slick-slider {
-    @media (max-width: 1440px) {
-      height: 342px;
-    }
     border-radius: 24px;
     height: 432px;
     /* overflow: hidden; */
+  }
+}
+@media (max-width: 1440px) {
+  .banner-carousel {
+    .slick-slider {
+      height: 342px;
+    }
   }
 }
 </style>

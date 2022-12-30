@@ -154,20 +154,9 @@ export default {
   background: #fff;
   padding: 30px 32px;
   height: 432px;
-  @media (max-width: 1440px) {
-    height: 342px;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
   &__btn {
     padding-top: 24px;
     button {
-      @media (max-width: 1440px) {
-        white-space: nowrap;
-        padding: 10px 28px;
-      }
       background: #ff6418;
       border-radius: 4px;
       padding: 10px 30px;
@@ -185,9 +174,6 @@ export default {
         margin-right: 13px;
       }
     }
-    @media (max-width: 1370px) {
-      padding-top: 14px;
-    }
   }
   &__name {
     span {
@@ -196,13 +182,13 @@ export default {
       font-weight: 400;
       font-size: 14px;
       line-height: 18px;
-    
+
       color: #020105;
       @media (max-width: 1370px) {
-      font-size: 12px;
-      line-height: 13px;
-      padding-right: 0;
-    }
+        font-size: 12px;
+        line-height: 13px;
+        padding-right: 0;
+      }
     }
   }
   &__reviews {
@@ -259,10 +245,6 @@ export default {
   }
   &__info {
     width: 50%;
-    @media (max-width: 1440px) {
-      width: 66%;
-      padding-left: 10px;
-    }
   }
   &__aksiya {
     background: #f4f5f5;
@@ -279,11 +261,7 @@ export default {
     line-height: 19px;
     letter-spacing: 0em;
     text-align: left;
-    @media (max-width: 1440px) {
-      font-size: 16px;
-      line-height: 19px;
-      padding-right: 0;
-    }
+
     @media (max-width: 1370px) {
       font-size: 14px;
       line-height: 17px;
@@ -292,17 +270,11 @@ export default {
   }
   &__body {
     padding-top: 34px;
-    @media (max-width: 1440px) {
-      padding-top: 0;
-    }
   }
   &__img {
     width: 50%;
     height: 246px;
     cursor: pointer;
-    @media (max-width: 1440px) {
-      width: 44%;
-    }
     img {
       width: 100%;
       height: 100%;
@@ -310,13 +282,6 @@ export default {
     }
   }
   &__title {
-    @media (max-width: 1440px) {
-      h2 {
-        font-weight: 500;
-        font-size: 20px;
-        line-height: 26px;
-      }
-    }
     h2 {
       font-family: "TT Firs Neue";
       font-size: 24px;
@@ -370,13 +335,52 @@ export default {
     line-height: 17px;
     letter-spacing: 0em;
     text-align: left;
-    @media (max-width: 1440px) {
-      font-size: 14px;
-      line-height: 17px;
-    }
+
     @media (max-width: 1370px) {
       font-size: 12px;
       line-height: 16px;
+    }
+  }
+}
+@media (max-width: 1440px) {
+  .product-day {
+    height: 342px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    &__btn {
+      padding-top: 14px;
+      button {
+        white-space: nowrap;
+        padding: 10px 28px;
+      }
+    }
+    &__info {
+      width: 66%;
+      padding-left: 10px;
+    }
+    &__aksiya-text {
+      font-size: 16px;
+      line-height: 19px;
+      padding-right: 0;
+    }
+    &__body {
+      padding-top: 0;
+    }
+    &__img {
+      width: 44%;
+    }
+    &__title {
+      h2 {
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 26px;
+      }
+    }
+    &__aksiya-number {
+      font-size: 14px;
+      line-height: 17px;
     }
   }
 }

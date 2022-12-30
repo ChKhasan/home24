@@ -27,9 +27,9 @@
               <h2>Цена</h2>
               <div class="category__range">
                 <MultiRangeSlider
-                  :min="100000"
-                  :max="1000000"
-                  :step="100000"
+                  :min="100"
+                  :max="1000"
+                  :step="100"
                   :ruler="false"
                   :label="false"
                   :minValue="barMinValue"
@@ -261,8 +261,8 @@ export default {
       selected: "",
       currentPage: 1,
       sliderValue: 50,
-      barMinValue: 100000,
-      barMaxValue: 1000000,
+      barMinValue: 100,
+      barMaxValue: 1000,
       checkbox: "",
       gridControl: 5,
       totalPage: 5,
@@ -305,29 +305,26 @@ export default {
     this.currentPage = await JSON.parse(this.$route.query.page);
     },
     async _GET_BRAND() {
-      const brand = await this.$store.dispatch(
+      this.brand = await this.$store.dispatch(
         "fetchBrands/fetchBrandsById",
         this.$route.params.index
       );
-      this.brand = brand;
-      console.log(brand);
+       
     },
     async _GET_BRAND_CATEGORIES() {
-      const brand_categies = await this.$store.dispatch(
+      this.brand_categies = await this.$store.dispatch(
         "fetchBrands/fetchBrandsCategories",
         this.$route.params.index
       );
-      this.brand_categies = brand_categies;
+       
     },
     async _GET_BRAND_PRODUCTS() {
-      const brand_products = await this.$store.dispatch(
+      [this.brand_products,this.totalPage] = await this.$store.dispatch(
         "fetchBrands/fetchProductByBrand",
         this.$route.query
       );
-
-      this.brand_products = brand_products.results;
-      this.totalPage = brand_products.count;
-      this.skeleton = false;
+      console.log(this.brand_products,this.totalPage);
+      this.skeleton = await false;
     },
     async brandCategories(id) {
       await this.$router.replace({
@@ -338,25 +335,24 @@ export default {
           category: id,
         },
       });
-      const brand_products = await this.$store.dispatch(
+      [this.brand_products,this.totalPage] = await this.$store.dispatch(
         "fetchBrands/fetchProductByBrand",
         this.$route.query
       );
 
-      this.brand_products = brand_products.results;
-      this.totalPage = brand_products.count;
+     
     },
     async UpdateValues(e) {
       this.barMinValue = await e.minValue;
       this.barMaxValue = await e.maxValue;
       if (
-        this.barMinValue == 100000 &&
-        this.barMaxValue == 1000000
+        this.barMinValue == 100 &&
+        this.barMaxValue == 1000
       ) {
         await this.$router.replace({
           path: `/brand_categories/${this.$route.params.index}`,
           query: {
-            category: this.$route.params.index,
+            brand: this.$route.params.index,
             page: 1,
           },
         });
@@ -368,7 +364,7 @@ export default {
             min_price: JSON.stringify(this.barMinValue),
             max_price: this.barMaxValue,
             filter: 1,
-            category: this.$route.params.index,
+            brand: this.$route.params.index,
             page: 1,
           },
         });
@@ -387,14 +383,11 @@ export default {
           page: val,
         },
       });
-      const brand_products = await this.$store.dispatch(
+      [this.brand_products,this.totalPage] = await this.$store.dispatch(
         "fetchBrands/fetchProductByBrand",
         this.$route.query
       );
-      this.currentPage = await JSON.parse(this.$route.query.page);
-
-      console.log(this.currentPage);
-      this.brand_products = brand_products.results;
+      this.currentPage = await JSON.parse(this.$route.query.page);      
     },
   },
 
@@ -748,5 +741,23 @@ export default {
       border-radius: 4px;
     }
   }
+}
+@media (max-width: 1440px) {
+  .category {
+    .grid_block {
+    grid-gap: 16px;
+  }
+    .brand_categories {
+      span {
+        margin-bottom: 16px;
+      }
+    }
+  }
+  .category-title {
+    h1 {
+      font-size: 32px;
+    }
+  }
+  
 }
 </style>

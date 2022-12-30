@@ -240,9 +240,6 @@ export default {
     background: #f9f9f9;
     margin-top: 8px;
     border-radius: 16px;
-    @media (max-width: 1440px) {
-      padding: 9.6px 10.5px;
-    }
   }
   &__price {
     span {
@@ -254,10 +251,6 @@ export default {
       text-align: left;
       display: flex;
       align-items: center;
-      @media (max-width: 1440px) {
-        font-size: 14px;
-        line-height: 18px;
-      }
     }
     .to_cart {
       display: flex;
@@ -267,14 +260,6 @@ export default {
       width: 32px;
       border-radius: 50%;
       background: #ff6418;
-      @media (max-width: 1440px) {
-      width: 24px;
-      height: 24px; 
-      svg {
-        width: 12px;
-        height: 14px;
-      }
-    }
     }
     .disabled {
       background: white;
@@ -294,28 +279,13 @@ export default {
       letter-spacing: 0em;
       text-align: left;
       text-decoration-line: line-through;
-
-      /* Grey 40% */
-
       color: #9a999b;
       margin-bottom: 0 !important;
-      @media (max-width: 1440px) {
-        font-size: 12px;
-        line-height: 16px;
-      }
     }
   }
   &__reviews {
     display: flex;
     padding-top: 7px;
-    @media (max-width: 1440px) {
-      padding-top: 5.5px;
-      svg {
-        width: 9.5px;
-        height: 9px;
-      }
-    }
-    
     span {
       font-family: "Inter";
       font-size: 13px;
@@ -323,15 +293,12 @@ export default {
       line-height: 12px;
       letter-spacing: 0em;
       text-align: left;
-      @media (max-width: 1440px) {
-        font-size: 10px;
-        line-height: 12px;
-      }
     }
   }
   &__name {
     height: 40px;
     cursor: pointer;
+    margin-top: 9px;
     p {
       font-family: "Inter";
       font-style: normal;
@@ -345,14 +312,6 @@ export default {
       display: -webkit-box;
       text-overflow: ellipsis;
       flex-grow: 1;
-      @media (max-width: 1440px) {
-        font-size: 12px;
-        line-height: 16px;
-      }
-    }
-    margin-top: 9px;
-    @media (max-width: 1440px) {
-      margin-top: 4.5px;
     }
   }
   &__hover-link {
@@ -386,9 +345,6 @@ export default {
     }
     img {
       height: 300px;
-      @media (max-width: 1440px) {
-        height: 280px;
-      }
       transition: 0.5s;
       object-fit: contain;
       width: 100%;
@@ -420,14 +376,7 @@ export default {
     height: 32px;
     background: #f8f8fa;
     border-radius: 50%;
-    @media (max-width: 1440px) {
-      width: 24px;
-      height: 24px; 
-      svg {
-        width: 12px;
-        height: 14px;
-      }
-    }
+   
   }
   &__buy {
     position: absolute;
@@ -435,7 +384,6 @@ export default {
     right: -100%;
     transition: 0.5s;
     transition-delay: 0.1s;
-
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -448,14 +396,7 @@ export default {
     svg {
       transition: 0.3s;
     }
-    @media (max-width: 1440px) {
-      width: 24px;
-      height: 24px; 
-      svg {
-        width: 12px;
-        height: 14px;
-      }
-    }
+   
     // &:hover {
     //   background: #ff6418;
     //   svg {
@@ -482,8 +423,72 @@ export default {
     font-size: 12px;
     line-height: 16px;
     color: #020105;
-    @media (max-width: 1440px) {
-
+    
+  }
+}
+@media (max-width: 1440px) {
+  .product-card {
+    &__body {
+      padding: 9.6px 10.5px;
+    }
+    &__price {
+      span {
+        font-size: 14px;
+        line-height: 18px;
+      }
+      .to_cart {
+        width: 24px;
+        height: 24px;
+        svg {
+          width: 12px;
+          height: 14px;
+        }
+      }
+    }
+    &__last-price {
+      p {
+        font-size: 12px;
+        line-height: 16px;
+      }
+    }
+    &__reviews {
+      padding-top: 5.5px;
+      span {
+        font-size: 10px;
+        line-height: 12px;
+      }
+      svg {
+        width: 9.5px;
+        height: 9px;
+      }
+    }
+    &__name {
+      margin-top: 4.5px;
+      p {
+        font-size: 12px;
+        line-height: 16px;
+      }
+    }
+    &__img {
+      img {
+        height: 280px;
+      }
+    }
+    &__heart {
+      width: 24px;
+      height: 24px;
+      svg {
+        width: 12px;
+        height: 14px;
+      }
+    }
+    &__buy {
+      width: 24px;
+      height: 24px;
+      svg {
+        width: 12px;
+        height: 14px;
+      }
     }
   }
 }

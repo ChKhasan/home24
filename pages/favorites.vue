@@ -186,4 +186,11 @@ export default {
     grid-gap: 24px;
   }
 }
+@media (max-width: 1440px) {
+  .favorites {
+    &__products {
+      grid-gap: 16px;
+    }
+  }
+}
 </style>

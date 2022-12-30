@@ -602,10 +602,6 @@ this.totalPrice()
       font-weight: 400;
       font-size: 14px;
       line-height: 20px;
-      /* identical to box height, or 143% */
-
-      /* Grey */
-
       color: #727474;
     }
     &__title {
@@ -636,6 +632,7 @@ this.totalPrice()
       align-items: flex-start;
       flex-direction: column;
       justify-content: space-between;
+      background: #F9F9F9;
     }
   }
   &__form {
@@ -965,6 +962,48 @@ this.totalPrice()
     padding: 16px 24px;
     background: #f9f9f9;
     border-radius: 4px;
+  }
+}
+@media (max-width: 1440px) {
+  .send-order {
+    .pickup {
+      padding-bottom: 16px;
+      &__text {
+      padding-bottom: 18px;
+      }
+    }
+    &__body {
+      grid-gap: 16px;
+    }
+    &__send-blog {
+      .order-info-text {
+        span {
+          margin-bottom: 25px;
+          font-size: 14px;
+line-height: 20px;
+        }
+        p {
+          font-size: 16px;
+line-height: 24px;
+        }
+      }
+    }
+    &__promo-code {
+      padding: 14px 19px;
+      input {
+        padding: 12.5px;
+        font-size: 13.0169px;
+line-height: 20px;
+      }
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+      p {
+        font-size: 14px;
+line-height: 20px;
+      }
+    }
   }
 }
 </style>

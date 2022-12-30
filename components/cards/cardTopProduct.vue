@@ -23,10 +23,6 @@ export default {};
   border-radius: 24px;
   background-position: center;
   background-size: cover;
-  @media (max-width: 1440px) {
-    padding: 26px;
-  height: 242px;
-     }
   &__title {
     h2 {
       width: 70%;
@@ -35,11 +31,19 @@ export default {};
       font-weight: 500;
       font-size: 32px;
       line-height: 40px;
-     @media (max-width: 1440px) {
-      font-size: 24px;
-line-height: 30px;
-     }
       color: #020105;
+    }
+  }
+}
+@media (max-width: 1440px) {
+  .top-product {
+    padding: 26px;
+    height: 242px;
+    &__title {
+      h2 {
+        font-size: 24px;
+        line-height: 30px;
+      }
     }
   }
 }

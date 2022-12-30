@@ -62,14 +62,10 @@ export default {};
       width: 100%;
       object-fit: cover;
     }
-    @media (max-width: 1440px) {
-      height: 220px;
-
-    }
   }
   &__desc {
     margin-top: 12px;
-   
+
     p {
       font-family: "Inter";
       font-style: normal;
@@ -88,12 +84,6 @@ export default {};
       text-overflow: ellipsis;
       flex-grow: 1;
     }
-    @media (max-width: 1440px) {
-      p {
-        font-size: 12px;
-        line-height: 20px;
-      }
-    }
   }
   &__link {
     font-family: "Inter";
@@ -106,6 +96,19 @@ export default {};
     &:hover {
       text-decoration-line: none;
       color: rgba(255, 126, 0, 0.4);
+    }
+  }
+}
+@media (max-width: 1440px) {
+  .client-card {
+    &__img {
+      height: 220px;
+    }
+    &__desc {
+      p {
+        font-size: 12px;
+        line-height: 20px;
+      }
     }
   }
 }

@@ -105,7 +105,7 @@ export default {
       searchValue: "",
       params: {
         page: 1,
-        page_size: 1,
+        page_size: 2,
       },
       brands: [],
       letter_type: "eng",
@@ -367,6 +367,23 @@ export default {
       font-size: 16px;
       cursor: pointer;
       line-height: 24px;
+    }
+  }
+}
+@media (max-width: 1440px) {
+  .brands-fluid {
+    .brands {
+      &__cards {
+        grid-gap: 16px;
+        .brand-card {
+          padding-top: 9px;
+          padding-bottom: 9px;
+          img {
+            width: 113px;
+            height: 113px;
+          }
+        }
+      }
     }
   }
 }

@@ -25,16 +25,13 @@ export default {
   padding: 24px;
   @media (max-width: 1370px) {
     padding: 18px;
-      }
+  }
   &__img {
     width: 100%;
     img {
       height: 147px;
       width: 100%;
       object-fit: contain;
-      @media (max-width: 1440px) {
-        height: 114px;
-      }
     }
   }
   &:hover {
@@ -48,7 +45,7 @@ export default {
     display: flex;
     justify-content: center;
     padding-top: 21px;
-  
+
     a {
       font-family: "Inter";
       font-size: 20px;
@@ -62,14 +59,20 @@ export default {
       &:hover {
       }
     }
-    @media (max-width: 1440px) {
+  }
+}
+@media (max-width: 1440px) {
+  .card-category {
+    &__img {
+      height: 114px;
+    }
+    &__title {
       padding-top: 16px;
       a {
         font-size: 16px;
         line-height: 24px;
       }
     }
-  
   }
 }
 </style>

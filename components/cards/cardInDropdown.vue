@@ -282,6 +282,9 @@ export default {
     }
   }
   &__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     .d-card-header {
       display: grid;
       grid-template-columns: 8fr 1fr;
@@ -316,10 +319,6 @@ export default {
         font-weight: 400;
         font-size: 14px;
         line-height: 20px;
-        /* identical to box height, or 143% */
-
-        /* Black */
-
         color: #020105;
       }
     }
@@ -336,6 +335,21 @@ export default {
       height: 81px;
       width: 81px;
       object-fit: contain;
+    }
+  }
+}
+@media (max-width: 1440px) {
+  .dropdown-card {
+    &__body {
+      .d-card-header {
+        h6 {
+          font-size: 12px;
+line-height: 16px;
+        }
+        span {
+          display: none;
+        }
+      } 
     }
   }
 }

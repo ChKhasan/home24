@@ -559,9 +559,11 @@ export default {
       colorObj = { ...colorObj, ...this.$route.query, filter: 1, page: 1 };
       if (Object.keys(this.$route.query).includes(`color_${id}`)) {
         await delete colorObj[`color_${id}`];
-        if (!Object.keys(colorObj).toString().includes("atribut") &&
+        if (
+          !Object.keys(colorObj).toString().includes("atribut") &&
           !Object.keys(colorObj).toString().includes("color") &&
-          !Object.keys(colorObj).toString().includes("price_min")) {
+          !Object.keys(colorObj).toString().includes("price_min")
+        ) {
           await delete colorObj[`filter`];
         }
       }
@@ -826,7 +828,7 @@ export default {
     display: grid;
     grid-gap: 20px;
     @media (max-width: 1440px) {
-      padding-top: 24px; 
+      padding-top: 24px;
     }
   }
   &__product-controller {
@@ -905,12 +907,7 @@ export default {
     line-height: 48px;
     color: #020105;
   }
-  @media (max-width: 1440px) {
-    h1 {
-      font-size: 32px;
-    line-height: 48px;
-    }
-  }
+
   .category-control {
     span {
       margin-right: 16px;
@@ -932,6 +929,14 @@ export default {
       padding: 10px 12px;
       border: 1px solid #ebebeb;
       border-radius: 4px;
+    }
+  }
+}
+@media (max-width: 1440px) {
+  .category-title {
+    h1 {
+      font-size: 32px;
+      line-height: 48px;
     }
   }
 }

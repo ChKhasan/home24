@@ -7,7 +7,7 @@
       <!-- <logo/> -->
       <div class="container">
         <div class="row homepage__carousel-control">
-          <div class="col-9 news_carousel" >
+          <div class="col-9 news_carousel">
             <UniversalCarousel propsClass="swiper">
               <div class="swiper-slide">
                 <img src="../assets/images/BannerImg.png" alt="" />
@@ -182,7 +182,6 @@
     </div>
     <homeTitlies title="Популярные товары" link="Все товары" />
     <div class="container">
-     
       <div class="row">
         <div class="col-12 homepage__grid-top-product">
           <cardTopProduct />
@@ -191,7 +190,6 @@
           <cardTopProduct />
         </div>
       </div>
-     
     </div>
     <homeTitlies title="Популярные бренды" link="Все бренды" to="brands" />
     <div class="container">
@@ -312,44 +310,73 @@ export default {
 <style lang="scss">
 @import "@/assets/css/main.css";
 @import "@/assets/fonts/stylesheet.css";
-  @media (min-width: 576px) {
-  .container-sm, .container {
+@media (min-width: 576px) {
+  .container-sm,
+  .container {
     max-width: 540px;
   }
 }
 @media (min-width: 768px) {
-  .container-md, .container-sm, .container {
+  .container-md,
+  .container-sm,
+  .container {
     max-width: 720px;
   }
 }
 @media (min-width: 992px) {
-  .container-lg, .container-md, .container-sm, .container {
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
     max-width: 960px;
   }
 }
 @media (min-width: 1200px) {
-  .container-xl, .container-lg, .container-md, .container-sm, .container {
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
     max-width: 1140px;
   }
 }
-@media (max-width: 1360px){
-  .container-xl, .container-lg, .container-md, .container-sm, .container {
+@media (max-width: 1360px) {
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
     max-width: 1240px !important ;
   }
 }
 @media (min-width: 1360px) {
-  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+  .container-xxl,
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
     max-width: 95% !important;
   }
 }
 @media (min-width: 1440px) {
-  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+  .container-xxl,
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
     max-width: 1632px !important;
     width: 94%;
   }
 }
-@media (min-width: 1920px) and (min-width: 1440px)  {
-  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+@media (min-width: 1920px) and (min-width: 1440px) {
+  .container-xxl,
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
     max-width: 1632px !important;
   }
 }
@@ -357,9 +384,6 @@ export default {
   transition: 1s;
   &__carousel-aksiya {
     margin-top: 132px;
-    @media (max-width: 1440px) {
-      margin-top: 55px;
-    }
     .carousel-item {
       border-radius: 24px;
       overflow: hidden;
@@ -370,62 +394,69 @@ export default {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 24px;
-    @media (max-width: 1440px) {
-      grid-gap: 16px;
-    }
   }
   &__grid-product {
     padding-top: 24px;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 24px;
-    @media (max-width: 1440px) {
-      grid-gap: 16px;
-    }
   }
   &__grid-top-product {
     padding-top: 24px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 24px;
-    @media (max-width: 1440px) {
-      grid-gap: 16px;
-    }
   }
   &__banner-carousel {
     padding-top: 40px;
     padding-bottom: 57px;
     background: #f4f5f5;
-    @media (max-width: 1440px) {
-      padding-top: 24px;
-    padding-bottom: 34px;
-    }
   }
   &__carousel-control {
-    @media (max-width: 1440px) {
-    height: 342px;
-    }
+    height: 432px;
+    object-fit: cover;
     .news_carousel {
       height: 100%;
       margin-left: -15px;
     }
     .day_product_carousel {
       margin-right: -15px;
-
     }
-    height: 432px;
-    object-fit: cover;
     .carousel-item {
       border-radius: 24px;
       overflow: hidden;
       img {
         width: 100%;
-        @media (max-width: 1440px) {
-    height: 342px;
-
-    }
         height: 432px;
         object-fit: cover;
+      }
+    }
+  }
+}
+@media (max-width: 1440px) {
+  .homepage {
+    &__carousel-aksiya {
+      margin-top: 55px;
+    }
+    &__grid-category {
+      grid-gap: 16px;
+    }
+    &__grid-product {
+      grid-gap: 16px;
+    }
+    &__grid-top-product {
+      grid-gap: 16px;
+    }
+    &__banner-carousel {
+      padding-top: 24px;
+      padding-bottom: 34px;
+    }
+    &__carousel-control {
+      height: 342px;
+      .carousel-item {
+        img {
+          height: 342px;
+        }
       }
     }
   }

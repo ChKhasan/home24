@@ -344,4 +344,11 @@ export default {
     }
   }
 }
+@media (max-width: 1440px) {
+  .select-order {
+    &__card {
+      padding: 16px 0;
+    }
+  }
+}
 </style>

@@ -135,8 +135,6 @@
                   </div>
                   <div class="sc-price">
                     <div class="sc-price-svg">
-                     
-
                       <span
                         class="select-order__heart to-favorites"
                         @click="
@@ -149,30 +147,30 @@
                           disabledLike: includes($store.state.like, product.id),
                           activeLike: includes($store.state.like, product.id),
                         }"
-                        > <svg
-                        width="22"
-                        height="22"
-                        viewBox="0 0 22 22"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
                       >
-                        <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
-                          d="M10.7813 19.116C8.79152 17.8914 6.94051 16.4502 5.26134 14.8181C4.08081 13.6427 3.18208 12.2098 2.634 10.6291C1.64771 7.56278 2.79976 4.05242 6.02385 3.01356C7.7183 2.46807 9.5689 2.77984 10.9967 3.85135C12.4251 2.78114 14.2751 2.46948 15.9696 3.01356C19.1937 4.05242 20.3541 7.56278 19.3678 10.6291C18.8197 12.2098 17.921 13.6427 16.7404 14.8181C15.0613 16.4502 13.2103 17.8914 11.2205 19.116L11.005 19.25L10.7813 19.116Z"
-                          fill="white"
-                          stroke="black"
-                        />
-                        <path
-                          d="M14.4277 6.46527C15.4043 6.77721 16.0981 7.65391 16.1848 8.68542"
-                          stroke-width="1.5"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          fill="white"
-                          stroke="black"
-
-                        />
-                      </svg>
+                        <svg
+                          width="22"
+                          height="22"
+                          viewBox="0 0 22 22"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fill-rule="evenodd"
+                            clip-rule="evenodd"
+                            d="M10.7813 19.116C8.79152 17.8914 6.94051 16.4502 5.26134 14.8181C4.08081 13.6427 3.18208 12.2098 2.634 10.6291C1.64771 7.56278 2.79976 4.05242 6.02385 3.01356C7.7183 2.46807 9.5689 2.77984 10.9967 3.85135C12.4251 2.78114 14.2751 2.46948 15.9696 3.01356C19.1937 4.05242 20.3541 7.56278 19.3678 10.6291C18.8197 12.2098 17.921 13.6427 16.7404 14.8181C15.0613 16.4502 13.2103 17.8914 11.2205 19.116L11.005 19.25L10.7813 19.116Z"
+                            fill="white"
+                            stroke="black"
+                          />
+                          <path
+                            d="M14.4277 6.46527C15.4043 6.77721 16.0981 7.65391 16.1848 8.68542"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            fill="white"
+                            stroke="black"
+                          />
+                        </svg>
                       </span>
 
                       <svg
@@ -410,11 +408,10 @@ export default {
       }, 0);
     },
     async GET_BASKET_PRODUCTS() {
-      const basket = await this.$store.dispatch(
+      this.basketProducts = await this.$store.dispatch(
         "fetchBasket/postCart",
         JSON.parse(localStorage.getItem("cart")).map((item) => item.id)
       );
-      this.basketProducts = basket;
       this.checkedCities = this.basketProducts.map((item) => item.id);
       this.selectedProducts = this.basketProducts.map((item) => item);
     },
@@ -510,8 +507,7 @@ export default {
     svg {
       path {
         stroke: white;
-        fill: #FF7E00
-
+        fill: #ff7e00;
       }
     }
   }
@@ -522,7 +518,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
- 
+
     border-radius: 50%;
     svg {
       margin-left: 0 !important;
@@ -696,6 +692,61 @@ export default {
     justify-content: center;
     margin-top: 32px;
     cursor: pointer;
+  }
+}
+
+@media (max-width: 1440px) {
+  .select-order {
+    padding: 31px;
+    &__card {
+      padding: 16px 0;
+    }
+    &__card-body {
+      .sc-count {
+        display: flex;
+        align-items: center;
+        .sc-count-btn {
+          border: none;
+          padding: 0;
+          span {
+            border: 1px solid #f2f2fa;
+            border-radius: 4px;
+            padding: 5px 12px;
+          }
+          svg {
+            cursor: pointer;
+            height: 100%;
+            width: 10px;
+            height: 30px;
+          }
+          p {
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+  .basket {
+    &__order-info {
+      .order-info-text {
+        p {
+          font-size: 16px;
+line-height: 24px;
+        }
+        span {
+          margin-bottom: 25px;
+        }
+      }
+    }
+    &__order-btn {
+      margin-top: 24px;
+      font-size: 12px;
+      line-height: 16px;
+      padding-top: 14px;
+      padding-bottom: 14px;
+    }
   }
 }
 </style>

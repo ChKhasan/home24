@@ -16,11 +16,15 @@ export default {
     font-weight: 500;
     font-size: 40px;
     line-height: 48px;
-    /* identical to box height, or 120% */
-
-    /* Black */
-
     color: #020105;
+  }
+}
+@media (max-width: 1440px) {
+  .basket-title {
+    h1 {
+      font-size: 32px;
+line-height: 48px;
+    }
   }
 }
 </style>

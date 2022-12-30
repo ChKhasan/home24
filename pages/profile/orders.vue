@@ -449,4 +449,15 @@ export default {
     }
   }
 }
+@media (max-width: 1440px) {
+  .profile {
+
+    &__area {
+      padding-left: 16px !important;
+      .orders {
+        grid-gap: 16px;
+      }
+    }
+  }
+}
 </style>

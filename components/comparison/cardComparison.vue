@@ -23,7 +23,7 @@
         <h5>7 300 000 сум</h5>
       </div>
       <div class="comparison-card__reviews d-flex justify-content-between">
-        <div>
+        <div class="comparison-card__reyting">
           <svg
             width="16"
             height="17"
@@ -43,8 +43,10 @@
         <div class="d-flex">
           <span
             class="comparison-card__heart"
-            @click="$store.commit('addToStore', { id: product.id, name: 'like' })"
-        :class="{ disabledClass: includes($store.state.like, product.id) }"
+            @click="
+              $store.commit('addToStore', { id: product.id, name: 'like' })
+            "
+            :class="{ disabledClass: includes($store.state.like, product.id) }"
             ><svg
               width="16"
               height="16"
@@ -73,9 +75,9 @@
           <span
             class="comparison-card__buy"
             @click="
-            $store.commit('addToStore', { id: product.id, name: 'cart' })
-          "
-          :class="{ disabledClass: includes($store.state.cart, product.id) }"
+              $store.commit('addToStore', { id: product.id, name: 'cart' })
+            "
+            :class="{ disabledClass: includes($store.state.cart, product.id) }"
           >
             <svg
               width="16"
@@ -177,11 +179,9 @@
 export default {
   props: ["product", "deleteProductFromComparison"],
   data() {
-    return {
-     
-    };
+    return {};
   },
- 
+
   methods: {
     includes(array, id) {
       if (array) {
@@ -190,7 +190,6 @@ export default {
         true;
       }
     },
-   
   },
 };
 </script>
@@ -245,13 +244,13 @@ export default {
     padding-top: 26px;
   }
   .disabledClass {
-      background: white;
-      svg {
-        path {
-          stroke: #ff6418;
-        }
+    background: white;
+    svg {
+      path {
+        stroke: #ff6418;
       }
     }
+  }
   .disabledLike {
     pointer-events: none !important;
     background: #ff6418 !important;
@@ -272,13 +271,11 @@ export default {
     border-radius: 50%;
     background: #ff6418;
     border: 1px solid #ff6418;
-    
-
     svg {
-        path {
-          stroke: #fff;
-        }
+      path {
+        stroke: #fff;
       }
+    }
   }
   &__buy {
     cursor: pointer;
@@ -293,10 +290,10 @@ export default {
     margin-left: 16px;
     background: #ff6418;
     svg {
-        path {
-          stroke: #fff;
-        }
+      path {
+        stroke: #fff;
       }
+    }
     svg {
       transition: 0.3s;
     }
@@ -335,6 +332,76 @@ export default {
         display: flex;
         align-items: center;
         color: #020105;
+      }
+    }
+  }
+}
+@media (max-width: 1440px) {
+  .comparison-card {
+    &__head {
+      padding: 8px 12px;
+      padding-top: 23px;
+    }
+    &__img {
+      img {
+        width: 76px;
+        height: 76px;
+      }
+    }
+    &__delete {
+      top: 8px;
+      right: 12px;
+      svg {
+        width: 15px;
+        height: 15px;
+      }
+    }
+    &__title {
+      padding-top: 11px;
+      h6 {
+        font-size: 14px;
+        line-height: 20px;
+        margin-bottom: 0;
+      }
+      h5 {
+        font-size: 16px;
+        line-height: 24px;
+        margin-top: 11px;
+      }
+    }
+    &__reyting {
+      svg {
+        width: 7.13px;
+        height: 6.75px;
+      }
+      span {
+        font-size: 13px;
+        line-height: 12px;
+      }
+    }
+    &__heart {
+      width: 24px;
+      height: 24px;
+      svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+    &__reviews {
+      padding-top: 11px;
+    }
+    &__buy {
+      width: 24px;
+      height: 24px;
+      svg {
+        width: 12px;
+        height: 12px;
+      }
+    }
+    &__body {
+      .body-info {
+        span {
+        }
       }
     }
   }

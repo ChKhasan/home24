@@ -1,6 +1,6 @@
 <template lang="html">
   <div>
-    <Header :categories="categories"/>
+    <Header :categories="categories" />
     <Nuxt />
     <Footer />
   </div>
@@ -18,13 +18,16 @@ export default {
     Header,
     Footer,
   },
-
-  async created() {
-    const categories = await this.$store.dispatch(
-      "fetchCategories/fetchAllCategories"
-    );
-    this.categories = categories;
-    await this.$store.commit("getCategories", categories);
+  methods: {
+    async _GET_CATEGORIES() {
+      this.categories = await this.$store.dispatch(
+        "fetchCategories/fetchAllCategories"
+      );
+      await this.$store.commit("getCategories", this.categories);
+    },
+  },
+  created() {
+    this._GET_CATEGORIES();
     this.$store.commit("reloadStore");
   },
 };

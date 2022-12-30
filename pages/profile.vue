@@ -657,4 +657,24 @@ export default {
     padding-left: 24px;
   }
 }
+@media (max-width: 1440px) {
+  .profile {
+    &__menu {
+      ul {
+        li {
+          a,div {
+            span {
+              width: 40px;
+              height: 40px;
+              svg {
+                width: 16px;
+                height: 16px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 </style>
