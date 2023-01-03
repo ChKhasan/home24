@@ -124,9 +124,8 @@
               <iframe
                 v-if="showMap"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2997.4303916765066!2d69.2378847149243!3d41.29949980940271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8bb7d1f219bd%3A0x3cce192383d2f08b!2sOybek%20metro!5e0!3m2!1sru!2s!4v1669892296650!5m2!1sru!2s"
-                width="496"
                 height="309"
-                style="border: 0;"
+                style="border: 0;width: 100%"
                 allowfullscreen=""
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
@@ -255,9 +254,10 @@
               <p>Итого</p>
               <p>{{ orderContainer.price }} сум</p>
             </div>
-            <div class="send-order__promo-code">
+            <div class="send-order__promo-code" @click="promo_code = !promo_code">
               <div class="d-flex">
                 <svg
+                :class="{translateZ: !promo_code}"
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
@@ -275,6 +275,7 @@
                 <p>Есть промокод?</p>
               </div>
               <input
+              v-if="promo_code"
                 type="text"
                 placeholder="Введите промокод"
                 class="input-promo-code"
@@ -303,6 +304,7 @@ export default {
       pickupCheck: true,
       dorpForm: false,
       showMap: false,
+      promo_code: false,
       modal: "orderModal",
       user_name: "",
       city: [],
@@ -540,6 +542,9 @@ this.totalPrice()
 <style lang="scss">
 .send-order {
   padding-top: 32px;
+  .translateZ{
+    transform: rotate(180deg);
+  }
   .error_place {
     margin-top: 5px;
     color: red;
@@ -939,6 +944,9 @@ this.totalPrice()
   }
   &__promo-code {
     margin-top: 16px;
+    div {
+      cursor:pointer;
+    }
     input {
       margin-top: 16px;
       border: 1px solid #ebebeb;

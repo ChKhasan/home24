@@ -94,9 +94,10 @@
       <div class="price-btn">
         <div
           @click="
-            $store.commit('addToStore', {
+            $store.commit('addToStoreCart', {
               id: product.id,
               name: 'cart',
+              count: 1,
             })
           "
           :class="{ disabledDiv: includes($store.state.cart, product.id) }"
@@ -183,17 +184,16 @@
         </div>
       </div>
     </div>
-    <SendOrderModal :modal="modalAccess" :hide="hide" :auth="false"/>
+    <SendOrderModal :modal="modalAccess" :hide="hide" :auth="false" />
     <BuyOneClick :modal="modal" :hide="hide" :product="product" />
-
   </div>
 </template>
 <script>
 import BuyOneClick from "../modals/buyOneClick.vue";
-import SendOrderModal from "../modals/sendOrderModal.vue"
+import SendOrderModal from "../modals/sendOrderModal.vue";
 
 export default {
-  props: ["product"],
+  props: ["product", "count"],
   data() {
     return {
       modal: "buyOneClickModal",
@@ -201,7 +201,7 @@ export default {
       cartP: [],
     };
   },
-  components: { BuyOneClick,SendOrderModal },
+  components: { BuyOneClick, SendOrderModal },
 
   methods: {
     includes(array, id) {
@@ -301,6 +301,41 @@ export default {
       background: transparent;
       border: 1px solid #ff6418;
       color: #ff6418;
+    }
+  }
+}
+
+@media (max-width: 1440px) {
+  .price-card {
+    padding: 19px 26px;
+    .title {
+      span {
+        svg {
+          width: 24px;
+          height: 24px;
+        }
+      }
+      h2 {
+        font-size: 18px;
+        line-height: 24px;
+      }
+    }
+    .first-price {
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .price-btn {
+      margin-top: 31px;
+      div {
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+        font-size: 12px;
+        line-height: 16px;
+        padding-top: 14px;
+        padding-bottom: 14px;
+      }
     }
   }
 }

@@ -80,7 +80,7 @@
           />
         </div>
       </div>
-      <div class="brands__pagination">
+      <div class="brands__pagination" v-if="totalPage > 1">
         <el-pagination
           layout="prev, pager, next"
           @current-change="handleCurrentChange"
@@ -105,7 +105,7 @@ export default {
       searchValue: "",
       params: {
         page: 1,
-        page_size: 2,
+        page_size: 1,
       },
       brands: [],
       letter_type: "eng",
@@ -177,75 +177,57 @@ export default {
     };
   },
   components: { BreadCrumb, TitleBasket, CardBrand },
-  created() {
-    this._GET_BRANDS();
-  },
-  methods: {
-    async _GET_BRANDS() {
-      if (this.$route.query.page != this.params.page) {
+  async created() {
+    if (this.$route.query.page != this.params.page) {
         await this.$router.replace({
           path: `/brands`,
           query: { page: this.params.page },
         });
       }
+    await this._GET_BRANDS();
+    this.currentPage = await JSON.parse(this.$route.query.page);
+
+  },
+  methods: {
+    async _GET_BRANDS() {
       const brands = await this.$store.dispatch("fetchBrands/fetchBrands", {
         ...this.params,
         ...this.$route.query,
       });
       this.brands = brands.results;
-      this.totalPage = brands.count;
+      this.totalPage = Math.ceil(brands.count / this.params.page_size);
     },
+
     async handleCurrentChange(val) {
       this.params.page = val;
       await this.$router.replace({
         path: `/brands`,
         query: { page: this.params.page },
       });
-      this.currentPage = await JSON.parse(this.$route.query.page);
-      const brands = await this.$store.dispatch(
-        "fetchBrands/fetchBrands",
-        this.params
-      );
-      this.brands = brands.results;
+      await this._GET_BRANDS()
     },
     async filterLetter(letter) {
       await this.$router.replace({
         path: `/brands`,
         query: { page: 1, search: letter },
       });
-      this.currentPage = await JSON.parse(this.$route.query.page);
-      const brands = await this.$store.dispatch("fetchBrands/fetchBrands", {
-        ...this.params,
-        ...this.$route.query,
-      });
-      this.brands = await brands.results;
-      this.totalPage = await brands.count;
+      
+    await this._GET_BRANDS()
     },
     async showAll() {
       await this.$router.replace({
         path: `/brands`,
         query: { page: this.$route.query.page },
       });
-      this.currentPage = await JSON.parse(this.$route.query.page);
-      const brands = await this.$store.dispatch("fetchBrands/fetchBrands", {
-        ...this.params,
-        ...this.$route.query,
-      });
-      this.brands = await brands.results;
-      this.totalPage = await brands.count;
+     
+      await this._GET_BRANDS()
     },
     async brandSearch() {
       await this.$router.replace({
         path: `/brands`,
         query: { page: 1, search: this.searchValue },
       });
-      this.currentPage = await JSON.parse(this.$route.query.page);
-      const brands = await this.$store.dispatch("fetchBrands/fetchBrands", {
-        ...this.params,
-        ...this.$route.query,
-      });
-      this.brands = await brands.results;
-      this.totalPage = await brands.count;
+      await this._GET_BRANDS()
     },
   },
 };

@@ -267,8 +267,8 @@ export default {
         password2: "",
       },
       passwordHide: {
-        first: "text",
-        last: "text",
+        first: "password",
+        last: "password",
       },
       errors: {
         numberLinght: false,
@@ -302,6 +302,10 @@ export default {
           { password: this.registrModal, token: localStorage.getItem("Auth") }
         );
         await this.$modal.hide("change-password-modal");
+        localStorage.setItem(
+            "password_access",
+            JSON.stringify(true)
+          );
       } catch (e) {}
     },
     wantChangePass() {

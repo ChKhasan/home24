@@ -28,7 +28,7 @@ export const actions = {
       const res = await this.$axios.$get(`/products`,{
         params: query
       });
-      return [res.results,res.count];
+      return res;
     } catch (e) {
       console.log("error", e);
     }

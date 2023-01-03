@@ -270,28 +270,37 @@ export default {
     };
   },
   async created() {
-    const brands = await this.$store.dispatch("fetchBrands/fetchBrands", {
-      page_size: 6,
-      ...this.$route.query,
-    });
-    const popularCategories = await this.$store.dispatch(
-      "fetchCategories/fetchPopularCategories"
-    );
-    const productOfDay = await this.$store.dispatch(
-      "fetchProduct/fetchProductOfDay"
-    );
-    const hitProducts = await this.$store.dispatch(
-      "fetchProduct/fetchHitProduct"
-    );
-
-    this.brands = brands.results;
-    this.hitProducts = hitProducts;
-    this.popularCategories = popularCategories;
+    await this.__GET_POPULAR_CATEGORIES();
+    await this.__GET_HIT_PRODUCTS();
+    await this.__GET_PRODUCT_OF_DAY();
+    await this.__GET_BRANDS();
     this.$store.commit("reloadStore");
     this.$store.commit("setUser");
-
-    this.productOfDay = await productOfDay;
     this.skeleton = await false;
+  },
+  methods: {
+    async __GET_POPULAR_CATEGORIES() {
+      this.popularCategories = await this.$store.dispatch(
+        "fetchCategories/fetchPopularCategories"
+      );
+    },
+    async __GET_HIT_PRODUCTS() {
+      this.hitProducts = await this.$store.dispatch(
+        "fetchProduct/fetchHitProduct"
+      );
+    },
+    async __GET_PRODUCT_OF_DAY() {
+      this.productOfDay = await this.$store.dispatch(
+        "fetchProduct/fetchProductOfDay"
+      );
+    },
+    async __GET_BRANDS() {
+      const brands = await this.$store.dispatch("fetchBrands/fetchBrands", {
+        page_size: 6,
+        ...this.$route.query,
+      });
+      this.brands = brands.results;
+    },
   },
   components: {
     BannerCarousel,

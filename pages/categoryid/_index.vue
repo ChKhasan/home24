@@ -345,7 +345,7 @@
               <emptyBlog v-else />
               <div
                 class="category__pagination"
-                v-if="productsByCategory.length > 0"
+                v-if="productsByCategory.length > 0  && totalPage > 1"
               >
                 <el-pagination
                   layout="prev, pager, next"
@@ -416,6 +416,7 @@ export default {
         },
       ],
       categoryById: {},
+      page_size: 2,
       productsByCategory: {},
       colors: [],
       skeleton: true,
@@ -432,25 +433,31 @@ export default {
         },
       });
     }
-    const productsByCategory = await this.$store.dispatch(
+    await this.__GET_PRODUCTS();
+    await this.__GET_CATEGORIES();
+    await this.__GET_COLORS()
+    this.currentPage1 = JSON.parse(this.$route.query.page);
+  },
+  methods: {
+    async __GET_PRODUCTS() {
+      const productsByCategory = await this.$store.dispatch(
       "fetchProduct/fetchProductByCategory",
-      { ...this.$route.query, page_size: 1 }
+      { ...this.$route.query, page_size: this.page_size }
     );
     this.productsByCategory = productsByCategory.results;
-    this.totalPage = productsByCategory.count;
-    this.currentPage1 = JSON.parse(this.$route.query.page);
-    const categoryById = await this.$store.dispatch(
+    this.totalPage = Math.ceil(productsByCategory.count / this.page_size);
+    this.skeleton = await false;
+
+    },
+    async __GET_CATEGORIES() {
+      this.categoryById = await this.$store.dispatch(
       "fetchCategories/fetchAllCategoryById",
       this.$route.params.index
     );
-    const colors = await this.$store.dispatch("fetchColors/fetchColors");
-
-    this.colors = colors;
-    this.categoryById = categoryById;
-    console.log(Object.keys(this.$route.query).includes("ctg_id"));
-    this.skeleton = false;
-  },
-  methods: {
+    },
+    async __GET_COLORS() {
+      this.colors = await this.$store.dispatch("fetchColors/fetchColors");
+    },
     async UpdateValues(e) {
       this.barMinValue = await e.minValue;
       this.barMaxValue = await e.maxValue;
@@ -465,7 +472,7 @@ export default {
               path: `/categoryId/${this.$route.params.index}`,
               query: {
                 category: this.$route.params.index,
-                page: this.currentPage1,
+                page: 1,
               },
             });
           } else {
@@ -503,18 +510,16 @@ export default {
             ...this.$route.query,
             filter: 1,
             category: this.$route.params.index,
-            page: this.currentPage1,
+            page: 1,
           },
         });
       }
+      this.skeleton = await true;
+      this.currentPage1 = 1
 
-      const productsByCategory = await this.$store.dispatch(
-        "fetchProduct/fetchProductByCategory",
-        this.$route.query
-      );
-      this.productsByCategory = productsByCategory.results;
+      await this.__GET_PRODUCTS();
+
     },
-
     async optionFilter(id) {
       let colorObj = {};
       console.log(this.$route.query);
@@ -544,14 +549,10 @@ export default {
           ...colorObj,
         },
       });
-      const productsByCategory = await this.$store.dispatch(
-        "fetchProduct/fetchProductByCategory",
-        this.$route.query
-      );
+      this.skeleton = await true;
+      this.currentPage1 = 1
+      await this.__GET_PRODUCTS();
 
-      this.productsByCategory = productsByCategory.results;
-      this.totalPage = productsByCategory.count;
-      this.currentPage1 = JSON.parse(this.$route.query.page);
     },
     async colorFilter(id) {
       let colorObj = {};
@@ -574,30 +575,23 @@ export default {
           ...colorObj,
         },
       });
-      const productsByCategory = await this.$store.dispatch(
-        "fetchProduct/fetchProductByCategory",
-        this.$route.query
-      );
-      this.productsByCategory = productsByCategory.results;
-      this.totalPage = productsByCategory.count;
-      this.currentPage1 = JSON.parse(this.$route.query.page);
+      this.skeleton = await true;
+
+      await this.__GET_PRODUCTS();
+      this.currentPage1 = 1;
     },
     async handleCurrentChange(val) {
-      console.log(`current page: ${val}`);
-      console.log(this.$route.query);
       await this.$router.replace({
         path: `/categoryId/${this.$route.params.index}`,
         query: {
           ...this.$route.query,
           page: val,
+          
         },
       });
-      const productsByCategory = await this.$store.dispatch(
-        "fetchProduct/fetchProductByCategory",
-        { ...this.$route.query, page_size: 1 }
-      );
-      this.productsByCategory = productsByCategory.results;
-      this.totalPage = productsByCategory.count;
+      this.skeleton = await true;
+      await this.__GET_PRODUCTS();
+     
     },
   },
   components: {
@@ -671,10 +665,6 @@ export default {
       font-weight: 400;
       font-size: 16px;
       line-height: 24px;
-      /* identical to box height, or 150% */
-
-      /* Qora */
-
       color: #020105;
     }
     input[type="checkbox"] {
@@ -933,6 +923,26 @@ export default {
   }
 }
 @media (max-width: 1440px) {
+  .category {
+    .grid_block {
+   
+    grid-gap: 24px;
+  }
+    &__list1 {
+      li {
+        span {
+          font-size: 14px;
+line-height: 20px;
+        }
+      }
+    }
+    .range-checkbox {
+span {
+  font-size: 14px;
+line-height: 22px;
+}
+    }
+  }
   .category-title {
     h1 {
       font-size: 32px;

@@ -28,9 +28,25 @@ export const mutations = {
   },
   addToStoreCart(state, payload) {
     let cart = JSON.parse(localStorage.getItem(payload.name));
-    cart = [...cart,{ id: payload.id, count: payload.count }];
-    localStorage.setItem(payload.name, JSON.stringify(cart));
-    state[payload.name] = cart;
+    let isCart = cart.find((item) => item.id == payload.id);
+   
+    if (isCart) {
+      cart = cart.map((item) => {
+        if (item.id == payload.id) {
+          item.count++;
+          return item;
+        } else {
+          return item;
+        }
+      });
+      localStorage.setItem(payload.name, JSON.stringify(cart));
+      state[payload.name] = cart;
+    } else {
+      cart = [...cart, { id: payload.id, count: payload.count }];
+
+      localStorage.setItem(payload.name, JSON.stringify(cart));
+      state[payload.name] = cart;
+    }
   },
   reloadStore(state) {
     if (localStorage.getItem("cart")) {

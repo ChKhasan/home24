@@ -268,4 +268,15 @@ export default {
     }
   }
 }
+@media (max-width: 1440px) {
+  .order-card {
+    &__header {
+      .status {
+        span{
+          padding: 8px 14px;
+        }
+      }
+    }
+  }
+}
 </style>

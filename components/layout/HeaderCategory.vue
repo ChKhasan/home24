@@ -129,12 +129,12 @@
                       stroke-linejoin="round"
                     />
                   </svg>
-                  <div class="search_val_text">
+                  <div class="search_val_text"   @click="$router.push(`/product/${product.id}`)">
                     <p class="search_p_value">
                       {{ product.product.name.substring(0, searchVal.length) }}
                     </p>
                     <p
-                      @click="$router.push(`/product/${product.id}`)"
+                    
                       class="search_p_name"
                     >
                       {{ product.product.name }}
@@ -688,15 +688,17 @@
           <div class="auth-user-modal__m-body" :class="errorClassObject">
             <div class="number-form">
               <label class="number__label">Номер телефона</label>
-
-              <the-mask
-                type="text"
-                class="number__input"
-                v-model="registrModal.number"
-                v-on:input="search"
-                placeholder="+998 (__) ___ __ __"
-                :mask="['+998 (##) ### ## ##', '+998 (##) ### ## ##']"
-              />
+              <div class="number_mask">
+                <span>+998 </span>
+                <the-mask
+                  type="text"
+                  class="number__input"
+                  v-model="registrModal.number"
+                  v-on:input="search"
+                  placeholder="(__) ___ __ __"
+                  :mask="['(##) ### ## ##', '(##) ### ## ##']"
+                />
+              </div>
               <span class="number-linght-false" v-if="errors.numberLinght"
                 >Длина поля номер телефона должна быть 12
               </span>
@@ -1100,6 +1102,29 @@ export default {
       display: flex;
       flex-direction: column;
     }
+    .number-form {
+      .number_mask {
+        margin-top: 6px;
+        border: 1px solid #ebebeb;
+        border-radius: 4px;
+        span {
+      font-family: "Inter";
+padding-left: 16px;
+          font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      color: #9a999b;
+        }
+        input {
+          border: none;
+      font-family: "Inter";
+      padding: 16px;
+    padding-left: 0;
+     
+        }
+      }
+    }
     .number-linght-false {
       font-family: "Inter";
       font-style: italic;
@@ -1121,15 +1146,11 @@ export default {
       line-height: 24px;
       color: #727474;
       transition: 0.3s;
-      // margin-top: 10px;
-      // &:first-child {
-      //   margin-top: 0px;
-      // }
     }
     input {
       transition: 0.3s;
       border: 1px solid #ebebeb;
-      margin-top: 6px;
+     
       border-radius: 4px;
       font-family: "Inter";
       padding: 16px;

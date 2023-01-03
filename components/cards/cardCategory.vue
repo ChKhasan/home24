@@ -64,7 +64,11 @@ export default {
 @media (max-width: 1440px) {
   .card-category {
     &__img {
-      height: 114px;
+      img {
+width: 160px;
+object-fit: contain;
+        height: 114px;
+      }
     }
     &__title {
       padding-top: 16px;

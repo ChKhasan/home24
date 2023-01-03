@@ -16,11 +16,17 @@
     ></span>
     <div class="comparison-card__head">
       <div class="comparison-card__img">
-        <img src="../../assets/images/image 107.png" alt="" />
+        <img
+        v-if="product.images.length == 0"
+        src="../../assets/images/image 107.png"
+        alt=""
+      />
+
+      <img v-else :src="`https://said26dadamuh.pythonanywhere.com/${product.images[0].image}`" alt="" />
       </div>
       <div class="comparison-card__title">
-        <h6>Холодильник Samsung RB 29 FERNDSA/WT</h6>
-        <h5>7 300 000 сум</h5>
+        <h6>{{product.product?.name }}</h6>
+        <h5>{{ product.price }} сум</h5>
       </div>
       <div class="comparison-card__reviews d-flex justify-content-between">
         <div class="comparison-card__reyting">
@@ -75,9 +81,13 @@
           <span
             class="comparison-card__buy"
             @click="
-              $store.commit('addToStore', { id: product.id, name: 'cart' })
+            $store.commit('addToStoreCart', {
+              id: product.id,
+              name: 'cart',
+              count: 1,
+            })
             "
-            :class="{ disabledClass: includes($store.state.cart, product.id) }"
+            :class="{ disabledClass: includesCart($store.state.cart, product.id) }"
           >
             <svg
               width="16"
@@ -190,6 +200,13 @@ export default {
         true;
       }
     },
+    includesCart(array, id) {
+      if (array) {
+        return array.find((item) => item.id === id) ? true : false;
+      } else {
+        true;
+      }
+    },
   },
 };
 </script>
@@ -209,6 +226,10 @@ export default {
   }
   &__head {
     padding: 32px 18px 11px 18px;
+    height: 228px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
   &__img {
     display: flex;

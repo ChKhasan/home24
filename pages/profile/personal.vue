@@ -581,7 +581,7 @@ export default {
     return {
       value2: true,
       changeInfo: true,
-      userNameVal: '',
+      userNameVal: "",
       user_info: {
         first_name: "",
         last_name: "",
@@ -666,7 +666,10 @@ export default {
       this.changeInfo = true;
       const userInfo = await this.$store.dispatch(
         "fetchAuth/fetchUserUpdateProfile",
-        { info: {...this.user_info,nbm: this.userInfo.nbm}, token: localStorage.getItem("Auth") }
+        {
+          info: { ...this.user_info, nbm: this.userInfo.nbm },
+          token: localStorage.getItem("Auth"),
+        }
       );
       await this.$modal.hide("save-leave-modal");
 
@@ -674,10 +677,9 @@ export default {
     },
     userName() {
       const array = this.userNameVal.split(" ");
-      (this.user_info.username = array[0]);
-      (this.user_info.first_name = array[1]);
-        (this.user_info.last_name = array[2])
-    
+      this.user_info.username = array[0];
+      this.user_info.first_name = array[1];
+      this.user_info.last_name = array[2];
     },
     show(name) {
       this.$modal.show(name);
@@ -833,8 +835,8 @@ export default {
         font-family: "TT Firs Neue";
         font-style: normal;
         font-weight: 500;
-        font-size: 16px;
-        line-height: 24px;
+        font-size: 24px;
+        line-height: 32px;
         color: #020105;
       }
       label {
@@ -922,6 +924,28 @@ export default {
           &:hover {
             background: rgba(255, 100, 24, 0.6);
           }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 1440px) {
+  .profile {
+    &__personal-data-controller {
+      .personal-data {
+        &__p-header {
+          .change-info-btn {
+            font-size: 12px;
+            line-height: 15px;
+            padding: 10px 20px;
+          }
+        }
+      }
+    }
+    &__personal-data-change {
+      .info-change-body {
+        .form-controller {
+          grid-gap: 21px;
         }
       }
     }

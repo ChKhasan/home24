@@ -43,7 +43,7 @@
         {{commentCount ? commentCount:product.comments_count}} Отзывов
       </p>
       <p>Код товара: {{product.id}}</p>
-      <p v-if="hide">
+      <p v-if="hide" class="response__hide">
         <svg
           width="24"
           height="24"
@@ -102,6 +102,17 @@ export default {
     color: #727474;
     svg {
       margin-right: 10px;
+    }
+  }
+}
+@media (max-width: 1440px) {
+  .product-header-info {
+    span,p {
+      font-size: 14px !important;
+line-height: 22px !important;
+    }
+    .response__hide {
+      display: none;
     }
   }
 }

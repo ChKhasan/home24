@@ -23,7 +23,7 @@
     </div>
     <div class="row">
       <div class="col-12 favorites__count">
-        <p>Товаров: <span>6</span></p>
+        <p>Товаров: <span>{{ $store.state.like.length }}</span></p>
       </div>
     </div>
     <div class="row">

@@ -129,7 +129,10 @@
                 ></div>
               </div>
             </div>
-            <div class="product_count" v-if="checkCart">
+            <div
+              class="product_count"
+              v-if="$store.state.cart.find((item) => item.id == product.id)"
+            >
               <p>Количество:</p>
               <div class="sc-count">
                 <div class="sc-count-btn">
@@ -185,7 +188,7 @@
           </div>
         </div>
         <div class="product__price-box">
-          <CardProductPrice :product="product" />
+          <CardProductPrice :product="product"  />
           <div class="product__order-card">
             <div class="body">
               <div class="title">
@@ -463,6 +466,7 @@ export default {
   data() {
     return {
       userRate: null,
+      count: 1,
       rate: {
         rate1: 5,
         rate2: 4,
@@ -490,7 +494,7 @@ export default {
       },
       activeName: "first",
       cartProducts: [],
-      checkCart: false,
+      checkCart: null,
       links: [
         {
           name: "Главный",
@@ -519,9 +523,9 @@ export default {
   },
   async created() {
     this.checkAuth = localStorage.getItem("Auth");
-
     this.GET_PRODUCT();
     this.GET_COMMITS();
+    console.log(this.checkCart);
   },
   methods: {
     updateCount(type, product) {
@@ -530,6 +534,7 @@ export default {
         let newCart = cart.map((item) => {
           if (item.id == product.id) {
             item.count++;
+            this.count = item.count;
             return item;
           } else {
             return item;
@@ -546,6 +551,8 @@ export default {
           if (item.id == product.id) {
             if (item.count > 1) {
               item.count--;
+            this.count = item.count;
+
             } else {
               item.count;
             }
@@ -571,8 +578,7 @@ export default {
       this.cartProducts = await JSON.parse(localStorage.getItem("cart"));
       this.checkCart = await this.cartProducts.find(
         (item) => item.id == product.id
-      );
-      console.log(this.checkCart);
+      ) ?? {count: 1};
       this.carouselChange = product.images[0]?.image
         ? product.images[0]?.image
         : "../../assets/images/image 34.png";
@@ -1316,6 +1322,93 @@ export default {
       line-height: 36px;
       color: #020105;
       margin-bottom: 0;
+    }
+  }
+}
+@media (max-width: 1440px) {
+  .product {
+    &__img-carousel {
+      grid-gap: 16px;
+    }
+    &__body-control {
+      grid-template-columns: 8fr 4fr 4fr;
+      grid-gap: 16px;
+    }
+    &__types-title {
+      h1 {
+        font-size: 24px;
+        line-height: 32px;
+      }
+    }
+    &__types {
+      p {
+        font-size: 14px;
+        line-height: 22px;
+        span {
+          font-size: 14px;
+          line-height: 22px;
+        }
+      }
+    }
+    &__types-color {
+      div {
+        width: 40px;
+        height: 48px;
+      }
+    }
+    .sc-count-btn {
+      p {
+        font-family: "TT Firs Neue";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 24px;
+      }
+    }
+    &__comment-block {
+      grid-template-columns: 8.5fr 4fr;
+    }
+    .reyting_card {
+      .el-rate__icon {
+        font-size: 16px !important;
+      }
+    }
+    &__order-card,
+    &__order-card2 {
+      padding: 18.55px;
+      .body {
+        .title {
+          h4 {
+            font-size: 14px;
+            line-height: 25px;
+          }
+        }
+        p {
+          font-size: 12px;
+          line-height: 18px;
+        }
+      }
+    }
+  }
+}
+@media (max-width: 1370px) {
+  .product {
+    &__img-carousel {
+      .carousel-items {
+        .carousel-img {
+          width: 70px;
+          height: 70px;
+        }
+      }
+      .carousel-banner {
+        img {
+          height: 400px;
+        }
+      }
+    }
+    &__body-control {
+      grid-template-columns: 8fr 5fr 5fr;
+      grid-gap: 16px;
     }
   }
 }

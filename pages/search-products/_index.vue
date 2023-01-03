@@ -20,9 +20,9 @@
               <h2>Цена</h2>
               <div class="category__range">
                 <MultiRangeSlider
-                  :min="100000"
-                  :max="1000000"
-                  :step="100000"
+                  :min="100"
+                  :max="1000"
+                  :step="100"
                   :ruler="false"
                   :label="false"
                   :minValue="barMinValue"
@@ -236,7 +236,7 @@
                 />
               </div>
               <emptyBlog v-else />
-              <div class="category__pagination" v-if="searchProduct.length > 0">
+              <div class="category__pagination" v-if="searchProduct.length > 0 && totalPage > 1">
                 <el-pagination
                   layout="prev, pager, next"
                   @current-change="handleCurrentChange"
@@ -271,11 +271,12 @@ export default {
       selected: "",
       currentPage1: 1,
       sliderValue: 50,
-      barMinValue: 100000,
-      barMaxValue: 1000000,
+      barMinValue: 100,
+      barMaxValue: 1000,
       checkbox: "",
       gridControl: 5,
       totalPage: 1,
+      page_size: 2,
       links: [
         {
           name: "Главный",
@@ -304,19 +305,14 @@ export default {
       });
     }
 
-    const searchProduct = await this.$store.dispatch(
-      "fetchSearch/fetchSearchProduct",
-      { ...this.$route.query, page_size: 1 }
-    );
-    this.searchProduct = searchProduct.results;
+    await this.__GET_PRODUCTS()
+   
+
     const searchCategories = await this.$store.dispatch(
       "fetchSearch/fetchSearchCategories",
       { ...this.$route.query, page_size: 1 }
     );
     this.searchCategories = searchCategories.categories;
-    console.log(searchCategories);
-    this.categories = await searchProduct;
-    this.totalPage = searchProduct.count;
     this.currentPage1 = JSON.parse(this.$route.query.page);
     // this.categories = await categories.map(item => {
 
@@ -336,20 +332,29 @@ export default {
     categ() {
       console.log(this.categories);
     },
+    async __GET_PRODUCTS() {
+      const searchProduct = await this.$store.dispatch(
+      "fetchSearch/fetchSearchProduct",
+      { ...this.$route.query, page_size: this.page_size }
+    );
+    this.searchProduct = searchProduct.results;
+    this.categories = await searchProduct;
+    this.totalPage = Math.ceil(searchProduct.count / this.page_size); 
+    },
     async UpdateValues(e) {
       this.barMinValue = e.minValue;
       this.barMaxValue = e.maxValue;
       this.barMinValue = await e.minValue;
       this.barMaxValue = await e.maxValue;
       if (
-        this.barMinValue == 100000 &&
-        this.barMaxValue == 1000000
+        this.barMinValue == 100 &&
+        this.barMaxValue == 1000
       ) {
         await this.$router.replace({
           path: `/search-products/${this.$route.params.index}`,
           query: {
             category: this.$route.params.index,
-            page: this.currentPage1,
+            page: 1,
           },
         });
        
@@ -357,20 +362,16 @@ export default {
         await this.$router.replace({
           path: `/search-products/${this.$route.params.index}`,
           query: {
-            min_price: JSON.stringify(this.barMinValue),
-            max_price: this.barMaxValue,
+            price_min: JSON.stringify(this.barMinValue),
+            price_max: this.barMaxValue,
             filter: 1,
             category: this.$route.params.index,
-            page: this.currentPage1,
+            page: 1,
           },
-        });
+        }),
+        this.currentPage1 = 1
       }
-      const searchProduct = await this.$store.dispatch(
-      "fetchSearch/fetchSearchProduct",
-      { ...this.$route.query, page_size: 1 }
-    );
-    this.searchProduct = searchProduct.results;
-    this.totalPage = searchProduct.count
+      await this.__GET_PRODUCTS()
     },
 
     async colorFilter(id) {
@@ -390,27 +391,20 @@ export default {
           ...colorObj,
         },
       });
-      const searchProduct = await this.$store.dispatch(
-      "fetchSearch/fetchSearchProduct",
-      { ...this.$route.query, page_size: 1 }
-    );
-    this.searchProduct = searchProduct.results;
-    this.currentPage1 = JSON.parse(this.$route.query.page);
+      this.currentPage1 = 1
+
+     await this.__GET_PRODUCTS()
     },
     async searchProductsWithCategory(id) {
       await this.$router.replace({
         path: `/search-products/${this.$route.params.index}`,
         query: {
-          page: this.currentPage1,
+          page: 1,
           ...this.$route.query,
           category: id
         },
       });
-      const searchProduct = await this.$store.dispatch(
-      "fetchSearch/fetchSearchProduct",
-      { ...this.$route.query, page_size: 1 }
-    );
-    this.searchProduct = searchProduct.results
+     await this.__GET_PRODUCTS()
     },
    async handleCurrentChange(val) {
       await this.$router.replace({
@@ -421,12 +415,7 @@ export default {
         },
       });
      
-      const searchProduct = await this.$store.dispatch(
-      "fetchSearch/fetchSearchProduct",
-      { ...this.$route.query, page_size: 1 }
-    );
-    this.searchProduct = searchProduct.results;
-    this.currentPage1 = JSON.parse(this.$route.query.page);
+     await this.__GET_PRODUCTS()
     }
   },
   components: {
@@ -758,6 +747,15 @@ export default {
       padding: 10px 12px;
       border: 1px solid #ebebeb;
       border-radius: 4px;
+    }
+  }
+}
+
+@media (max-width: 1440px) {
+  .category-title {
+    h1 {
+      font-size: 32px;
+line-height: 48px;
     }
   }
 }

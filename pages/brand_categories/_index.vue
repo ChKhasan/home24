@@ -225,7 +225,7 @@
               </div>
               <div
                 class="category__pagination"
-                v-if="brand_products.length > 0"
+                v-if="brand_products.length > 0 && totalPage > 1"
               >
                 <el-pagination
                   layout="prev, pager, next"
@@ -280,6 +280,7 @@ export default {
       ],
       brand: {},
       skeleton: true,
+      page_size: 1
     };
   },
   async created() {
@@ -300,7 +301,6 @@ export default {
         },
       });
     this._GET_BRAND_PRODUCTS();
-
     } 
     this.currentPage = await JSON.parse(this.$route.query.page);
     },
@@ -319,11 +319,13 @@ export default {
        
     },
     async _GET_BRAND_PRODUCTS() {
-      [this.brand_products,this.totalPage] = await this.$store.dispatch(
+      const brand_products = await this.$store.dispatch(
         "fetchBrands/fetchProductByBrand",
-        this.$route.query
+       { ...this.$route.query,page_size: this.page_size}
       );
-      console.log(this.brand_products,this.totalPage);
+      this.brand_products = brand_products.results
+      this.totalPage = Math.ceil(brand_products.count / this.page_size);
+
       this.skeleton = await false;
     },
     async brandCategories(id) {
@@ -335,10 +337,8 @@ export default {
           category: id,
         },
       });
-      [this.brand_products,this.totalPage] = await this.$store.dispatch(
-        "fetchBrands/fetchProductByBrand",
-        this.$route.query
-      );
+       this.skeleton = await true
+     await this._GET_BRAND_PRODUCTS()
 
      
     },
@@ -369,12 +369,11 @@ export default {
           },
         });
       }
+this.currentPage = 1
 
       this._GET_BRAND_PRODUCTS()
     },
     async handleCurrentChange(val) {
-      console.log(val);
-
       await this.$router.replace({
         path: `/brand_categories/${this.$route.params.index}`,
         query: {
@@ -383,11 +382,7 @@ export default {
           page: val,
         },
       });
-      [this.brand_products,this.totalPage] = await this.$store.dispatch(
-        "fetchBrands/fetchProductByBrand",
-        this.$route.query
-      );
-      this.currentPage = await JSON.parse(this.$route.query.page);      
+      this._GET_BRAND_PRODUCTS();
     },
   },
 

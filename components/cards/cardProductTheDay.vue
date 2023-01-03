@@ -77,7 +77,11 @@
         <div class="product-day__btn">
           <button
             @click="
-              $store.commit('addToStore', { id: product.id, name: 'cart' })
+            $store.commit('addToStoreCart', {
+              id: product.id,
+              name: 'cart',
+              count: 1,
+            })
             "
             :class="{ disabled: includes($store.state.cart, product.id) }"
           >

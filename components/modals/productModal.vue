@@ -58,7 +58,7 @@
                   alt=""
                 />
               </div>
-              
+
               <!-- <div class="carousel-img">
                 <img
                   src="../../assets/images/image 34.png"
@@ -93,6 +93,33 @@
             <ProductCharactertable />
             <ProductCharactertable />
             <ProductCharactertable />
+            <span
+              class="more_info"
+              @click="$router.push(`/product/${product.id}`)"
+              >Подробнее о товаре
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M19.75 11.7256L4.75 11.7256"
+                  stroke="#FF7E00"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M13.7002 5.70124L19.7502 11.7252L13.7002 17.7502"
+                  stroke="#FF7E00"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
           </div>
         </div>
       </div>
@@ -141,6 +168,15 @@ export default {
   &__m-left {
     display: grid;
     grid-gap: 33px;
+    .more_info {
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 26px;
+      color: #ff7e00;
+      cursor: pointer;
+    }
   }
   &__carousel {
     display: grid;
@@ -183,6 +219,45 @@ export default {
     .activeImg {
       border: 1px solid #ff6418;
       border-radius: 4px;
+    }
+  }
+}
+@media (max-width: 1440px) {
+  .product-modal {
+    &__m-header {
+      padding: 6px 24px;
+      svg {
+        width: 40px;
+        height: 40px;
+      }
+      h5 {
+        font-size: 18px;
+        line-height: 24px;
+      }
+    }
+    &__carousel {
+      grid-gap: 16px;
+      .carousel-img {
+        width: 70px;
+        height: 70px;
+      }
+      .carousel-banner {
+        img {
+          height: 400px;
+        }
+      }
+    }
+    &__m-left {
+      grid-gap: 32px;
+    }
+    .p-character-card {
+      .body {
+        padding-bottom: 16px;
+        p {
+          font-size: 12px;
+          font-weight: 18px;
+        }
+      }
     }
   }
 }

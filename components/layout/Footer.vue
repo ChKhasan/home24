@@ -283,6 +283,44 @@ export default {};
       padding-top: 36px;
       padding-bottom: 32px;
     }
+   
+  }
+}
+
+@media (max-width: 1370px) {
+  .footer {
+    &__list-title {
+      font-size: 20px;
+    font-weight: 500;
+    line-height: 26px;
+    }
+    &__list {
+      li {
+      margin-bottom: 12px;
+
+        font-size: 16px;
+      line-height: 24px;
+      }
+    }
+    &__qr-code {
+      img {
+        width: 80px;
+      }
+      p {
+        font-size: 14px;
+      line-height: 20px;
+      }
+    }
+    &__messengers {
+      a {
+        width: 50px;
+        height: 50px;
+        svg {
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
   }
 }
 </style>

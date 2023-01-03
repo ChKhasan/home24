@@ -106,11 +106,14 @@
               placeholder="Ф.И.О"
             />
             <label for="">Телефон<span>*</span></label>
+            <div class="buy-one-click__number_input">
+            <span>+998</span>
             <input
               type="text"
               v-model="order.nbm"
-              placeholder="+998 (--)--- -- --"
+              placeholder="99 999-99-99"
             />
+            </div>
           </form>
           <div class="buy-one-click__m-btn">
             <div class="show-btn" @click="sendAplication">Оформить</div>
@@ -146,16 +149,15 @@ export default {
         "fetchOrder/fetchSendAplication",
         {
           ...this.order,
+          nbm: `+998${this.order.nbm}`,
           count: this.product.quantity,
           product: this.product.id,
         }
       );
-      console.log(hitProducts);
       if (hitProducts.status == 400) {
         Object.keys(hitProducts.data).forEach(error => {
-
            this.$toast.open({
-            message: error,
+            message: `Please inter your ${error}`,
             type: "error",
             duration: 2000,
             dismissible: true,
@@ -173,6 +175,7 @@ export default {
         });
       }
     },
+    
     userName() {
       const array = this.user_name.split(" ");
       (this.order.name = array[0]),
@@ -215,6 +218,16 @@ export default {
         color: #727474;
       }
     }
+  }
+  &__number_input {
+    border: 1px solid #ebebeb;
+    border-radius: 4px;
+    padding-left: 16px;
+
+input {
+  border: none;
+  padding-left: 0;
+}
   }
   &__m-header {
     padding: 6px 6px 6px 40px;
@@ -342,6 +355,44 @@ export default {
             }
           }
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 1440px) {
+  .buy-one-click {
+    &__m-header {
+    padding: 6px 6px 6px 40px;
+svg {
+  width: 40px;
+  height: 40px;
+}
+      h1 {
+        font-size: 18px !important;
+      line-height: 24px !important;
+      }
+    }
+    &__m-body {
+      padding: 24px 32px;
+    }
+    &__card {
+      padding: 16px;
+    }
+    &__m-btn {
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+      div {
+        font-size: 12px;
+line-height: 16px;
+      }
+    }
+    &__form {
+      label {
+        font-size: 16px;
+line-height: 24px;
       }
     }
   }

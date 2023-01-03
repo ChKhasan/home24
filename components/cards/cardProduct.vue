@@ -203,7 +203,6 @@ export default {
   async mounted() {
     this.likeP = JSON.parse(localStorage.getItem("like"));
     this.comparisonP = JSON.parse(localStorage.getItem("comparison"));
-    console.log(this.product);
   },
 
   methods: {
