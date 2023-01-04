@@ -148,13 +148,7 @@
             :product="product"
             :key="product.id"
           />
-          <CardProduct
-            modal="id1"
-            :id="1"
-            v-for="product in hitProducts"
-            :product="product"
-            :key="product.id"
-          />
+         
           <!-- <CardProduct modal="id2" :cartProducts="cartProducts" :id="2" />
           <CardProduct modal="id3" :cartProducts="cartProducts" :id="3" />
           <CardProduct modal="id4" :cartProducts="cartProducts" :id="4" />
@@ -163,7 +157,7 @@
         </div>
       </div>
     </div>
-    <div class="container homepage__carousel-aksiya">
+    <!-- <div class="container homepage__carousel-aksiya">
       <div class="row">
         <div class="col-12">
           <BannerCarousel :theArrow="true">
@@ -179,8 +173,8 @@
           </BannerCarousel>
         </div>
       </div>
-    </div>
-    <homeTitlies title="Популярные товары" link="Все товары" />
+    </div> -->
+    <!-- <homeTitlies title="Популярные товары" link="Все товары" />
     <div class="container">
       <div class="row">
         <div class="col-12 homepage__grid-top-product">
@@ -190,7 +184,7 @@
           <cardTopProduct />
         </div>
       </div>
-    </div>
+    </div> -->
     <homeTitlies title="Популярные бренды" link="Все бренды" to="brands" />
     <div class="container">
       <div class="row">
@@ -199,7 +193,7 @@
         </div>
       </div>
     </div>
-    <homeTitlies title="Фото довольных клиентов" />
+    <!-- <homeTitlies title="Фото довольных клиентов" />
     <div class="container">
       <div class="row">
         <div class="col-12 homepage__grid-top-product">
@@ -209,12 +203,11 @@
           <CardClient />
         </div>
       </div>
-    </div>
-    <homeTitlies title="Телевизоры" link="Все товары" />
+    </div> -->
+    <!-- <homeTitlies title="Телевизоры" link="Все товары" />
     <div class="container">
       <div class="row">
         <div class="col-12 homepage__grid-product">
-          <!-- <CardProduct />
           <CardProduct />
           <CardProduct />
           <CardProduct />
@@ -225,11 +218,12 @@
           <CardProduct />
           <CardProduct />
           <CardProduct />
-          <CardProduct /> -->
+          <CardProduct />
+          <CardProduct />
         </div>
       </div>
-    </div>
-    <homeTitlies title="Блог" link="Все товары" />
+    </div> -->
+    <!-- <homeTitlies title="Блог" link="Все товары" />
     <div class="container">
       <div class="row">
         <div class="col-12 homepage__grid-top-product">
@@ -239,7 +233,7 @@
           <CardBlog />
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

@@ -417,7 +417,8 @@ this.totalPrice()
         "fetchOrder/fetchPaymentTypes"
       );
       this.paymentTypes = paymentTypes;
-
+      this.activePayment = paymentTypes[0].id;
+      this.orderContainer.payment = paymentTypes[0].children[0].id;
       this.city = orderCIties.results;
       this.regions = orderStates.results;
       this.orderContainer.city = orderCIties.results[0].id;

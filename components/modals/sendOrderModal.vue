@@ -51,7 +51,7 @@
             </div>
           </div>
           <div class="send-order-modal__m-btn auth_grid" v-else>
-            <div class="proceed-btn">Продолжить покупку</div>
+            <div class="proceed-btn" @click="$router.push('/')">Продолжить покупку</div>
           </div>
         </div>
       </div>

@@ -125,7 +125,7 @@
               <img :src="category.icon" alt="" /> {{ category?.name }}
             </nuxt-link>
 
-            <nuxt-link to="/">
+            <!-- <nuxt-link to="/">
               <svg
                 width="22"
                 height="14"
@@ -148,7 +148,6 @@
                 </defs></svg
               >Подарки
             </nuxt-link>
-
             <nuxt-link to="/">
               <svg
                 width="25"
@@ -244,7 +243,7 @@
                   fill="#727474"
                 /></svg
               >Канцтовары
-            </nuxt-link>
+            </nuxt-link> -->
 
             <div>
               <el-dropdown

@@ -433,9 +433,9 @@
                 @click="categoryTab(category.id)"
                 v-for="category in categories"
               >
-                <img :src="category.icon" alt="" />{{ category.name }} api
+                <img :src="category.icon" alt="" />{{ category.name }}
               </span>
-              <nuxt-link to="/category">
+              <!-- <nuxt-link to="/category">
                 <svg
                   width="25"
                   height="24"
@@ -613,7 +613,7 @@
                   />
                 </svg>
                 Акции
-              </nuxt-link>
+              </nuxt-link> -->
             </div>
             <div class="category-dropdown__body">
               <h1>{{ categoryChilds?.name }}</h1>
@@ -917,7 +917,10 @@ export default {
         );
         await localStorage.setItem("Auth", registerSms.access);
         await localStorage.setItem("Refresh", registerSms.refresh);
-
+        await localStorage.setItem(
+            "password_access",
+            JSON.stringify(this.registrType.type)
+          );
         await this.$store.commit("setUser");
         await this.$modal.hide("sign-or-create-modal");
         await this.$router.push("/profile");
@@ -930,10 +933,7 @@ export default {
         this.errors.numberError = true;
       } else {
         if (this.registrType.type) {
-          localStorage.setItem(
-            "password_access",
-            JSON.stringify(this.registrType.type)
-          );
+         
           this.userLogin();
         } else {
           this.smsCodeValidate();
@@ -1256,6 +1256,7 @@ padding-left: 16px;
   background: #fff;
   z-index: -1;
   opacity: 0;
+  height: 100vh;
   transform: translateY(-100%);
 
   &__categories {

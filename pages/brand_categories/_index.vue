@@ -321,11 +321,10 @@ export default {
     async _GET_BRAND_PRODUCTS() {
       const brand_products = await this.$store.dispatch(
         "fetchBrands/fetchProductByBrand",
-       { ...this.$route.query,page_size: this.page_size}
+       { ...this.$route.query, page_size: this.page_size}
       );
       this.brand_products = brand_products.results
       this.totalPage = Math.ceil(brand_products.count / this.page_size);
-
       this.skeleton = await false;
     },
     async brandCategories(id) {
@@ -335,6 +334,7 @@ export default {
           ...this.$route.query,
           brand: this.$route.params.index,
           category: id,
+          page: 1
         },
       });
        this.skeleton = await true
