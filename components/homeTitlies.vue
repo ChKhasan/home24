@@ -6,7 +6,7 @@
           <h1>{{ title }}</h1>
         </div>
         <div v-if="link" class="home-title__link">
-          <nuxt-link :to="to ?? `/${to}`">{{ link }}</nuxt-link>
+          <nuxt-link :to="to ?? `/`">{{ link }}</nuxt-link>
         </div>
       </div>
     </div>

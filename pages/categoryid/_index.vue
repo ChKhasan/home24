@@ -362,11 +362,10 @@
 
       <div class="row"></div>
     </div>
-    <homeTitliesVue title="Хиты продаж" link="Все товары" />
+    <!-- <homeTitliesVue title="Хиты продаж" link="Все товары" />
     <div class="container">
       <div class="row">
         <div class="col-12 category__product-controller">
-          <!-- <CardProduct />
           <CardProduct />
           <CardProduct />
           <CardProduct />
@@ -377,10 +376,11 @@
           <CardProduct />
           <CardProduct />
           <CardProduct />
-          <CardProduct /> -->
+          <CardProduct />
+          <CardProduct />
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>

@@ -43,11 +43,10 @@
 
       <div class="row"></div>
     </div>
-    <homeTitliesVue title="Хиты продаж" link="Все товары" />
+    <!-- <homeTitliesVue title="Хиты продаж" link="Все товары" />
     <div class="container">
       <div class="row">
         <div class="col-12 category__product-controller">
-          <!-- <CardProduct />
           <CardProduct />
           <CardProduct />
           <CardProduct />
@@ -58,10 +57,11 @@
           <CardProduct />
           <CardProduct />
           <CardProduct />
-          <CardProduct /> -->
+          <CardProduct />
+          <CardProduct />
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -80,23 +80,27 @@ export default {
           to: "/",
         },
       ],
-      categories: [],
-      categoryById: {},
       skeleton: true,
     };
   },
   async created() {
     this.$store.commit("reloadStore");
-    const categories = await this.$store.dispatch(
+    await this.__GET_CATEGORIES();
+    await this.__GET_CATEGORIES_BY_ID();
+     this.skeleton = await false;
+  },
+  methods: {
+   async __GET_CATEGORIES() {
+    this.categories = await this.$store.dispatch(
       "fetchCategories/fetchAllCategories"
     );
-    const categoryById = await this.$store.dispatch(
+   },
+   async __GET_CATEGORIES_BY_ID() {
+    this.categoryById = await this.$store.dispatch(
       "fetchCategories/fetchAllCategoryById",
       this.$route.params.index
     );
-    this.categoryById = categoryById;
-    this.categories = categories;
-    this.skeleton = false;
+   }
   },
   components: {
     BreadCrumb,
