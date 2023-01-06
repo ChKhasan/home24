@@ -322,10 +322,7 @@ export default {
     },
     async fetchUserInfo() {
       this.$router.push("/profile/orders");
-      const userInfo = await this.$store.dispatch(
-        "fetchAuth/fetchUserProfile",
-        localStorage.getItem("Auth")
-      );
+     
       const myOrders = await this.$store.dispatch(
         "fetchOrder/fetchMyOrders",
         localStorage.getItem("Auth")

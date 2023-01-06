@@ -89,7 +89,7 @@
         </span>
       </div>
       <div class="first-price">
-        <p>2 880 000 СУМ</p>
+        <p>{{product?.total}} СУМ</p>
       </div>
       <div class="price-btn">
         <div

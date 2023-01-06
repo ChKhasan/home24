@@ -212,7 +212,7 @@
                 <div class="payment-types__p-header">
                   <div
                     class="pickup__checkbox"
-                    @click="activePayment = payments.id"
+                    @click="checkPaymentParent(payments)"
                   >
                     <span v-if="activePayment == payments.id"></span>
                   </div>
@@ -511,11 +511,17 @@ this.totalPrice()
 
     },
     checkPayment(payments, types) {
-      this.activePayment = types.parent;
+      this.activePayment = payments.id;
       this.orderContainer.payment = types.id;
+      console.log(payments,types);
       if (payments.children.find((item) => item.id == types.id)) {
         console.log();
       }
+    },
+    checkPaymentParent(payments) {
+      this.activePayment = payments.id;
+      this.orderContainer.payment = payments.children[0].id;
+      console.log(payments);
     },
     async show() {
       await this.$modal.show(this.modal);

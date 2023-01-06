@@ -255,6 +255,7 @@
                       type="text"
                       v-model="user_info.email"
                       placeholder="E-mail"
+                      value="adssa"
                     />
                   </div>
                 </div>
@@ -476,7 +477,7 @@
                   <div class="info-cancel" @click="changeInfo = true">
                     Отменить
                   </div>
-                  <div class="info-save" @click="show('save-leave-modal')">
+                  <div class="info-save" @click="leaveSave">
                     Сохранить
                   </div>
                 </div>
@@ -576,7 +577,7 @@
 import BreadCrumb from "../../components/category/breadCrumb.vue";
 import TitleCategory from "../../components/category/titleCategory.vue";
 export default {
-  props: ["userInfo", "fetchUserInfo"],
+  props: ["fetchUserInfo"],
   data() {
     return {
       value2: true,
@@ -587,6 +588,7 @@ export default {
         last_name: "",
         username: "",
         adres: "",
+        email: "",
         city: "",
         state: "",
         post_ind: "",
@@ -606,15 +608,18 @@ export default {
       passwordHide2: "text",
       password: "",
       password2: "",
+      userInfo: {},
     };
   },
   components: {
     BreadCrumb,
     TitleCategory,
   },
-created() {
-this.__GET_STATE_CITY()
-},
+  async created() {
+    await this.__GET_STATE_CITY();
+    await this.__GET_USER_INFO();
+    await this.lastInfo();
+  },
   methods: {
     logout() {
       localStorage.removeItem("Auth");
@@ -623,7 +628,6 @@ this.__GET_STATE_CITY()
       this.$router.push("/");
     },
     async leaveSave() {
-      this.changeInfo = true;
       const userInfo = await this.$store.dispatch(
         "fetchAuth/fetchUserUpdateProfile",
         {
@@ -631,9 +635,35 @@ this.__GET_STATE_CITY()
           token: localStorage.getItem("Auth"),
         }
       );
-      await this.$modal.hide("save-leave-modal");
-
-      this.fetchUserInfo();
+      if (userInfo.status == 400) {
+        this.$toast.open({
+          message: userInfo.data,
+          type: "error",
+          duration: 2000,
+          dismissible: true,
+          position: "top-right",
+        });
+      } else {
+        this.$toast.open({
+          message: "Successfully",
+          type: "success",
+          duration: 2000,
+          dismissible: true,
+          position: "top-right",
+        });
+        this.__GET_USER_INFO();
+        this.fetchUserInfo();
+        this.changeInfo = true;
+      }
+    },
+    lastInfo() {
+      this.user_info.first_name = this.userInfo.first_name;
+      this.user_info.last_name = this.userInfo.last_name;
+      this.user_info.username = this.userInfo.username;
+      this.user_info.adres = this.userInfo.adres;
+      this.user_info.email = this.userInfo.email;
+      this.user_info.post_ind = this.userInfo.post_ind;
+      this.userNameVal = this.userInfo.username;
     },
     async __GET_STATE_CITY() {
       const orderStates = await this.$store.dispatch("fetchOrder/fetchStates");
@@ -642,6 +672,12 @@ this.__GET_STATE_CITY()
       this.regions = orderStates.results;
       this.user_info.city = orderCIties.results[0].id;
       this.user_info.state = orderStates.results[0].id;
+    },
+    async __GET_USER_INFO() {
+      this.userInfo = await this.$store.dispatch(
+        "fetchAuth/fetchUserProfile",
+        localStorage.getItem("Auth")
+      );
     },
     userName() {
       const array = this.userNameVal.split(" ");

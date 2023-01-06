@@ -56,7 +56,7 @@ export const actions = {
       );
       return res;
     } catch (e) {
-      console.log("error", e);
+      return e.response
     }
   },
   async fetchUserUpdatePassword({}, payload) {

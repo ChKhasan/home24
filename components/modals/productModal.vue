@@ -59,28 +59,7 @@
                 />
               </div>
 
-              <!-- <div class="carousel-img">
-                <img
-                  src="../../assets/images/image 34.png"
-                  @click="carouselChange = '../../assets/images/image 40.png'"
-                  alt=""
-                />
-              </div>
-              <div class="carousel-img">
-                <img src="../../assets/images/image 24.png" alt="" />
-              </div>
-              <div class="carousel-img">
-                <img src="../../assets/images/image 40.png" alt="" />
-              </div>
-              <div class="carousel-img">
-                <img src="../../assets/images/image 24.png" alt="" />
-              </div>
-              <div class="carousel-img">
-                <img src="../../assets/images/image 34.png" alt="" />
-              </div>
-              <div class="carousel-img">
-                <img src="../../assets/images/image 40.png" alt="" />
-              </div> -->
+             
             </div>
           </div>
         </div>

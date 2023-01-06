@@ -48,6 +48,10 @@ export const mutations = {
       state[payload.name] = cart;
     }
   },
+  addToVariant(state) {
+    let cart = JSON.parse(localStorage.getItem('cart'));
+    state.cart = cart
+  },
   reloadStore(state) {
     if (localStorage.getItem("cart")) {
       const cart = JSON.parse(localStorage.getItem("cart"));

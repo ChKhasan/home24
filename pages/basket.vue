@@ -205,7 +205,7 @@
                       </svg>
                     </div>
                     <div class="sc-last-price">{{ product.price }} сум</div>
-                    <span class="sc-first-price">2 200 000 сум</span>
+                    <span class="sc-first-price">{{ product.total }} сум</span>
                   </div>
                 </div>
               </div>
