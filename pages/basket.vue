@@ -55,7 +55,7 @@
                 <div class="select-order__card-img">
                   <div>
                     <img
-                      :src="`http://said26dadamuh.pythonanywhere.com/${product.images[0].image}`"
+                      :src="`${product.images[0].image}`"
                       alt=""
                     />
                   </div>

@@ -430,8 +430,9 @@
           <div class="col-12 category-dropdown__controller">
             <div>
               <span
-                @click="categoryTab(category.id)"
-                v-for="category in categories"
+                v-for="(category,index) in categories"
+                @click="checkCategories(index)"
+                :class="{activeCategory: categoryIndex == index}"
               >
                 <img :src="category.icon" alt="" />{{ category.name }}
               </span>
@@ -813,6 +814,7 @@ export default {
       searchCategories: [],
       smsCode: null,
       categoryChilds: {},
+      categoryIndex: 0,
       checkInputFocus: true,
     };
   },
@@ -864,7 +866,6 @@ export default {
         this.sendSms();
       }
     },
-
     async sendSms() {
       const smsCode = await this.$store.dispatch("fetchAuth/fetchSendSms", {
         nbm: `+998${this.registrModal.number}`,
@@ -1013,6 +1014,14 @@ export default {
     toCategory(id) {
       this.categoryDrop = false;
       this.$router.push(`/categoryId/${id}`);
+    },
+   async checkCategories(index) {
+    const categories = await this.$store.dispatch(
+      "fetchCategories/fetchAllCategories"
+    );
+    
+    this.categoryChilds = categories[index];
+    this.categoryIndex = index
     },
     show(name) {
       this.$modal.show(name);
@@ -1320,7 +1329,7 @@ padding-left: 16px;
 }
 .categriesActive {
   opacity: 1;
-  z-index: 30;
+  z-index: 1000;
   transform: translateY(0);
 }
 .header-search {
@@ -1541,12 +1550,16 @@ padding-left: 16px;
         line-height: 38px;
       }
     }
+    .activeCategory  {
+      margin-left: 8px;
+    }
     &__controller {
       a,
       span {
         margin-bottom: 26px;
         font-size: 16px;
         line-height: 20px;
+        cursor: pointer
       }
     }
   }

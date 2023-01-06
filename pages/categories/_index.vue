@@ -11,7 +11,7 @@
               <b-skeleton animation="wave" width="40%"></b-skeleton>
             </div>
             <li v-for="category in categories" v-else>
-              <span @click="$router.push(`/categories/${category.id}`)">{{
+              <span @click="$router.push(`/categories/${category.id}`)" :class="{activeCategry: $route.params.index == category.id}">{{
                 category.name
               }}</span>
             </li>
@@ -139,6 +139,9 @@ export default {
   &__list {
     list-style: none;
     padding-left: 0;
+    .activeCategry {
+      margin-left: 10px;
+    }
     li {
       span {
         display: block;

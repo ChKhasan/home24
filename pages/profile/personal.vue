@@ -262,24 +262,24 @@
                 <div class="form-controller">
                   <div class="d-flex flex-column">
                     <label for="">Область </label>
-                    <el-select v-model="regionVal">
+                    <el-select v-model="user_info.state">
                       <el-option
                         v-for="item in regions"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id"
                       >
                       </el-option>
                     </el-select>
                   </div>
                   <div class="d-flex flex-column">
                     <label for="">Город / Район</label>
-                    <el-select v-model="cityVal">
+                    <el-select v-model="user_info.city">
                       <el-option
                         v-for="item in city"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value"
+                        :key="item.id"
+                        :label="item.name"
+                        :value="item.id"
                       >
                       </el-option>
                     </el-select>
@@ -591,52 +591,10 @@ export default {
         state: "",
         post_ind: "",
       },
-      regions: [
-        {
-          value: "Option1",
-          label: "Option1",
-        },
-        {
-          value: "Option2",
-          label: "Option2",
-        },
-        {
-          value: "Option3",
-          label: "Option3",
-        },
-        {
-          value: "Option4",
-          label: "Option4",
-        },
-        {
-          value: "Option5",
-          label: "Option5",
-        },
-      ],
+      regions: [],
       regionVal: "Option1",
       changeInfo: true,
-      city: [
-        {
-          value: "Option1",
-          label: "Option1",
-        },
-        {
-          value: "Option2",
-          label: "Option2",
-        },
-        {
-          value: "Option3",
-          label: "Option3",
-        },
-        {
-          value: "Option4",
-          label: "Option4",
-        },
-        {
-          value: "Option5",
-          label: "Option5",
-        },
-      ],
+      city: [],
       cityVal: "Option1",
       links: [
         {
@@ -654,7 +612,9 @@ export default {
     BreadCrumb,
     TitleCategory,
   },
-
+created() {
+this.__GET_STATE_CITY()
+},
   methods: {
     logout() {
       localStorage.removeItem("Auth");
@@ -674,6 +634,14 @@ export default {
       await this.$modal.hide("save-leave-modal");
 
       this.fetchUserInfo();
+    },
+    async __GET_STATE_CITY() {
+      const orderStates = await this.$store.dispatch("fetchOrder/fetchStates");
+      const orderCIties = await this.$store.dispatch("fetchOrder/fetchCities");
+      this.city = orderCIties.results;
+      this.regions = orderStates.results;
+      this.user_info.city = orderCIties.results[0].id;
+      this.user_info.state = orderStates.results[0].id;
     },
     userName() {
       const array = this.userNameVal.split(" ");

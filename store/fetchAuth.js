@@ -45,9 +45,9 @@ export const actions = {
   },
   async fetchUserUpdateProfile({}, payload) {
     try {
+      
       const res = await this.$axios.$patch(
-        `/account/update_profile`,
-        payload.info,
+        `/account/update_profile`,payload.info,
         {
           headers: {
             Authorization: `Bearer ${payload.token}`,

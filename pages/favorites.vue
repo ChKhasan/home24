@@ -28,7 +28,7 @@
     </div>
     <div class="row">
       <div class="col-12">
-        <emptyBlog v-if="likeProducts.length == 0"/>
+        <emptyBlog v-if="$store.state.like.length == 0"/>
         <div class="favorites__products" v-else>
           <CardProduct
             v-for="product in likeProducts"

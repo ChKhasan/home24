@@ -116,7 +116,7 @@
       <div class="container header-category">
         <div class="row">
           <div
-            class="col-12 header-category__category-links d-flex justify-content-between"
+            class="col-12 header-category__category-links "
           >
             <nuxt-link
               v-for="category in categories"
@@ -124,6 +124,7 @@
             >
               <img :src="category.icon" alt="" /> {{ category?.name }}
             </nuxt-link>
+           
 
             <!-- <nuxt-link to="/">
               <svg
@@ -245,7 +246,7 @@
               >Канцтовары
             </nuxt-link> -->
 
-            <div>
+            <div v-if="categories.length > 7">
               <el-dropdown
                 class="header-category__dropdown"
                 :hide-on-click="false"
@@ -452,6 +453,8 @@ export default {
     position: relative;
     padding: 0 0 32px 0;
     &__category-links {
+      display: flex;
+      justify-content: space-between;
       a {
         font-family: "Inter", sans-serif;
         font-size: 18px;

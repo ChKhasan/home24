@@ -88,13 +88,21 @@
               ></b-skeleton>
               <div
                 v-else
+                class="colors"
                 v-for="color in product.colors"
                 @click="fetchProductByOption(color?.variant)"
                 :class="{
                   activeColor: color?.id == product.color.id,
+                  disabledOption: color?.variant == null,
                 }"
-              >
-                <span :style="{ background: color.hex }"></span>
+              > <div
+              v-if="color?.variant == null"
+                  :class="{
+                    nullClassColor: color?.variant == null,
+                  }"
+                ></div>
+                <span :style="{ background: color.hex }">  </span>
+              
               </div>
             </div>
           </div>
@@ -129,12 +137,19 @@
                 ></div>
               </div>
             </div>
+          </div>
             <div
               class="product_count"
               v-if="$store.state.cart.find((item) => item.id == product.id)"
             >
               <p>Количество:</p>
-              <div class="sc-count">
+              <b-skeleton
+            v-if="skeleton"
+            animation="wave"
+            height="70px"
+            width="45%"
+          ></b-skeleton>
+              <div class="sc-count" v-else>
                 <div class="sc-count-btn">
                   <span @click="updateCount(false, product)"
                     ><svg
@@ -185,7 +200,6 @@
                 <span>Осталось всего {{ product.qty }}</span>
               </div>
             </div>
-          </div>
         </div>
         <div class="product__price-box">
           <CardProductPrice :product="product"  />
@@ -576,8 +590,8 @@ export default {
       );
       this.product = await product;
       this.cartProducts = await JSON.parse(localStorage.getItem("cart"));
-      this.checkCart = await this.cartProducts.find(
-        (item) => item.id == product.id
+      this.checkCart = this.cartProducts.find(
+        (item) => item.id == this.$route.params.index
       ) ?? {count: 1};
       this.carouselChange = product.images[0]?.image
         ? product.images[0]?.image
@@ -1180,14 +1194,24 @@ export default {
       pointer-events: none !important;
     }
   }
+ 
   &__types-sizies {
     padding-top: 25px;
   }
   &__types-color {
     width: inherit;
     display: flex;
-
-    div {
+    .nullClassColor {
+      position: absolute;
+      width: 150%;
+      left: -10px;
+      height: 1px;
+      background: red !important;
+      top: 50%;
+      transform: rotate(45deg);
+      pointer-events: none !important;
+    }
+    .colors {
       width: 46px;
       height: 54px;
       border: 1px solid #f2f2fa;
@@ -1196,6 +1220,8 @@ export default {
       padding: 3px;
       cursor: pointer;
       transition: 0.3s;
+      position: relative;
+      overflow: hidden;
       span {
         border-radius: 4px;
         display: block;

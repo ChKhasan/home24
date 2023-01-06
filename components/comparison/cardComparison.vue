@@ -22,7 +22,7 @@
         alt=""
       />
 
-      <img v-else :src="`https://said26dadamuh.pythonanywhere.com/${product.images[0].image}`" alt="" />
+      <img v-else :src="`${product.images[0].image}`" alt="" />
       </div>
       <div class="comparison-card__title">
         <h6>{{product.product?.name }}</h6>

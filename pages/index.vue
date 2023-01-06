@@ -40,11 +40,11 @@
               width="100%"
             ></b-skeleton>
 
-            <BannerCarousel :theArrow="false" v-else>
+            <!-- <BannerCarousel :theArrow="false" v-else>
               <div v-for="product in productOfDay">
                 <CardProductTheDay :product="product" />
               </div>
-            </BannerCarousel>
+            </BannerCarousel> -->
           </div>
         </div>
       </div>

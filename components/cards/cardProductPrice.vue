@@ -100,7 +100,7 @@
               count: 1,
             })
           "
-          :class="{ disabledDiv: includes($store.state.cart, product.id) }"
+          :class="{ disabledDiv: includesCart($store.state.cart, product.id) }"
         >
           <svg
             width="24"
@@ -211,7 +211,13 @@ export default {
         true;
       }
     },
-
+    includesCart(array, id) {
+      if (array) {
+        return array.find((item) => item.id === id) ? true : false;
+      } else {
+        true;
+      }
+    },
     show() {
       this.$modal.show(this.modal);
       console.log(this.product);
@@ -274,6 +280,7 @@ export default {
     margin-top: 60px;
     .disabledDiv {
       background: #e87a43 !important;
+      pointer-events: none;
     }
     div {
       display: flex;
