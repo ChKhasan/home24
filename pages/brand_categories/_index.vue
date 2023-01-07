@@ -6,10 +6,7 @@
           <div class="grid_block">
             <div class="category__list-box1">
               <div class="brand_card">
-                <div
-                  class="brand-card"
-                  @click="toAllBrand"
-                >
+                <div class="brand-card" @click="toAllBrand">
                   <img :src="brand.image" alt="" />
                 </div>
               </div>
@@ -189,6 +186,7 @@
               <div
                 class="category__category-controller"
                 :class="{ three: gridControl == 3 }"
+                v-if="brand_products.length > 0"
               >
                 <b-skeleton
                   v-if="skeleton"
@@ -223,6 +221,7 @@
                   :product="product"
                 />
               </div>
+              <EmptyBlog v-else />
               <div
                 class="category__pagination"
                 v-if="brand_products.length > 0 && totalPage > 1"
@@ -280,50 +279,50 @@ export default {
       ],
       brand: {},
       skeleton: true,
-      page_size: 1
+      page_size: 1,
     };
   },
   async created() {
-   this.toAllBrand()
+    this.toAllBrand();
     this._GET_BRAND();
     this._GET_BRAND_CATEGORIES();
     this._GET_BRAND_PRODUCTS();
   },
   methods: {
     async toAllBrand() {
-      if (!Object.keys(this.$route.query).includes("brand") || Object.keys(this.$route.query).includes("category")) {
-        
-      await this.$router.replace({
-        path: `/brand_categories/${this.$route.params.index}`,
-        query: {
-          brand: this.$route.params.index,
-          page: 1,
-        },
-      });
-    this._GET_BRAND_PRODUCTS();
-    } 
-    this.currentPage = await JSON.parse(this.$route.query.page);
+      if (
+        !Object.keys(this.$route.query).includes("brand") ||
+        Object.keys(this.$route.query).includes("category")
+      ) {
+        await this.$router.replace({
+          path: `/brand_categories/${this.$route.params.index}`,
+          query: {
+            brand: this.$route.params.index,
+            page: 1,
+          },
+        });
+        this._GET_BRAND_PRODUCTS();
+      }
+      this.currentPage = await JSON.parse(this.$route.query.page);
     },
     async _GET_BRAND() {
       this.brand = await this.$store.dispatch(
         "fetchBrands/fetchBrandsById",
         this.$route.params.index
       );
-       
     },
     async _GET_BRAND_CATEGORIES() {
       this.brand_categies = await this.$store.dispatch(
         "fetchBrands/fetchBrandsCategories",
         this.$route.params.index
       );
-       
     },
     async _GET_BRAND_PRODUCTS() {
       const brand_products = await this.$store.dispatch(
         "fetchBrands/fetchProductByBrand",
-       { ...this.$route.query, page_size: this.page_size}
+        { ...this.$route.query, page_size: this.page_size }
       );
-      this.brand_products = brand_products.results
+      this.brand_products = brand_products.results;
       this.totalPage = Math.ceil(brand_products.count / this.page_size);
       this.skeleton = await false;
     },
@@ -334,21 +333,16 @@ export default {
           ...this.$route.query,
           brand: this.$route.params.index,
           category: id,
-          page: 1
+          page: 1,
         },
       });
-       this.skeleton = await true
-     await this._GET_BRAND_PRODUCTS()
-
-     
+      this.skeleton = await true;
+      await this._GET_BRAND_PRODUCTS();
     },
     async UpdateValues(e) {
       this.barMinValue = await e.minValue;
       this.barMaxValue = await e.maxValue;
-      if (
-        this.barMinValue == 100 &&
-        this.barMaxValue == 1000
-      ) {
+      if (this.barMinValue == 100 && this.barMaxValue == 1000) {
         await this.$router.replace({
           path: `/brand_categories/${this.$route.params.index}`,
           query: {
@@ -356,7 +350,6 @@ export default {
             page: 1,
           },
         });
-       
       } else {
         await this.$router.replace({
           path: `/brand_categories/${this.$route.params.index}`,
@@ -369,9 +362,9 @@ export default {
           },
         });
       }
-this.currentPage = 1
+      this.currentPage = 1;
 
-      this._GET_BRAND_PRODUCTS()
+      this._GET_BRAND_PRODUCTS();
     },
     async handleCurrentChange(val) {
       await this.$router.replace({
@@ -634,7 +627,7 @@ this.currentPage = 1
     display: grid;
     grid-gap: 20px;
     @media (max-width: 1440px) {
-      padding-top: 24px; 
+      padding-top: 24px;
     }
   }
   &__product-controller {
@@ -740,8 +733,8 @@ this.currentPage = 1
 @media (max-width: 1440px) {
   .category {
     .grid_block {
-    grid-gap: 16px;
-  }
+      grid-gap: 16px;
+    }
     .brand_categories {
       span {
         margin-bottom: 16px;
@@ -753,6 +746,5 @@ this.currentPage = 1
       font-size: 32px;
     }
   }
-  
 }
 </style>

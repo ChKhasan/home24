@@ -102,7 +102,10 @@
             <div class="header-search__input-block">
               <div
                 class="header-search__search_items"
-                v-if="searchProduct.length > 0 && checkInputFocus"
+                v-if="
+                  (searchProduct.length > 0 || searchCategories.length > 0) &&
+                  checkInputFocus
+                "
               >
                 <div class="search_item" v-for="product in searchProduct">
                   <svg
@@ -129,10 +132,7 @@
                       stroke-linejoin="round"
                     />
                   </svg>
-                  <div
-                    class="search_val_text"
-                    @click="$router.push(`/product/${product.id}`)"
-                  >
+                  <div class="search_val_text" @click="toSearchProduct(product.id,product.product.name)">
                     <p class="search_p_value">
                       {{ product.product.name.substring(0, searchVal.length) }}
                     </p>
@@ -147,7 +147,7 @@
                 >
                   <p>Категории</p>
                   <span
-                    @click="$router.push(`/categoryId/${category.id}`)"
+                    @click="category.parent.name ? $router.push(`/categoryId/${category.id}`):$router.push(`/categories/${category.id}`)"
                     v-for="category in searchCategories"
                     :key="category.id"
                     ><svg
@@ -194,8 +194,8 @@
                 type="text"
                 class="header-search__input"
                 v-model="searchVal"
-                ref="search"
-                @change="checkFocus"
+                ref="input"
+                @focusin="checkFocus"
                 @input="searchProductInput"
               />
               <button class="header-search__search-btn" @click="searchProducts">
@@ -816,6 +816,7 @@ export default {
       categoryChilds: {},
       categoryIndex: 0,
       checkInputFocus: true,
+      itemClick: false,
     };
   },
   async mounted() {
@@ -983,6 +984,7 @@ export default {
     async searchProductInput() {
       if (this.searchVal.length <= 1) {
         this.searchProduct = [];
+        this.checkInputFocus = false;
       } else {
         this.checkInputFocus = true;
 
@@ -991,25 +993,30 @@ export default {
           { query: this.searchVal, page_size: 10 }
         );
         const searchCategories = await this.$store.dispatch(
-          "fetchSearch/fetchSearchCategories",
-          { query: this.searchVal, page_size: 10 }
+          "fetchSearch/fetchSearchCategory",
+          { search: this.searchVal, page_size: 10 }
         );
-        this.searchCategories = searchCategories.categories;
-        console.log(searchCategories.categories);
+
+        this.searchCategories = searchCategories.results;
+        console.log(searchCategories.results);
         this.searchProduct = searchProduct.results.filter(
           (item) => item.default == true
         );
       }
     },
     checkFocus() {
-      console.log(this.$refs.search);
-      const elem = this.$refs.search;
-      if (elem === document.activeElement) {
-        console.log("Element has focus!");
-      } else {
-        console.log(`Element is not focused.`);
-        this.checkInputFocus = false;
-      }
+      this.checkInputFocus = true;
+    },
+    // checkFocus1() {
+    //   if (!this.itemClick) {
+    //     this.checkInputFocus = false;
+    //   }
+    // },
+    async toSearchProduct(id,name) {
+      console.log("click");
+      await this.$refs.input.focus()
+       this.searchVal = await name;
+      this.$router.push(`/product/${id}`)
     },
     toCategory(id) {
       this.categoryDrop = false;
@@ -1381,9 +1388,11 @@ export default {
     background: #ffffff;
     border: 1px solid #ebebeb;
     border-radius: 4px;
-    padding: 18px;
+    padding: 18px 0;
     .serach_categories {
       margin-top: 32px;
+      display: flex;
+      flex-direction: column;
       p {
         font-family: "Inter";
         font-style: normal;
@@ -1392,6 +1401,7 @@ export default {
         line-height: 24px;
         color: #020105;
         margin-bottom: 14px;
+        margin-left: 18px;
       }
       span {
         cursor: pointer;
@@ -1404,11 +1414,21 @@ export default {
         font-size: 14px;
         line-height: 20px;
         color: #020105;
+        padding: 5px 18px;
+        transition: 0.4s;
+        &:hover {
+          background: #f4f5f5;
+        }
       }
     }
     .search_item {
       display: flex;
       align-items: center;
+      padding: 5px 18px;
+      transition: 0.4s;
+      &:hover {
+        background: #f4f5f5;
+      }
       p {
         font-family: "Inter";
         font-style: normal;

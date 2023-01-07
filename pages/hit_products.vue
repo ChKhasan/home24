@@ -379,6 +379,7 @@ export default {
     flex-direction: column;
     .activeCategory {
       color: #ff7e00;
+      pointer-events: none;
     }
     span {
       margin-bottom: 18px;

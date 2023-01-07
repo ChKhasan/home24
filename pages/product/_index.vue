@@ -9,7 +9,7 @@
           ></b-skeleton>
         <BreadCrumb
         v-else
-          :links="[...links, { name: product.product.category.children?.name, to: `/categoryId/${product.product.category.children?.id}` }]"
+          :links="links"
           :last="product.product?.name"
         />
       </div>
@@ -602,6 +602,26 @@ export default {
       this.carouselChange = product.images[0]?.image
         ? product.images[0]?.image
         : "../../assets/images/image 34.png";
+        const link =  [
+            {
+              name: "Главный",
+              to: "/",
+            },
+            {
+              name: this.product.product.category.name,
+              to: `/categories/${this.product.product.category.id}`,
+            },
+            {
+              name: this.product.product.category.children.name,
+              to: `/categoryId/${this.product.product.category.children.id}`,
+            },
+            {
+              name: this.product.product.category.children.children.name,
+              to: `/categoryId/${this.product.product.category.children.children.id}`,
+            },
+          ]
+        
+          this.links = await link;
       this.skeleton = await false;
     },
     async GET_COMMITS() {
