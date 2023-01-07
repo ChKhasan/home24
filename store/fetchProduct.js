@@ -53,10 +53,12 @@ export const actions = {
       console.log("error", e);
     }
   },
-  async fetchHitProduct() {
+  async fetchHitProduct({},query) {
     try {
-      const res = await this.$axios.$get(`/hit_products`);
-      return res.results;
+      const res = await this.$axios.$get(`/hit_products`,{
+        params: query
+      });
+      return res;
     } catch (e) {
       console.log("error", e);
     }

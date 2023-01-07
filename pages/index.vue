@@ -49,7 +49,11 @@
         </div>
       </div>
     </div>
-    <homeTitlies title="Популярные категории" link="Все товары" />
+    <homeTitlies
+      title="Популярные категории"
+      link="Все товары"
+      :to="`/categories/${popularCategories[0]?.id}`"
+    />
 
     <div class="container">
       <div class="row">
@@ -106,7 +110,7 @@
         </div>
       </div>
     </div>
-    <homeTitlies title="Хиты продаж" link="Все товары" to="/categories/3" />
+    <homeTitlies title="Хиты продаж" link="Все товары" to="/hit_products" />
     <div class="container">
       <div class="row">
         <div class="col-12 homepage__grid-product">
@@ -148,7 +152,7 @@
             :product="product"
             :key="product.id"
           />
-         
+
           <!-- <CardProduct modal="id2" :cartProducts="cartProducts" :id="2" />
           <CardProduct modal="id3" :cartProducts="cartProducts" :id="3" />
           <CardProduct modal="id4" :cartProducts="cartProducts" :id="4" />
@@ -261,6 +265,7 @@ export default {
       popularCategories: [],
       skeleton: true,
       brands: [],
+      page_size: 6
     };
   },
   async created() {
@@ -279,9 +284,11 @@ export default {
       );
     },
     async __GET_HIT_PRODUCTS() {
-      this.hitProducts = await this.$store.dispatch(
-        "fetchProduct/fetchHitProduct"
+      const hit_products = await this.$store.dispatch(
+        "fetchProduct/fetchHitProduct",
+        { page_size: this.page_size }
       );
+      this.hitProducts = hit_products.results;
     },
     async __GET_PRODUCT_OF_DAY() {
       this.productOfDay = await this.$store.dispatch(

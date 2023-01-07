@@ -2,8 +2,14 @@
   <div class="container product">
     <div class="row">
       <div class="col-12">
+        <b-skeleton
+            v-if="skeleton"
+            animation="wave"
+            width="100%"
+          ></b-skeleton>
         <BreadCrumb
-          :links="[...links, { name: 'Category', to: '/' }]"
+        v-else
+          :links="[...links, { name: product.product.category.children?.name, to: `/categoryId/${product.product.category.children?.id}` }]"
           :last="product.product?.name"
         />
       </div>

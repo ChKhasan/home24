@@ -65,7 +65,7 @@
                 animation="wave"
                 width="40%"
               ></b-skeleton>
-              <BreadCrumb v-else :links="links" last="Офисная мебель" />
+              <BreadCrumb v-else :links="links" last="Результаты поиска" />
               <div class="category-title">
                 <b-skeleton
                   v-if="skeleton"
@@ -282,10 +282,7 @@ export default {
           name: "Главный",
           to: "/",
         },
-        {
-          name: "Мебель",
-          to: "/category",
-        },
+      
       ],
       categories: [],
       searchProduct: [],

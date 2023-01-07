@@ -1,8 +1,8 @@
 <template lang="html">
   <div class="bread-crumb">
     <div class="d-flex align-items-center" v-for="link in links">
-      <nuxt-link class="bread-crumb__link" :to="link.to">{{
-        link.name
+      <nuxt-link v-if="link.to" class="bread-crumb__link" :to="link?.to">{{
+        link?.name
       }}</nuxt-link
       ><svg
         width="6"

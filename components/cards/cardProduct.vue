@@ -103,7 +103,7 @@
     <!-- @click="$router.push('/product/1')" -->
     <div class="product-card__body">
       <div class="product-card__price d-flex justify-content-between">
-        <span> {{ product.price }} сум {{ product.id }}</span>
+        <span> {{ product.price }} сум </span>
         <div
           class="to_cart"
           @click="addToCart(product.id)"
@@ -182,12 +182,19 @@
     <modal
       :name="`modal_product_${productVariant.id}`"
       width="984px"
+      class="product_variant_modal__response"
       height="auto"
     >
       <div class="product_variant_modal">
         <div class="product_variant_modal__m-left">
           <div class="product_variant_modal__m-carousel">
-            <VariantModalCarousel>
+            <b-skeleton
+              v-if="skeleton"
+              animation="wave"
+              height="100%"
+              width="100%"
+            ></b-skeleton>
+            <VariantModalCarousel v-else>
               <div class="swiper-slide" v-for="image in productVariant.images">
                 <img :src="image.image" alt="" />
               </div>
@@ -523,6 +530,7 @@ export default {
       product_comments: {},
       count: 1,
       newCart: [],
+      skeleton: true,
     };
   },
   components: { ProductModal, BuyOneClick, VariantModalCarousel },
@@ -600,12 +608,14 @@ export default {
       this.count = 1;
     },
     async __GET_PRODUCT(id) {
+      this.skeleton = await true;
       this.productVariant = await this.$store.dispatch(
         "fetchProduct/fetchProductByOption",
         id
       );
       this.count = 1;
       console.log(this.productVariant.images);
+      this.skeleton = await false;
     },
     async GET_COMMITS(id) {
       this.product_comments = await this.$store.dispatch(
@@ -901,6 +911,7 @@ export default {
       }
     }
   }
+
   &__m-carousel {
     width: calc(984px / 2 - 16px);
     position: relative;
@@ -1209,7 +1220,11 @@ export default {
       }
     }
   }
-
+  .product_variant_modal__response {
+    .vm--modal {
+      width: 850px !important;
+    }
+  }
   .product_variant_modal {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -1288,8 +1303,9 @@ export default {
         }
       }
     }
+
     &__m-carousel {
-      width: calc(984px / 2 - 16px);
+      width: calc(850px / 2 - 16px);
       position: relative;
       height: 600px;
       .swiper-slide {
