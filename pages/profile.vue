@@ -328,9 +328,8 @@ export default {
         localStorage.getItem("Auth")
       );
       this.my_orders = myOrders
-   
 
-      this.userInfo = userInfo;
+      console.log(JSON.parse(localStorage.getItem("password_access")));
       if (!JSON.parse(localStorage.getItem("password_access"))) {
         this.$modal.show("want-password-modal");
       }

@@ -125,7 +125,7 @@
                 v-if="showMap"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2997.4303916765066!2d69.2378847149243!3d41.29949980940271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8bb7d1f219bd%3A0x3cce192383d2f08b!2sOybek%20metro!5e0!3m2!1sru!2s!4v1669892296650!5m2!1sru!2s"
                 height="309"
-                style="border: 0;width: 100%"
+                style="border: 0; width: 100%;"
                 allowfullscreen=""
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
@@ -254,10 +254,13 @@
               <p>Итого</p>
               <p>{{ orderContainer.price }} сум</p>
             </div>
-            <div class="send-order__promo-code" @click="promo_code = !promo_code">
+            <div
+              class="send-order__promo-code"
+              @click="promo_code = !promo_code"
+            >
               <div class="d-flex">
                 <svg
-                :class="{translateZ: !promo_code}"
+                  :class="{ translateZ: !promo_code }"
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
@@ -275,7 +278,7 @@
                 <p>Есть промокод?</p>
               </div>
               <input
-              v-if="promo_code"
+                v-if="promo_code"
                 type="text"
                 placeholder="Введите промокод"
                 class="input-promo-code"
@@ -405,8 +408,7 @@ export default {
       };
     });
 
-    
-this.totalPrice()
+    this.totalPrice();
     this.orderItems();
   },
   methods: {
@@ -427,8 +429,12 @@ this.totalPrice()
     totalPrice() {
       let cart = JSON.parse(localStorage.getItem("cart"));
       this.orderContainer.price = JSON.parse(
-      localStorage.getItem("selectedProducts")
-    ).reduce((sum, item) => sum + item.price * cart.find(item2 => item2.id == item.id)?.count, 0);
+        localStorage.getItem("selectedProducts")
+      ).reduce(
+        (sum, item) =>
+          sum + item.price * cart.find((item2) => item2.id == item.id)?.count,
+        0
+      );
     },
     orderType(type) {
       this.pickupCheck = type;
@@ -452,23 +458,23 @@ this.totalPrice()
           );
           this.show("orderModal");
           let cart = JSON.parse(localStorage.getItem("cart"));
-      let mewCart = cart
-        .map((item) => {
-          if (!this.products.find((item2) => item2.id == item.id)) {
-            return { id: item.id, count: item.count };
-          }
-        })
-        .filter((element) => element);
-      localStorage.setItem("cart", JSON.stringify(mewCart));
+          let mewCart = cart
+            .map((item) => {
+              if (!this.products.find((item2) => item2.id == item.id)) {
+                return { id: item.id, count: item.count };
+              }
+            })
+            .filter((element) => element);
+          localStorage.setItem("cart", JSON.stringify(mewCart));
+          this.$store.commit("reloadStore");
         } catch ({ response }) {
-          console.log(Object.keys(response.data));
           await this.$toast.open({
-          message: response.data,
-          type: "error",
-          duration: 2000,
-          dismissible: true,
-          position: "top-right",
-        });
+            message: response.data,
+            type: "error",
+            duration: 2000,
+            dismissible: true,
+            position: "top-right",
+          });
           if (
             Object.keys(response.data).includes("first_name") ||
             Object.keys(response.data).includes("last_name") ||
@@ -476,9 +482,8 @@ this.totalPrice()
           ) {
             this.errors.userNameError = true;
           }
-          if(Object.keys(response.data).includes("tel")) {
+          if (Object.keys(response.data).includes("tel")) {
             this.errors.numberError = true;
-            console.log("tel error");
           }
         }
       } else {
@@ -489,14 +494,16 @@ this.totalPrice()
           );
           this.show("orderModal");
           let cart = JSON.parse(localStorage.getItem("cart"));
-      let mewCart = cart
-        .map((item) => {
-          if (!this.products.find((item2) => item2.id == item.id)) {
-            return { id: item.id, count: item.count };
-          }
-        })
-        .filter((element) => element);
-      localStorage.setItem("cart", JSON.stringify(mewCart));
+          let mewCart = cart
+            .map((item) => {
+              if (!this.products.find((item2) => item2.id == item.id)) {
+                return { id: item.id, count: item.count };
+              }
+            })
+            .filter((element) => element);
+          localStorage.setItem("cart", JSON.stringify(mewCart));
+          this.$store.commit("reloadStore");
+
         } catch ({ response }) {
           console.log(Object.keys(response.data));
           if (
@@ -508,12 +515,11 @@ this.totalPrice()
           }
         }
       }
-
     },
     checkPayment(payments, types) {
       this.activePayment = payments.id;
       this.orderContainer.payment = types.id;
-      console.log(payments,types);
+      console.log(payments, types);
       if (payments.children.find((item) => item.id == types.id)) {
         console.log();
       }
@@ -549,7 +555,7 @@ this.totalPrice()
 <style lang="scss">
 .send-order {
   padding-top: 32px;
-  .translateZ{
+  .translateZ {
     transform: rotate(180deg);
   }
   .error_place {
@@ -644,7 +650,7 @@ this.totalPrice()
       align-items: flex-start;
       flex-direction: column;
       justify-content: space-between;
-      background: #F9F9F9;
+      background: #f9f9f9;
     }
   }
   &__form {
@@ -952,7 +958,7 @@ this.totalPrice()
   &__promo-code {
     margin-top: 16px;
     div {
-      cursor:pointer;
+      cursor: pointer;
     }
     input {
       margin-top: 16px;
@@ -984,7 +990,7 @@ this.totalPrice()
     .pickup {
       padding-bottom: 16px;
       &__text {
-      padding-bottom: 18px;
+        padding-bottom: 18px;
       }
     }
     &__body {
@@ -995,11 +1001,11 @@ this.totalPrice()
         span {
           margin-bottom: 25px;
           font-size: 14px;
-line-height: 20px;
+          line-height: 20px;
         }
         p {
           font-size: 16px;
-line-height: 24px;
+          line-height: 24px;
         }
       }
     }
@@ -1008,7 +1014,7 @@ line-height: 24px;
       input {
         padding: 12.5px;
         font-size: 13.0169px;
-line-height: 20px;
+        line-height: 20px;
       }
       svg {
         width: 20px;
@@ -1016,7 +1022,7 @@ line-height: 20px;
       }
       p {
         font-size: 14px;
-line-height: 20px;
+        line-height: 20px;
       }
     }
   }

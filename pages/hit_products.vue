@@ -14,7 +14,7 @@
                   :class="{
                     activeCategory: $route.query.category == category.id,
                   }"
-                  @click="brandCategories(category.id)"
+                  @click="hitCategories(category.id)"
                   >{{ category?.name }}</span
                 >
               </div>
@@ -300,12 +300,11 @@ export default {
         "fetchHitProducts/fetchHitProductsCategories"
       );
     },
-    async brandCategories(id) {
+    async hitCategories(id) {
       await this.$router.replace({
-        path: `/brand_categories/${this.$route.params.index}`,
+        path: `/hit_products`,
         query: {
           ...this.$route.query,
-          brand: this.$route.params.index,
           category: id,
           page: 1,
         },
@@ -358,8 +357,8 @@ export default {
     RangeSlider,
     MultiRangeSlider,
     CardBrand,
-    EmptyBlog
-},
+    EmptyBlog,
+  },
 };
 </script>
 <style lang="scss">

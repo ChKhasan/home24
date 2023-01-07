@@ -129,14 +129,14 @@
                       stroke-linejoin="round"
                     />
                   </svg>
-                  <div class="search_val_text"   @click="$router.push(`/product/${product.id}`)">
+                  <div
+                    class="search_val_text"
+                    @click="$router.push(`/product/${product.id}`)"
+                  >
                     <p class="search_p_value">
                       {{ product.product.name.substring(0, searchVal.length) }}
                     </p>
-                    <p
-                    
-                      class="search_p_name"
-                    >
+                    <p class="search_p_name">
                       {{ product.product.name }}
                     </p>
                   </div>
@@ -430,9 +430,9 @@
           <div class="col-12 category-dropdown__controller">
             <div>
               <span
-                v-for="(category,index) in categories"
+                v-for="(category, index) in categories"
                 @click="checkCategories(index)"
-                :class="{activeCategory: categoryIndex == index}"
+                :class="{ activeCategory: categoryIndex == index }"
               >
                 <img :src="category.icon" alt="" />{{ category.name }}
               </span>
@@ -695,7 +695,7 @@
                   type="text"
                   class="number__input"
                   v-model="registrModal.number"
-                  v-on:input="search"
+                  v-on:input="__CHECK_NUMBER"
                   placeholder="(__) ___ __ __"
                   :mask="['(##) ### ## ##', '(##) ### ## ##']"
                 />
@@ -848,7 +848,7 @@ export default {
       );
       this.categoryChilds = categoryChild;
     },
-    async search() {
+    async __CHECK_NUMBER() {
       if (this.registrModal.number.length == "") {
         this.errors.numberLinght = false;
         this.errors.numberError = false;
@@ -863,16 +863,18 @@ export default {
         });
         this.registrType.type = await authNumber.is_user;
         this.registrType.hide = true;
-        this.sendSms();
+        if (!this.registrType.type) {
+          this.__SEND_SMS();
+        }
       }
     },
-    async sendSms() {
+    async __SEND_SMS() {
       const smsCode = await this.$store.dispatch("fetchAuth/fetchSendSms", {
         nbm: `+998${this.registrModal.number}`,
       });
       this.smsCode = smsCode.code;
     },
-    async smsCodeValidate() {
+    async __SMS_CODE_VALIDATE() {
       const smsCodeValidate = await this.$store.dispatch(
         "fetchAuth/fetchSmsCodeValidate",
         {
@@ -882,15 +884,15 @@ export default {
       );
       if (smsCodeValidate.correct) {
         if (this.registeredUser) {
-          this.newPassword();
+          this.__NEW_PASSWORD();
         } else {
-          this.registerWithSmsCode();
+          this.__REGISTER_WITH_SMS_CODE();
         }
       } else {
         this.errors.smsError = true;
       }
     },
-    async registerWithSmsCode() {
+    async __REGISTER_WITH_SMS_CODE() {
       const registerSms = await this.$store.dispatch(
         "fetchAuth/fetchRegisterWithSmsCode",
         {
@@ -907,7 +909,7 @@ export default {
         console.log(localStorage.getItem("Auth"));
       }
     },
-    async userLogin() {
+    async __USER_LOGIN() {
       try {
         const registerSms = await this.$store.dispatch(
           "fetchAuth/fetchUserLogin",
@@ -919,9 +921,9 @@ export default {
         await localStorage.setItem("Auth", registerSms.access);
         await localStorage.setItem("Refresh", registerSms.refresh);
         await localStorage.setItem(
-            "password_access",
-            JSON.stringify(this.registrType.type)
-          );
+          "password_access",
+          JSON.stringify(this.registrType.type)
+        );
         await this.$store.commit("setUser");
         await this.$modal.hide("sign-or-create-modal");
         await this.$router.push("/profile");
@@ -934,21 +936,19 @@ export default {
         this.errors.numberError = true;
       } else {
         if (this.registrType.type) {
-         
-          this.userLogin();
+          this.__USER_LOGIN();
         } else {
-          this.smsCodeValidate();
+          this.__SMS_CODE_VALIDATE();
         }
       }
     },
-    async newPassword() {
+    async __NEW_PASSWORD() {
       const registerSms = await this.$store.dispatch(
         "fetchAuth/fetchNewPassword",
         {
           nbm: `+998${this.registrModal.number}`,
         }
       );
-      console.log(registerSms);
       await localStorage.setItem("Auth", registerSms.token.access);
       await localStorage.setItem("Refresh", registerSms.token.refresh);
 
@@ -964,7 +964,7 @@ export default {
       this.registrType.type = false;
       this.errors.passwordError = false;
       this.registeredUser = true;
-      this.sendSms();
+      this.__SEND_SMS();
     },
     signUpWithPassword() {
       registrType.type = true;
@@ -1015,13 +1015,13 @@ export default {
       this.categoryDrop = false;
       this.$router.push(`/categoryId/${id}`);
     },
-   async checkCategories(index) {
-    const categories = await this.$store.dispatch(
-      "fetchCategories/fetchAllCategories"
-    );
-    
-    this.categoryChilds = categories[index];
-    this.categoryIndex = index
+    async checkCategories(index) {
+      const categories = await this.$store.dispatch(
+        "fetchCategories/fetchAllCategories"
+      );
+
+      this.categoryChilds = categories[index];
+      this.categoryIndex = index;
     },
     show(name) {
       this.$modal.show(name);
@@ -1117,20 +1117,19 @@ export default {
         border: 1px solid #ebebeb;
         border-radius: 4px;
         span {
-      font-family: "Inter";
-padding-left: 16px;
+          font-family: "Inter";
+          padding-left: 16px;
           font-style: normal;
-      font-weight: 400;
-      font-size: 16px;
-      line-height: 24px;
-      color: #9a999b;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 24px;
+          color: #9a999b;
         }
         input {
           border: none;
-      font-family: "Inter";
-      padding: 16px;
-    padding-left: 0;
-     
+          font-family: "Inter";
+          padding: 16px;
+          padding-left: 0;
         }
       }
     }
@@ -1159,7 +1158,7 @@ padding-left: 16px;
     input {
       transition: 0.3s;
       border: 1px solid #ebebeb;
-     
+
       border-radius: 4px;
       font-family: "Inter";
       padding: 16px;
@@ -1550,7 +1549,7 @@ padding-left: 16px;
         line-height: 38px;
       }
     }
-    .activeCategory  {
+    .activeCategory {
       margin-left: 8px;
     }
     &__controller {
@@ -1559,7 +1558,7 @@ padding-left: 16px;
         margin-bottom: 26px;
         font-size: 16px;
         line-height: 20px;
-        cursor: pointer
+        cursor: pointer;
       }
     }
   }

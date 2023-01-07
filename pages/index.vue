@@ -276,6 +276,7 @@ export default {
     this.$store.commit("reloadStore");
     this.$store.commit("setUser");
     this.skeleton = await false;
+    console.log(this.$store.state.cart.length);
   },
   methods: {
     async __GET_POPULAR_CATEGORIES() {
