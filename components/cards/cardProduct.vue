@@ -669,6 +669,7 @@ export default {
       width: 32px;
       border-radius: 50%;
       background: #ff6418;
+      cursor: pointer;
     }
     .disabled {
       background: white;

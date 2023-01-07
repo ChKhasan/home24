@@ -2,16 +2,8 @@
   <div class="container product">
     <div class="row">
       <div class="col-12">
-        <b-skeleton
-            v-if="skeleton"
-            animation="wave"
-            width="100%"
-          ></b-skeleton>
-        <BreadCrumb
-        v-else
-          :links="links"
-          :last="product.product?.name"
-        />
+        <b-skeleton v-if="skeleton" animation="wave" width="100%"></b-skeleton>
+        <BreadCrumb v-else :links="links" :last="product.product?.name" />
       </div>
     </div>
     <div class="row">
@@ -101,14 +93,14 @@
                   activeColor: color?.id == product.color.id,
                   disabledOption: color?.variant == null,
                 }"
-              > <div
-              v-if="color?.variant == null"
+              >
+                <div
+                  v-if="color?.variant == null"
                   :class="{
                     nullClassColor: color?.variant == null,
                   }"
                 ></div>
-                <span :style="{ background: color.hex }">  </span>
-              
+                <span :style="{ background: color.hex }"> </span>
               </div>
             </div>
           </div>
@@ -144,71 +136,71 @@
               </div>
             </div>
           </div>
-            <div
-              class="product_count"
-              v-if="$store.state.cart.find((item) => item.id == product.id)"
-            >
-              <p>Количество:</p>
-              <b-skeleton
-            v-if="skeleton"
-            animation="wave"
-            height="70px"
-            width="45%"
-          ></b-skeleton>
-              <div class="sc-count" v-else>
-                <div class="sc-count-btn">
-                  <span @click="updateCount(false, product)"
-                    ><svg
-                      width="17"
-                      height="2"
-                      viewBox="0 0 17 1"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        clip-rule="evenodd"
-                        d="M0 0.5C0 0.223858 0.152223 0 0.34 0H16.66C16.8478 0 17 0.223858 17 0.5C17 0.776142 16.8478 1 16.66 1H0.34C0.152223 1 0 0.776142 0 0.5Z"
-                        fill="#9A999B"
-                      />
-                    </svg>
-                  </span>
-                  <p>
-                    {{ checkCart.count }}
-                  </p>
-                  <span @click="updateCount(true, product)"
-                    ><svg
-                      width="17"
-                      height="17"
-                      viewBox="0 0 17 17"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <line
-                        x1="0.5"
-                        y1="8.5"
-                        x2="16.5"
-                        y2="8.5"
-                        stroke="black"
-                        stroke-linecap="round"
-                      />
-                      <line
-                        x1="8.5"
-                        y1="0.5"
-                        x2="8.5"
-                        y2="16.5"
-                        stroke="black"
-                        stroke-linecap="round"
-                      />
-                    </svg>
-                  </span>
-                </div>
-                <span>Осталось всего {{ product.qty }}</span>
+          <div
+            class="product_count"
+            v-if="$store.state.cart.find((item) => item.id == product.id)"
+          >
+            <p>Количество:</p>
+            <b-skeleton
+              v-if="skeleton"
+              animation="wave"
+              height="70px"
+              width="45%"
+            ></b-skeleton>
+            <div class="sc-count" v-else>
+              <div class="sc-count-btn">
+                <span @click="updateCount(false, product)"
+                  ><svg
+                    width="17"
+                    height="2"
+                    viewBox="0 0 17 1"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M0 0.5C0 0.223858 0.152223 0 0.34 0H16.66C16.8478 0 17 0.223858 17 0.5C17 0.776142 16.8478 1 16.66 1H0.34C0.152223 1 0 0.776142 0 0.5Z"
+                      fill="#9A999B"
+                    />
+                  </svg>
+                </span>
+                <p>
+                  {{ checkCart.count }}
+                </p>
+                <span @click="updateCount(true, product)"
+                  ><svg
+                    width="17"
+                    height="17"
+                    viewBox="0 0 17 17"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <line
+                      x1="0.5"
+                      y1="8.5"
+                      x2="16.5"
+                      y2="8.5"
+                      stroke="black"
+                      stroke-linecap="round"
+                    />
+                    <line
+                      x1="8.5"
+                      y1="0.5"
+                      x2="8.5"
+                      y2="16.5"
+                      stroke="black"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </span>
               </div>
+              <span>Осталось всего {{ product.qty }}</span>
             </div>
+          </div>
         </div>
         <div class="product__price-box">
-          <CardProductPrice :product="product"  />
+          <CardProductPrice :product="product" />
           <div class="product__order-card">
             <div class="body">
               <div class="title">
@@ -571,8 +563,7 @@ export default {
           if (item.id == product.id) {
             if (item.count > 1) {
               item.count--;
-            this.count = item.count;
-
+              this.count = item.count;
             } else {
               item.count;
             }
@@ -598,30 +589,30 @@ export default {
       this.cartProducts = await JSON.parse(localStorage.getItem("cart"));
       this.checkCart = this.cartProducts.find(
         (item) => item.id == this.$route.params.index
-      ) ?? {count: 1};
+      ) ?? { count: 1 };
       this.carouselChange = product.images[0]?.image
         ? product.images[0]?.image
         : "../../assets/images/image 34.png";
-        const link =  [
-            {
-              name: "Главный",
-              to: "/",
-            },
-            {
-              name: this.product.product.category.name,
-              to: `/categories/${this.product.product.category.id}`,
-            },
-            {
-              name: this.product.product.category.children.name,
-              to: `/categoryId/${this.product.product.category.children.id}`,
-            },
-            {
-              name: this.product.product.category.children.children.name,
-              to: `/categoryId/${this.product.product.category.children.children.id}`,
-            },
-          ]
-        
-          this.links = await link;
+      const link = [
+        {
+          name: "Главный",
+          to: "/",
+        },
+        {
+          name: this.product.product.category.name,
+          to: `/categories/${this.product.product.category.id}`,
+        },
+        {
+          name: this.product.product.category.children.name,
+          to: `/categoryId/${this.product.product.category.children.id}`,
+        },
+        {
+          name: this.product.product.category.children.children.name,
+          to: `/categoryId/${this.product.product.category.children.children.id}`,
+        },
+      ];
+
+      this.links = await link;
       this.skeleton = await false;
     },
     async GET_COMMITS() {
@@ -1220,7 +1211,7 @@ export default {
       pointer-events: none !important;
     }
   }
- 
+
   &__types-sizies {
     padding-top: 25px;
   }

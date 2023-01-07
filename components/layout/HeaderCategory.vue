@@ -1326,6 +1326,7 @@ export default {
       display: flex;
       align-items: center;
       margin-bottom: 56px;
+      cursor: pointer;
       svg,
       img {
         margin-right: 9px;

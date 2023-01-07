@@ -22,7 +22,7 @@ export default {
     font-weight: 400;
     font-size: 18px;
     line-height: 26px;
-
+cursor: pointer;
     margin-top: 8px;
     color: #000000;
   }
