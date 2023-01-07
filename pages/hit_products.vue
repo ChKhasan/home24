@@ -177,6 +177,7 @@
               <div
                 class="category__category-controller"
                 :class="{ three: gridControl == 3 }"
+                v-if="hitProducts.length > 0"
               >
                 <b-skeleton
                   v-if="skeleton"
@@ -211,6 +212,7 @@
                   :product="product"
                 />
               </div>
+              <EmptyBlog v-else />
               <div
                 class="category__pagination"
                 v-if="hitProducts.length > 0 && totalPage > 1"
@@ -242,6 +244,7 @@ import RangeSlider from "vue-range-slider";
 import "vue-range-slider/dist/vue-range-slider.css";
 import MultiRangeSlider from "multi-range-slider-vue";
 import CardBrand from "../components/cards/cardBrand.vue";
+import EmptyBlog from "../components/emptyBlog.vue";
 
 export default {
   data() {
@@ -355,7 +358,8 @@ export default {
     RangeSlider,
     MultiRangeSlider,
     CardBrand,
-  },
+    EmptyBlog
+},
 };
 </script>
 <style lang="scss">
