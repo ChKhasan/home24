@@ -121,6 +121,14 @@ export default {
   created() {
     this.carouselChange = this.product.images[0]?.image;
   },
+  methods: {
+    async GET_COMMITS() {
+      this.product_comments = await this.$store.dispatch(
+        "fetchProductComment/fetchComment",
+        this.product.id
+      );
+    },
+  }
 };
 </script>
 <style lang="scss">

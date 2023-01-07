@@ -55,6 +55,7 @@
                 <div class="select-order__card-img">
                   <div>
                     <img
+                    @click="$router.push(`/product/${product.id}`)"
                       :src="`${product.images[0].image}`"
                       alt=""
                     />
@@ -500,6 +501,7 @@ export default {
         width: 100%;
         height: 100%;
         object-fit: contain;
+        cursor: pointer;
       }
     }
   }

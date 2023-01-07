@@ -179,6 +179,7 @@
         </p>
       </div>
     </div>
+
     <modal
       :name="`modal_product_${productVariant.id}`"
       width="984px"
@@ -538,7 +539,11 @@ export default {
     this.likeP = JSON.parse(localStorage.getItem("like"));
     this.comparisonP = JSON.parse(localStorage.getItem("comparison"));
     this.__GET_PRODUCT(this.product.id);
-    this.GET_COMMITS(this.product.id);
+    this.newCart = JSON.parse(localStorage.getItem("cart"));
+    this.newCart = [
+            { id: this.product.id, count: this.count },
+            ...this.newCart,
+          ];
   },
 
   methods: {
@@ -592,6 +597,7 @@ export default {
         this.productVariant.colors.length > 0 ||
         this.productVariant.atributs.length > 0
       ) {
+        this.GET_COMMITS(this.product.id);
         this.$modal.show(`modal_product_${this.productVariant.id}`);
       } else {
         this.$store.commit("addToStoreCart", {
@@ -601,9 +607,9 @@ export default {
         });
       }
     },
-    addAndChangeToCart() {
-      localStorage.setItem("cart", JSON.stringify(this.newCart));
-      this.$store.commit("addToVariant");
+   async addAndChangeToCart() {
+      await localStorage.setItem("cart", JSON.stringify(this.newCart));
+      await this.$store.commit("addToVariant");
       this.$modal.hide(`modal_product_${this.productVariant.id}`);
       this.count = 1;
     },
@@ -620,7 +626,7 @@ export default {
     async GET_COMMITS(id) {
       this.product_comments = await this.$store.dispatch(
         "fetchProductComment/fetchComment",
-        id
+        {id: id, page_size: 100}
       );
     },
 
