@@ -34,7 +34,8 @@ cursor: pointer;
   display: flex;
   justify-content: center;
   img {
-    height: 160px;
+    height: 146px;
+    width: 146px;
     object-fit: contain;
   }
 }
