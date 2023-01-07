@@ -451,7 +451,7 @@ export default {
   .header-category {
     z-index: 1;
     position: relative;
-    padding: 0 0 32px 0;
+    padding: 0 0 22px 0;
     &__category-links {
       display: flex;
       justify-content: space-between;

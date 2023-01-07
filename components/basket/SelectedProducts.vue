@@ -41,7 +41,7 @@
     <div v-if="dorpForm">
     <div class="s-card" v-for="product in products">
       <div class="s-card__img">
-        <img src="../../assets/images/image 34.png" alt="" />
+        <img :src="product.images[0].image" alt="" />
       </div>
       <div class="s-card__body">
         <div class="title">
@@ -132,6 +132,7 @@ color: #020105;
       height: 82px;
       img {
         width: 100%;
+        height: 100%;
         object-fit: contain;
       }
     }

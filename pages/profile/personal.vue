@@ -861,7 +861,7 @@ export default {
         font-size: 16px;
         line-height: 24px;
         padding-left: 16px;
-        color: #9a999b;
+        color: #020105;
         &:focus {
           box-shadow: none;
           outline: none;

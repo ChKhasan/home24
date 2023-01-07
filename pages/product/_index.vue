@@ -507,6 +507,9 @@ export default {
       activeName: "first",
       cartProducts: [],
       checkCart: null,
+      reytingStars: {
+
+      },
       links: [
         {
           name: "Главный",
@@ -618,7 +621,7 @@ export default {
     async GET_COMMITS() {
       const comments = await this.$store.dispatch(
         "fetchProductComment/fetchComment",
-        this.$route.params.index
+        {id: this.$route.params.index,page_size: 10}
       );
       this.comments = comments;
     },

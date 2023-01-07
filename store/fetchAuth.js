@@ -107,4 +107,20 @@ export const actions = {
       console.log("error", e);
     }
   },
+  async fetchUpdateToken({}, payload) {
+    try {
+      const res = await this.$axios.$post(
+        `/account/logout`,
+        { refresh_token: payload.refresh_token },
+        {
+          headers: {
+            Authorization: `Bearer ${payload.token}`,
+          },
+        }
+      );
+      return res;
+    } catch (e) {
+      console.log("error", e);
+    }
+  },
 };

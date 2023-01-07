@@ -233,6 +233,7 @@
                   :total="totalPage * 10"
                 >
                 </el-pagination>
+                
               </div>
             </div>
           </div>
@@ -354,8 +355,8 @@ export default {
         await this.$router.replace({
           path: `/brand_categories/${this.$route.params.index}`,
           query: {
-            min_price: JSON.stringify(this.barMinValue),
-            max_price: this.barMaxValue,
+            price_min: JSON.stringify(this.barMinValue),
+            price_max: this.barMaxValue,
             filter: 1,
             brand: this.$route.params.index,
             page: 1,

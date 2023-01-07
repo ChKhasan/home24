@@ -8,7 +8,7 @@ export const actions = {
     return res;
   },
   async fetchComment({},payload) {
-    const res = await this.$axios.$get(`/comments`,{ params: { id: payload } },);
+    const res = await this.$axios.$get(`/comments`,{ params: { id: payload.id, page_size: payload.page_size } },);
     return res.results;
   },
 };

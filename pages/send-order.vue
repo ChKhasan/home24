@@ -401,6 +401,7 @@ export default {
         }
       }
     );
+    console.log(this.products);
     this.orderContainer.products = this.products.map((item) => {
       return {
         id: item.id,

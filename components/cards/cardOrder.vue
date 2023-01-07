@@ -255,6 +255,7 @@ export default {
         display: flex;
         justify-content: space-between;
         padding-top: 16px;
+        align-items: center;
         cursor: pointer;
         span {
           font-family: "Inter";

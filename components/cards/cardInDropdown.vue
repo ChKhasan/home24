@@ -172,6 +172,9 @@ export default {
   display: grid;
   grid-template-columns: 1fr 8fr;
   grid-gap: 24px;
+  &:last-child {
+    border-bottom: none;
+  }
   .send-review-modal {
     &__m-comment {
       width: 100%;

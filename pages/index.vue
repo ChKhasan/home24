@@ -321,6 +321,9 @@ export default {
 <style lang="scss">
 @import "@/assets/css/main.css";
 @import "@/assets/fonts/stylesheet.css";
+.vm--overlay {
+  background: rgba(0, 0, 0, 0.8);
+}
 @media (min-width: 576px) {
   .container-sm,
   .container {

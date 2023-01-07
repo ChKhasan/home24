@@ -873,7 +873,8 @@ export default {
     font-size: 16px;
     line-height: 24px;
     color: #000 !important;
-    cursor: pointer;
+    pointer-events: none;
+
   }
   &__list1 {
     list-style: none;

@@ -334,6 +334,9 @@ export default {
         this.$modal.show("want-password-modal");
       }
     },
+    async __UPDATE_TOKEN() {
+      
+    }
   },
   mounted() {
     this.fetchUserInfo();

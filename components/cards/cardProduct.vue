@@ -1550,4 +1550,5 @@ export default {
     }
   }
 }
+
 </style>
