@@ -652,7 +652,7 @@ export default {
           position: "top-right",
         });
         this.__GET_USER_INFO();
-        this.fetchUserInfo();
+        this.$router.push("/profile/personal")
         this.changeInfo = true;
       }
     },

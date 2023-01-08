@@ -327,15 +327,24 @@ export default {
         "fetchOrder/fetchMyOrders",
         localStorage.getItem("Auth")
       );
-      this.my_orders = myOrders
-
-      console.log(JSON.parse(localStorage.getItem("password_access")));
+      if (myOrders.status == 401) {
+        this.__UPDATE_TOKEN();
+      } else {
+        this.my_orders = myOrders
+      }
+      
       if (!JSON.parse(localStorage.getItem("password_access"))) {
         this.$modal.show("want-password-modal");
       }
     },
     async __UPDATE_TOKEN() {
-      
+      const newToken = await this.$store.dispatch(
+        "fetchAuth/fetchUpdateToken",
+        localStorage.getItem("Refresh")
+      );
+      await localStorage.setItem("Auth", newToken.access);
+      await localStorage.setItem("Refresh", newToken.refresh);
+      console.log(newToken);
     }
   },
   mounted() {

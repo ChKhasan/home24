@@ -139,7 +139,7 @@ background: red !important;
   height: 48px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.8);
-  z-index: 9;
+  z-index: 8;
   &::after {
     display: none;
   }

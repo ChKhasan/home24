@@ -130,7 +130,15 @@
       </div>
     </div>
     <div class="comparison-card__body">
-      <div class="body-info">
+      <!-- <div class="body-info" v-for="character in product.specifications">
+        <span>Фронтальная камера</span>
+        <p>20MP</p>
+      </div> -->
+      <div class="body-info" v-for="character in product.specifications">
+        <span>{{character.specification}}</span>
+        <p>{{character.value}}</p>
+      </div>
+      <!-- <div class="body-info">
         <span>Фронтальная камера</span>
         <p>20MP</p>
       </div>
@@ -173,15 +181,7 @@
       <div class="body-info">
         <span>Фронтальная камера</span>
         <p>20MP</p>
-      </div>
-      <div class="body-info">
-        <span>Фронтальная камера</span>
-        <p>20MP</p>
-      </div>
-      <div class="body-info">
-        <span>Фронтальная камера</span>
-        <p>20MP</p>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -226,7 +226,7 @@ export default {
   }
   &__head {
     padding: 32px 18px 11px 18px;
-    height: 228px;
+    // height: 228px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

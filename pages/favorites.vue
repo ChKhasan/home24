@@ -23,12 +23,14 @@
     </div>
     <div class="row">
       <div class="col-12 favorites__count">
-        <p>Товаров: <span>{{ $store.state.like.length }}</span></p>
+        <p>
+          Товаров: <span>{{ $store.state.like.length }}</span>
+        </p>
       </div>
     </div>
     <div class="row">
       <div class="col-12">
-        <emptyBlog v-if="$store.state.like.length == 0"/>
+        <emptyBlog v-if="$store.state.like.length == 0" />
         <div class="favorites__products" v-else>
           <CardProduct
             v-for="product in likeProducts"
@@ -102,24 +104,26 @@ export default {
       ],
     };
   },
-  async created() {
-    const like = await this.$store.dispatch(
-      "fetchLike/postLike",
-      JSON.parse(localStorage.getItem("like"))
-    );
-    this.likeProducts = like;
-
+  computed: {
+    favorites() {
+      return this.$store.state.like.length;
+    },
+  },
+  created() {
+    this.__GET_LIKES();
   },
   methods: {
-   async deteleLikes() {
-      localStorage.setItem("like",JSON.stringify([]));
-      const like = await this.$store.dispatch(
-      "fetchLike/postLike",
-      JSON.parse(localStorage.getItem("like"))
-    );
-    this.likeProducts = like;
-    this.$store.commit("reloadStore");
-    }
+    async deteleLikes() {
+      localStorage.setItem("like", JSON.stringify([]));
+      this.__GET_LIKES();
+      this.$store.commit("reloadStore");
+    },
+    async __GET_LIKES() {
+      this.likeProducts = await this.$store.dispatch(
+        "fetchLike/postLike",
+        JSON.parse(localStorage.getItem("like"))
+      );
+    },
   },
   components: {
     BreadCrumb,
@@ -128,6 +132,13 @@ export default {
     CardProduct,
     emptyBlog,
     HomeTitlies,
+  },
+  watch: {
+    favorites(newFavorites, oldFavorites) {
+      if (newFavorites != oldFavorites) {
+        this.__GET_LIKES();
+      }
+    },
   },
 };
 </script>

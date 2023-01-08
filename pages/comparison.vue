@@ -23,7 +23,9 @@
     </div>
     <div class="row">
       <div class="col-12 comparison__count">
-        <p>Товаров: <span>{{ $store.state.comparison.length }}</span></p>
+        <p>
+          Товаров: <span>{{ $store.state.comparison.length }}</span>
+        </p>
       </div>
     </div>
     <div class="row">
@@ -104,11 +106,11 @@ export default {
     EmptyBlog,
   },
   async created() {
-    const comparison = await this.$store.dispatch(
+    this.comparisonProducts = await this.$store.dispatch(
       "fetchComparison/postComparison",
       JSON.parse(localStorage.getItem("comparison"))
     );
-    this.comparisonProducts = comparison;
+    console.log(this.comparisonProducts );
   },
   methods: {
     async deteleComparison() {

@@ -45,9 +45,9 @@ export const actions = {
   },
   async fetchUserUpdateProfile({}, payload) {
     try {
-      
       const res = await this.$axios.$patch(
-        `/account/update_profile`,payload.info,
+        `/account/update_profile`,
+        payload.info,
         {
           headers: {
             Authorization: `Bearer ${payload.token}`,
@@ -56,7 +56,7 @@ export const actions = {
       );
       return res;
     } catch (e) {
-      return e.response
+      return e.response;
     }
   },
   async fetchUserUpdatePassword({}, payload) {
@@ -109,15 +109,9 @@ export const actions = {
   },
   async fetchUpdateToken({}, payload) {
     try {
-      const res = await this.$axios.$post(
-        `/account/logout`,
-        { refresh_token: payload.refresh_token },
-        {
-          headers: {
-            Authorization: `Bearer ${payload.token}`,
-          },
-        }
-      );
+      const res = await this.$axios.$post(`/account/login/refresh/`, {
+        refresh: payload,
+      });
       return res;
     } catch (e) {
       console.log("error", e);

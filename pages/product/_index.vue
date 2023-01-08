@@ -462,6 +462,7 @@
         </div>
       </div>
     </modal>
+    .product
   </div>
 </template>
 <script>

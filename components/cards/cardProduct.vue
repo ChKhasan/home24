@@ -548,12 +548,12 @@ export default {
 
   methods: {
     updateCount(type, product) {
-      console.log(product);
+
+      this.newCart = JSON.parse(localStorage.getItem("cart"));
+      
       if (type) {
-        this.newCart = JSON.parse(localStorage.getItem("cart"));
         this.count++;
         let newObj = this.newCart.find((item) => item.id == product.id);
-        console.log(newObj);
         if (newObj) {
           newObj.count = this.count;
         } else {
@@ -563,7 +563,6 @@ export default {
           ];
         }
       } else {
-        this.newCart = JSON.parse(localStorage.getItem("cart"));
         if (this.count > 1) {
           this.count--;
         }
@@ -578,6 +577,8 @@ export default {
         }
       }
     },
+
+
     includes(array, id) {
       if (array) {
         return array.find((item) => item === id) ? true : false;

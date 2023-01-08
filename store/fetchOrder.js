@@ -48,7 +48,7 @@ export const actions = {
       );
       return res.results;
     } catch (e) {
-      console.log("error", e);
+     return e.response
     }
   },
   async fetchSendAplication({}, payload) {
