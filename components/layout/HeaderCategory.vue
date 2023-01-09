@@ -402,7 +402,7 @@
       </div>
     </div>
 
-    <div class="category-dropdown" :class="{ categriesActive: false }">
+    <div class="category-dropdown" :class="{ categriesActive: categoryDrop }">
       <div class="container">
         <div class="row">
           <div class="col-12 category-dropdown__controller">

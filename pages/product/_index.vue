@@ -13,7 +13,7 @@
             <div
               v-if="product.images?.length > 0"
               v-for="img in product.images"
-              class="carousel-img"
+              class="product_carousel-img"
               :class="{ activeImg: carouselChange == img.image }"
             >
               <img
@@ -22,7 +22,7 @@
                 alt=""
               />
             </div>
-            <div v-else class="carousel-img activeImg">
+            <div v-else class="product_carousel-img activeImg">
               <img src="../../assets/images/image 34.png" alt="" />
             </div>
           </div>
@@ -462,7 +462,141 @@
         </div>
       </div>
     </modal>
-    .product
+    <div class="product_scroll_info" ref="navScroll">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 product_scroll_info__container">
+            <div class="product_carousel-img">
+              <b-skeleton
+                v-if="skeleton"
+                animation="wave"
+                width="80px"
+                height="80px"
+              ></b-skeleton>
+              <img v-else :src="product.images[0].image" alt="" />
+            </div>
+            <div class="product_scroll_info__body">
+              <div class="d-flex flex-column product_scroll_info__title">
+                <h4>
+                  {{ product.product?.name }}
+                </h4>
+                <b-skeleton
+                  v-if="skeleton"
+                  animation="wave"
+                  width="100%"
+                ></b-skeleton>
+                <div>
+                  <div class="product-header-info">
+                    <span v-if="product.rating">
+                      <svg
+                        width="12"
+                        height="12.67"
+                        viewBox="0 0 16 17"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M8.47609 2.79389L10.0201 5.89989C10.0974 6.05655 10.2468 6.16589 10.4201 6.19122L13.8768 6.69055C14.0168 6.70922 14.1428 6.78255 14.2288 6.89455C14.3901 7.10455 14.3654 7.40189 14.1721 7.58255L11.6668 10.0052C11.5394 10.1252 11.4828 10.3012 11.5161 10.4726L12.1161 13.8912C12.1581 14.1746 11.9648 14.4399 11.6814 14.4859C11.5641 14.5039 11.4441 14.4852 11.3374 14.4326L8.25876 12.8186C8.10409 12.7346 7.91876 12.7346 7.76409 12.8186L4.66276 14.4412C4.40342 14.5732 4.08609 14.4752 3.94476 14.2212C3.89076 14.1186 3.87209 14.0019 3.89076 13.8879L4.49076 10.4692C4.52076 10.2986 4.46409 10.1232 4.34009 10.0026L1.82142 7.58055C1.61609 7.37655 1.61476 7.04455 1.81942 6.83922C1.82009 6.83855 1.82076 6.83722 1.82142 6.83655C1.90609 6.75989 2.01009 6.70855 2.12276 6.68855L5.58009 6.18922C5.75276 6.16189 5.90142 6.05389 5.98009 5.89722L7.52276 2.79389C7.58476 2.66789 7.69476 2.57122 7.82809 2.52722C7.96209 2.48255 8.10876 2.49322 8.23476 2.55655C8.33809 2.60789 8.42276 2.69122 8.47609 2.79389Z"
+                          fill="#F6C65C"
+                        /></svg
+                      >{{ product.rating }}</span
+                    >
+                    <p>
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M5.12963 8.92694C4.69979 8.92694 4.35059 8.57774 4.35059 8.1479C4.35059 7.71932 4.69979 7.37012 5.12963 7.37012C5.55948 7.37012 5.90868 7.71932 5.90868 8.1479C5.90868 8.57774 5.55948 8.92694 5.12963 8.92694ZM8.15821 8.92694C7.72836 8.92694 7.37916 8.57774 7.37916 8.1479C7.37916 7.71932 7.72836 7.37012 8.15821 7.37012C8.58805 7.37012 8.93725 7.71932 8.93725 8.1479C8.93725 8.57774 8.58805 8.92694 8.15821 8.92694ZM10.4078 8.1479C10.4078 8.57774 10.757 8.92694 11.1868 8.92694C11.6167 8.92694 11.9659 8.57774 11.9659 8.1479C11.9659 7.71932 11.6167 7.37012 11.1868 7.37012C10.757 7.37012 10.4078 7.71932 10.4078 8.1479Z"
+                          fill="#727474"
+                        />
+                        <path
+                          fill-rule="evenodd"
+                          clip-rule="evenodd"
+                          d="M8.01301 1.33301C4.13967 1.33301 1.33301 4.49709 1.33301 8.00969C1.33301 9.13137 1.65967 10.2858 2.23301 11.3407C2.33967 11.5149 2.35301 11.7346 2.27967 11.9423L1.83301 13.4378C1.73301 13.7984 2.03967 14.0648 2.37967 13.9579L3.72634 13.558C4.09301 13.4378 4.37967 13.5907 4.71967 13.7984C5.69301 14.3719 6.90634 14.6663 7.99967 14.6663C11.3063 14.6663 14.6663 12.1092 14.6663 7.98966C14.6663 4.437 11.7997 1.33301 8.01301 1.33301Z"
+                          stroke="#727474"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                      {{
+                        comments.length
+                          ? comments.length
+                          : product.comments_count
+                      }}
+                      Отзывов
+                    </p>
+                    <p>Код товара: {{ product.id }}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="product_scroll_info__price">
+                <h5>{{ product.price }} СУМ</h5>
+                <p>{{ product.total }} СУМ</p>
+              </div>
+              <div class="d-flex">
+              <div class="product_scroll_info__btns">
+                <div class="buy_now_btn" @click="showModal">Купить сейчас</div>
+                <div class="to_cart_btn"  @click="
+            $store.commit('addToStoreCart', {
+              id: product.id,
+              name: 'cart',
+              count: 1,
+            })
+          "
+          :class="{ disabledDiv: includesCart($store.state.cart, product.id) }">В корзину</div>
+              </div>
+              <div class="d-flex align-items-center">
+                <span
+                style="cursor: pointer"
+            @click="
+              $store.commit('addToStore', {
+                id: product.id,
+                name: 'like',
+              })
+            "
+            :class="{ activeSvg: includes($store.state.like, product.id) }"
+          >
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 22 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M10.761 18.8538C8.5904 17.5179 6.57111 15.9456 4.73929 14.1652C3.45144 12.8829 2.47101 11.3198 1.8731 9.59539C0.797144 6.25031 2.05393 2.42083 5.57112 1.28752C7.41961 0.692435 9.43845 1.03255 10.9961 2.20148C12.5543 1.03398 14.5725 0.693978 16.4211 1.28752C19.9383 2.42083 21.2041 6.25031 20.1281 9.59539C19.5302 11.3198 18.5498 12.8829 17.2619 14.1652C15.4301 15.9456 13.4108 17.5179 11.2402 18.8538L11.0051 19L10.761 18.8538Z"
+                stroke="#020105"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M14.7394 5.05302C15.8047 5.39332 16.5616 6.34973 16.6562 7.47501"
+                stroke="#020105"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </span>
+              </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <BuyOneClick :modal="`buyOneClickModal${product.id}`" :hide="hideModal" :product="product" />
   </div>
 </template>
 <script>
@@ -475,10 +609,12 @@ import CardComment from "../../components/cards/cardComment.vue";
 import CardProductPrice from "../../components/cards/cardProductPrice.vue";
 import ProductCharactertable from "../../components/product/productCharactertable.vue";
 import ProductHeaderInfo from "../../components/product/productHeaderInfo.vue";
+import BuyOneClick from "../../components/modals/buyOneClick.vue";
 export default {
   data() {
     return {
       userRate: null,
+     
       count: 1,
       rate: {
         rate1: 5,
@@ -508,9 +644,7 @@ export default {
       activeName: "first",
       cartProducts: [],
       checkCart: null,
-      reytingStars: {
-
-      },
+      reytingStars: {},
       links: [
         {
           name: "Главный",
@@ -526,7 +660,8 @@ export default {
     CardProductPrice,
     ProductCharactertable,
     ProductHeaderInfo,
-  },
+    BuyOneClick
+},
   computed: {
     classActive(elements) {
       return {
@@ -537,6 +672,27 @@ export default {
       };
     },
   },
+  mounted() {
+    console.log(this.$refs);
+    var header = this.$refs.navScroll;
+    window.addEventListener("scroll", () => {
+        let scrollTop =
+          window.pageYOffset || document.documentElement.scrollTop;
+          console.log(scrollTop);
+        if (scrollTop > 300) {
+          header.style.top = "0px";
+          header.style.background = "#fff";
+          header.style.marginTop = "0";
+          this.navStyle = true;
+        } else {
+          header.style.top = "-100px";
+          header.style.background = "transparent";
+          header.style.marginTop = "0";
+          this.navStyle = true;
+        } 
+        this.lastScrollTop = scrollTop;
+      });
+  },
   async created() {
     this.checkAuth = localStorage.getItem("Auth");
     this.GET_PRODUCT();
@@ -544,6 +700,20 @@ export default {
     console.log(this.checkCart);
   },
   methods: {
+    includes(array, id) {
+      if (array) {
+        return array.find((item) => item === id) ? true : false;
+      } else {
+        true;
+      }
+    },
+    includesCart(array, id) {
+      if (array) {
+        return array.find((item) => item.id === id) ? true : false;
+      } else {
+        true;
+      }
+    },
     updateCount(type, product) {
       if (type) {
         let cart = JSON.parse(localStorage.getItem("cart"));
@@ -622,7 +792,7 @@ export default {
     async GET_COMMITS() {
       const comments = await this.$store.dispatch(
         "fetchProductComment/fetchComment",
-        {id: this.$route.params.index,page_size: 10}
+        { id: this.$route.params.index, page_size: 10 }
       );
       this.comments = comments;
     },
@@ -643,6 +813,12 @@ export default {
     show(name) {
       this.$modal.show(name);
     },
+    hideModal() {
+      this.$modal.hide(`buyOneClickModal${this.product.id}`);
+    },
+    showModal() {
+      this.$modal.show(`buyOneClickModal${this.product.id}`);
+    },
     hide(name) {
       this.$modal.hide(name);
     },
@@ -660,6 +836,123 @@ export default {
 </script>
 <style lang="scss">
 .product {
+  .disabledDiv {
+      background: #e87a43 !important;
+      pointer-events: none;
+    }
+  .activeSvg {
+    svg {
+      path {
+        stroke: #e87a43;
+      }
+    }
+  }
+  .product_carousel-img {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #f2f2fa;
+    border-radius: 4px;
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+  .product_scroll_info {
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.16);
+    .container {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    &__container {
+      background: #fff;
+      padding: 10px 0;
+      display: grid;
+      grid-template-columns: 80px auto;
+    }
+    &__title {
+      .product-header-info {
+        p {
+          margin-left: 24px;
+        }
+      }
+      h4 {
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 32px;
+        font-family: "TT Firs Neue";
+        font-style: normal;
+        color: #020105;
+        margin-bottom: 8px;
+      }
+      height: 100%;
+      justify-content: space-between;
+      margin-left: 24px;
+    }
+    &__body {
+      display: flex;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      justify-content: space-between;
+    }
+    &__price {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-left: 12px;
+      border-left: 1px solid #f2f2fa;
+      h5 {
+        margin-bottom: 8px;
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 24px;
+        color: #020105;
+      }
+      p {
+        margin-bottom: 0;
+      }
+    }
+    &__btns {
+      display: flex;
+    align-items: center;
+    margin-right: 40px;
+      div {
+        width: 174px;
+        padding-top: 14px;
+        padding-bottom: 14px;
+        border-radius: 6px;
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 20px;
+        display: flex;
+        justify-content: center;
+        cursor: pointer;
+      }
+      .buy_now_btn {
+        color: #FF6418;
+        border: 1px solid #FF6418;
+        margin-right: 16px;
+      }
+      .to_cart_btn {
+        color: #FFFFFF;
+        background: #FF6418;
+      }
+    }
+    background: #fff;
+
+    transition: all 0.3s !important;
+    height: auto;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    z-index: 1000 !important;
+    top: -100px;
+  }
   .disabledOption {
     pointer-events: none !important;
   }
@@ -1331,18 +1624,7 @@ export default {
         display: none; /* for Chrome, Safari, and Opera */
       }
     }
-    .carousel-img {
-      width: 80px;
-      height: 80px;
-      border: 1px solid #f2f2fa;
-      border-radius: 4px;
-      transform: matrix(-1, 0, 0, 1, 0, 0);
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-      }
-    }
+
     .carousel-banner {
       border: 1px solid #f3f3fa;
       border-radius: 16px;
@@ -1440,13 +1722,11 @@ export default {
 }
 @media (max-width: 1370px) {
   .product {
+    .product_carousel-img {
+      width: 70px;
+      height: 70px;
+    }
     &__img-carousel {
-      .carousel-items {
-        .carousel-img {
-          width: 70px;
-          height: 70px;
-        }
-      }
       .carousel-banner {
         img {
           height: 400px;

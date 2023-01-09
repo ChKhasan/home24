@@ -17,15 +17,15 @@
     <div class="comparison-card__head">
       <div class="comparison-card__img">
         <img
-        v-if="product.images.length == 0"
-        src="../../assets/images/image 107.png"
-        alt=""
-      />
+          v-if="product.images.length == 0"
+          src="../../assets/images/image 107.png"
+          alt=""
+        />
 
-      <img v-else :src="`${product.images[0].image}`" alt="" />
+        <img v-else :src="`${product.images[0].image}`" alt="" />
       </div>
       <div class="comparison-card__title">
-        <h6>{{product.product?.name }}</h6>
+        <h6>{{ product.product?.name }}</h6>
         <h5>{{ product.price }} сум</h5>
       </div>
       <div class="comparison-card__reviews d-flex justify-content-between">
@@ -81,13 +81,15 @@
           <span
             class="comparison-card__buy"
             @click="
-            $store.commit('addToStoreCart', {
-              id: product.id,
-              name: 'cart',
-              count: 1,
-            })
+              $store.commit('addToStoreCart', {
+                id: product.id,
+                name: 'cart',
+                count: 1,
+              })
             "
-            :class="{ disabledClass: includesCart($store.state.cart, product.id) }"
+            :class="{
+              disabledClass: includesCart($store.state.cart, product.id),
+            }"
           >
             <svg
               width="16"
@@ -130,58 +132,10 @@
       </div>
     </div>
     <div class="comparison-card__body">
-      <!-- <div class="body-info" v-for="character in product.specifications">
-        <span>Фронтальная камера</span>
-        <p>20MP</p>
-      </div> -->
       <div class="body-info" v-for="character in product.specifications">
-        <span>{{character.specification}}</span>
-        <p>{{character.value}}</p>
+        <span>{{ character.specification }}</span>
+        <p>{{ character.value }}</p>
       </div>
-      <!-- <div class="body-info">
-        <span>Фронтальная камера</span>
-        <p>20MP</p>
-      </div>
-      <div class="body-info">
-        <span>Фронтальная камера</span>
-        <p>20MP</p>
-      </div>
-      <div class="body-info">
-        <span>Фронтальная камера</span>
-        <p>20MP</p>
-      </div>
-      <div class="body-info">
-        <span>Фронтальная камера</span>
-        <p>20MP</p>
-      </div>
-      <div class="body-info">
-        <span>Фронтальная камера</span>
-        <p>20MP</p>
-      </div>
-      <div class="body-info">
-        <span>Фронтальная камера</span>
-        <p>20MP</p>
-      </div>
-      <div class="body-info">
-        <span>Фронтальная камера</span>
-        <p>20MP</p>
-      </div>
-      <div class="body-info">
-        <span>Фронтальная камера</span>
-        <p>20MP</p>
-      </div>
-      <div class="body-info">
-        <span>Фронтальная камера</span>
-        <p>20MP</p>
-      </div>
-      <div class="body-info">
-        <span>Фронтальная камера</span>
-        <p>20MP</p>
-      </div>
-      <div class="body-info">
-        <span>Фронтальная камера</span>
-        <p>20MP</p>
-      </div> -->
     </div>
   </div>
 </template>
