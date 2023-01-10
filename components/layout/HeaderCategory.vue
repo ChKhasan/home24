@@ -120,13 +120,9 @@
                 >
                   <p>Категории</p>
                   <span
-                    @click="
-                      category.parent.name
-                        ? $router.push(`/categoryId/${category.id}`)
-                        : $router.push(`/categories/${category.id}`)
-                    "
                     v-for="category in searchCategories"
                     :key="category.id"
+                    @click="toSearchCategories(category)"
                     ><svg
                       width="20"
                       height="20"
@@ -175,7 +171,15 @@
                 @focusin="checkFocus"
                 @input="searchProductInput"
               />
-              <button class="header-search__search-btn" @click="searchProducts">
+              <button
+                class="header-search__search-btn"
+                @click="searchProducts"
+                :class="{
+                  search_active_btn:
+                    (searchProduct.length > 0 || searchCategories.length > 0) &&
+                    checkInputFocus,
+                }"
+              >
                 <svg
                   width="21"
                   height="21"
@@ -802,7 +806,7 @@ export default {
       }
     },
     async searchProductInput() {
-      if (this.searchVal.length <= 1) {
+      if (this.searchVal.length <= 2) {
         this.searchProduct = [];
         this.checkInputFocus = false;
       } else {
@@ -831,10 +835,16 @@ export default {
       this.checkInputFocus = false;
     },
     async toSearchProduct(id, name) {
-      console.log("click");
       await this.$refs.input.focus();
       this.searchVal = await name;
       this.$router.push(`/product/${id}`);
+    },
+    async toSearchCategories(category) {
+      this.searchVal = await category.name;
+
+      category.parent
+        ? this.$router.push(`/categoryId/${category.id}`)
+        : this.$router.push(`/categories/${category.id}`);
     },
     toCategory(id) {
       this.categoryDrop = false;
@@ -1090,6 +1100,20 @@ export default {
     }
   }
 }
+.search_active_btn {
+  background: #ff7e00 !important;
+  pointer-events: initial !important;
+  cursor: pointer !important;
+  &:hover {
+    color: red !important;
+  }
+  svg {
+    path,
+    circle {
+      stroke: #fff;
+    }
+  }
+}
 .search_resoults_shadow {
   transition: 0.3s;
   padding-top: 70px;
@@ -1179,6 +1203,9 @@ export default {
       }
     }
   }
+}
+.activeCategory {
+  color: #ff7e00 !important;
 }
 .searchBackShadowActive {
   opacity: 1;
@@ -1337,6 +1364,7 @@ export default {
       width: 110px;
       background: #f8f8f8;
       border: none;
+      pointer-events: none;
     }
   }
   &__product-links {
@@ -1424,9 +1452,7 @@ export default {
         line-height: 38px;
       }
     }
-    .activeCategory {
-      margin-left: 8px;
-    }
+
     &__controller {
       a,
       span {

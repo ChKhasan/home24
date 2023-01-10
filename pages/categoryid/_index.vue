@@ -117,7 +117,7 @@
                   :label="false"
                   :minValue="barMinValue"
                   :maxValue="barMaxValue"
-                  @input="UpdateValues"
+                @touchstart="UpdateValues"
                 />
                 <div class="range-count">
                   <div class="range-min">
@@ -482,6 +482,7 @@ export default {
     async UpdateValues(e) {
       this.barMinValue = await e.minValue;
       this.barMaxValue = await e.maxValue;
+      console.log(e);
       const priceObj = { ...this.$route.query };
       if (Object.keys(this.$route.query).includes(`price_min`)) {
         if (this.barMinValue == 100 && this.barMaxValue == 1000) {
@@ -625,6 +626,7 @@ export default {
 </script>
 <style lang="scss">
 .category {
+  padding-top: 32px;
   .grid_block {
     display: grid;
     grid-template-columns: 2fr 10fr;

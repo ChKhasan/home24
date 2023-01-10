@@ -1,6 +1,10 @@
 <template lang="html">
   <div>
-    <nuxt-child :userInfo="userInfo" :fetchUserInfo="fetchUserInfo" :myOrders="my_orders"/>
+    <nuxt-child
+      :userInfo="userInfo"
+      :fetchUserInfo="fetchUserInfo"
+      :myOrders="my_orders"
+    />
     <modal name="want-password-modal" width="590px" height="auto">
       <div>
         <div class="auth-user-modal">
@@ -278,9 +282,9 @@ export default {
       },
       userInfo: {},
       my_orders: {},
-      month: '',
-      year: '',
-      date: ""
+      month: "",
+      year: "",
+      date: "",
     };
   },
   asyncData({ store }) {
@@ -302,10 +306,7 @@ export default {
           { password: this.registrModal, token: localStorage.getItem("Auth") }
         );
         await this.$modal.hide("change-password-modal");
-        localStorage.setItem(
-            "password_access",
-            JSON.stringify(true)
-          );
+        localStorage.setItem("password_access", JSON.stringify(true));
       } catch (e) {}
     },
     wantChangePass() {
@@ -313,39 +314,21 @@ export default {
       this.$modal.show("change-password-modal");
     },
     show(name) {
-      localStorage.setItem("password_access",JSON.stringify(true));
+      localStorage.setItem("password_access", JSON.stringify(true));
       this.$modal.show(name);
     },
     hide(name) {
-      localStorage.setItem("password_access",JSON.stringify(true));
+      localStorage.setItem("password_access", JSON.stringify(true));
       this.$modal.hide(name);
     },
     async fetchUserInfo() {
       this.$router.push("/profile/orders");
-     
-      const myOrders = await this.$store.dispatch(
-        "fetchOrder/fetchMyOrders",
-        localStorage.getItem("Auth")
-      );
-      if (myOrders.status == 401) {
-        this.__UPDATE_TOKEN();
-      } else {
-        this.my_orders = myOrders
-      }
-      
+
       if (!JSON.parse(localStorage.getItem("password_access"))) {
         this.$modal.show("want-password-modal");
       }
     },
-    async __UPDATE_TOKEN() {
-      const newToken = await this.$store.dispatch(
-        "fetchAuth/fetchUpdateToken",
-        localStorage.getItem("Refresh")
-      );
-      await localStorage.setItem("Auth", newToken.access);
-      await localStorage.setItem("Refresh", newToken.refresh);
-      console.log(newToken);
-    }
+   
   },
   mounted() {
     this.fetchUserInfo();
@@ -674,7 +657,8 @@ export default {
     &__menu {
       ul {
         li {
-          a,div {
+          a,
+          div {
             span {
               width: 40px;
               height: 40px;

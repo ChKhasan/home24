@@ -373,18 +373,17 @@ export default {
     max-width: 95% !important;
   }
 }
-@media (min-width: 1440px) {
+@media (max-width: 1632px) and (min-width: 1320px) {
   .container-xxl,
   .container-xl,
   .container-lg,
   .container-md,
   .container-sm,
   .container {
-    max-width: 1632px !important;
-    width: 94%;
+    max-width: 1328px !important;
   }
 }
-@media (min-width: 1920px) and (min-width: 1440px) {
+@media (min-width: 1632px) {
   .container-xxl,
   .container-xl,
   .container-lg,

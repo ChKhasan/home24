@@ -317,15 +317,14 @@
             >
             <el-tab-pane label="Характеристики" name="third">
               <div>
-                <div class="product__character-card">
-                  <div><h2>Основные характеристики</h2></div>
+                <div class="product__character-card" v-for="productInner in product.specification">
+                  <div><h2>{{productInner.name}}</h2></div>
                   <div class="ch-card_control">
-                    <div>
-                      <div class="p-character-card">
+                      <div class="p-character-card" v-for="item in productInner.items">
                         <div class="body">
-                          <p>Бренд</p>
+                          <p>{{item.specification}}</p>
                           <span></span>
-                          <p>Xiaomi</p>
+                          <p>{{item.value}}</p>
                         </div>
                       </div>
                       <div class="p-character-card">
@@ -342,7 +341,6 @@
                           <p>Xiaomi</p>
                         </div>
                       </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -1240,11 +1238,11 @@ export default {
   }
   &__character-card {
     padding-top: 32px;
+    width: 942px;
     .ch-card_control {
       display: grid;
-
       grid-template-columns: repeat(2, 1fr);
-      grid-gap: 100px;
+      grid-column-gap: 100px;
     }
     h2 {
       font-family: "Inter", sans-serif;

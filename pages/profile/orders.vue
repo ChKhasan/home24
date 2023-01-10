@@ -291,6 +291,18 @@ export default {
         token: localStorage.getItem("Auth"),
       });
       this.orders = myOrders;
+      if (myOrders.status == 401) {
+        this.__UPDATE_TOKEN();
+      }
+    },
+    async __UPDATE_TOKEN() {
+      const newToken = await this.$store.dispatch(
+        "fetchAuth/fetchUpdateToken",
+        localStorage.getItem("Refresh")
+      );
+      await localStorage.setItem("Auth", newToken.access);
+      await localStorage.setItem("Refresh", newToken.refresh);
+      await this.$router.push("/profile/orders");
     },
     async statusFilter() {
       if (this.value == "Все") {
@@ -313,17 +325,19 @@ export default {
       }
     },
     async logout() {
-      // const logOut = await this.$store.dispatch("fetchAuth/fetchLogOut", {
-      //   token: localStorage.getItem("Auth"),
-      //   refresh_token: localStorage.getItem("Refresh"),
-      // });
-      // if (logOut.success) {
-      localStorage.removeItem("Auth");
-      localStorage.removeItem("Refresh");
-      localStorage.removeItem("password_access");
-      this.$store.commit("setUser");
-      this.$router.push("/");
+      const response = await this.$store.dispatch("fetchAuth/fetchLogOut",{
+        refresh_token: localStorage.getItem("Refresh"),
+        token:  localStorage.getItem("Auth")
+      });
+      console.log(response);
+      // if (response.success) {
+      //   localStorage.removeItem("Auth");
+      //   localStorage.removeItem("Refresh");
+      //   localStorage.removeItem("password_access");
+      //   this.$store.commit("setUser");
+      //   this.$router.push("/");
       // }
+    
     },
     show(name) {
       this.$modal.show(name);
@@ -451,7 +465,6 @@ export default {
 }
 @media (max-width: 1440px) {
   .profile {
-
     &__area {
       padding-left: 16px !important;
       .orders {

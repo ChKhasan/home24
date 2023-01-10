@@ -621,11 +621,19 @@ export default {
     await this.lastInfo();
   },
   methods: {
-    logout() {
-      localStorage.removeItem("Auth");
-      localStorage.removeItem("password_access");
-      this.$store.commit("setUser");
-      this.$router.push("/");
+    async logout() {
+      const response = await this.$store.dispatch("fetchAuth/fetchLogOut", {
+        refresh_token: localStorage.getItem("Refresh"),
+        token:  localStorage.getItem("Auth")
+      });
+      console.log(response);
+      // if (response.success) {
+      //   localStorage.removeItem("Auth");
+      //   localStorage.removeItem("Refresh");
+      //   localStorage.removeItem("password_access");
+      //   this.$store.commit("setUser");
+      //   this.$router.push("/");
+      // }
     },
     async leaveSave() {
       const userInfo = await this.$store.dispatch(
@@ -652,7 +660,7 @@ export default {
           position: "top-right",
         });
         this.__GET_USER_INFO();
-        this.$router.push("/profile/personal")
+        this.$router.push("/profile/personal");
         this.changeInfo = true;
       }
     },
@@ -678,6 +686,18 @@ export default {
         "fetchAuth/fetchUserProfile",
         localStorage.getItem("Auth")
       );
+      if( this.userInfo.status == 401) {
+        this.__UPDATE_TOKEN();
+      }
+    },
+    async __UPDATE_TOKEN() {
+      const newToken = await this.$store.dispatch(
+        "fetchAuth/fetchUpdateToken",
+        localStorage.getItem("Refresh")
+      );
+      await localStorage.setItem("Auth", newToken.access);
+      await localStorage.setItem("Refresh", newToken.refresh);
+      await this.$router.push("/profile/orders");
     },
     userName() {
       const array = this.userNameVal.split(" ");
