@@ -541,16 +541,15 @@ export default {
     this.__GET_PRODUCT(this.product.id);
     this.newCart = JSON.parse(localStorage.getItem("cart"));
     this.newCart = [
-            { id: this.product.id, count: this.count },
-            ...this.newCart,
-          ];
+      { id: this.product.id, count: this.count },
+      ...this.newCart,
+    ];
   },
 
   methods: {
     updateCount(type, product) {
-
       this.newCart = JSON.parse(localStorage.getItem("cart"));
-      
+
       if (type) {
         this.count++;
         let newObj = this.newCart.find((item) => item.id == product.id);
@@ -577,7 +576,6 @@ export default {
         }
       }
     },
-
 
     includes(array, id) {
       if (array) {
@@ -608,7 +606,7 @@ export default {
         });
       }
     },
-   async addAndChangeToCart() {
+    async addAndChangeToCart() {
       await localStorage.setItem("cart", JSON.stringify(this.newCart));
       await this.$store.commit("addToVariant");
       this.$modal.hide(`modal_product_${this.productVariant.id}`);
@@ -627,7 +625,7 @@ export default {
     async GET_COMMITS(id) {
       this.product_comments = await this.$store.dispatch(
         "fetchProductComment/fetchComment",
-        {id: id, page_size: 100}
+        { id: id, page_size: 100 }
       );
     },
 
@@ -750,7 +748,7 @@ export default {
     justify-content: center;
     &:hover {
       img {
-        transform: scale(1.1);
+        transform: scale(0.9);
       }
       .quick-view {
         bottom: 50%;
@@ -1557,5 +1555,4 @@ export default {
     }
   }
 }
-
 </style>

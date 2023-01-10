@@ -669,6 +669,7 @@ export default {
         nullClass: true,
       };
     },
+    
   },
   mounted() {
     console.log(this.$refs);
@@ -805,8 +806,24 @@ export default {
           token: localStorage.getItem("Auth"),
         }
       );
+      if(postComment.status == 401) {
+        this.__UPDATE_TOKEN();
+      }
       await this.$modal.hide("new-review-modal");
       await this.$modal.show("review-accepted-modal");
+    },
+    async __UPDATE_TOKEN() {
+      const newToken = await this.$store.dispatch(
+        "fetchAuth/fetchUpdateToken",
+        localStorage.getItem("Refresh")
+      );
+      await localStorage.setItem("Auth", newToken.access);
+      await localStorage.setItem("Refresh", newToken.refresh);
+      // await this.$router.push("/profile");
+      this.userInfo = await this.$store.dispatch(
+        "fetchAuth/fetchUserProfile",
+        newToken.access
+      );
     },
     show(name) {
       this.$modal.show(name);

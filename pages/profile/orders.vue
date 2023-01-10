@@ -156,12 +156,13 @@
                 </p>
                 <div class="btn" @click="$router.push('/')">На главную</div>
               </div> -->
-              <div class="orders">
-                <div v-for="order in orders" v-if="orders.length > 0">
+              <div class="orders" v-if="orders.length > 0">
+                <div v-for="order in orders" >
                   <CardOrder :order="order" />
                 </div>
-                <EmptyBlog v-else />
+                
               </div>
+              <EmptyBlog v-else />
             </el-tab-pane>
             <el-tab-pane label="Неоплаченные" name="second">
               <div>
@@ -302,7 +303,10 @@ export default {
       );
       await localStorage.setItem("Auth", newToken.access);
       await localStorage.setItem("Refresh", newToken.refresh);
-      await this.$router.push("/profile");
+      const myOrders = await this.$store.dispatch("fetchOrder/fetchMyOrders", {
+        token: newToken.access
+      });
+      this.orders = myOrders;
     },
     async statusFilter() {
       if (this.value == "Все") {
