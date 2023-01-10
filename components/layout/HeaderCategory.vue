@@ -1117,10 +1117,11 @@ export default {
 .search_resoults_shadow {
   transition: 0.3s;
   padding-top: 70px;
-  position: absolute;
+  position: fixed;
   width: 100%;
   background: rgba(0, 0, 0, 0.8);
   z-index: -1;
+  left: 0;
   opacity: 0;
   height: 100vh;
   box-shadow: 10px 5px 5px black;

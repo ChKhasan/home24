@@ -4,7 +4,7 @@
       class="container-fluid homepage__banner-carousel"
       @click="hide = !hide"
     >
-      <!-- <logo/> -->
+   
       <div class="container">
         <div class="row homepage__carousel-control">
           <div class="col-9 news_carousel">
@@ -21,17 +21,6 @@
             </UniversalCarousel>
           </div>
           <div class="col-3 day_product_carousel">
-            <!-- <UniversalCarousel2 propsClass="swiper1">
-              <div class="swiper-slide">
-                <img src="../assets/images/BannerImg.png" alt="" />
-              </div>
-              <div class="swiper-slide">
-                <img src="../assets/images/BannerImg.png" alt="" />
-              </div>
-              <div class="swiper-slide">
-                <img src="../assets/images/BannerImg.png" alt="" />
-              </div>
-            </UniversalCarousel2> -->
             <b-skeleton
               v-if="skeleton"
               style="height: 100%,boder-radius: 18px"
@@ -265,7 +254,7 @@ export default {
       popularCategories: [],
       skeleton: true,
       brands: [],
-      page_size: 6
+      page_size: 6,
     };
   },
   async created() {
