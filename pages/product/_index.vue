@@ -462,7 +462,7 @@
     </modal>
     <div class="product_scroll_info" ref="navScroll">
       <div class="container">
-        <div class="row">
+        <div class="">
           <div class="col-12 product_scroll_info__container">
             <div class="product_carousel-img">
               <b-skeleton

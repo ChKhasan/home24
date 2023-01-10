@@ -1,6 +1,7 @@
 <template lang="html">
-  <div class="header container-fluid">
-    <div class="container header-top">
+  <div class="header">
+  <div class="header-top">
+    <div class="container ">
       <div class="">
         <div class="row justify-content-between">
           <div class="col-5 d-flex align-items-center">
@@ -101,6 +102,8 @@
         </div>
       </div>
     </div>
+  </div>
+
     <HeaderCategory :user="user" :categories="categories" />
 
     <div class=" container">
@@ -264,7 +267,7 @@ export default {
   .header-top {
     z-index: 100;
     position: relative;
-    background: v-bind(color);
+    background: #f4f5f5;
     padding: 10px 0;
 
     .header-top {

@@ -697,7 +697,7 @@ export default {
       );
       await localStorage.setItem("Auth", newToken.access);
       await localStorage.setItem("Refresh", newToken.refresh);
-      await this.$router.push("/profile/orders");
+      await this.$router.push("/profile");
     },
     userName() {
       const array = this.userNameVal.split(" ");

@@ -4,7 +4,6 @@
       class="container-fluid homepage__banner-carousel"
       @click="hide = !hide"
     >
-   
       <div class="container">
         <div class="row homepage__carousel-control">
           <div class="col-9 news_carousel">
@@ -312,6 +311,13 @@ export default {
 @import "@/assets/fonts/stylesheet.css";
 .vm--overlay {
   background: rgba(0, 0, 0, 0.8);
+}
+.container,.container-sm, .container-md, .container-lg, .container-xl {
+    width: 100%;
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+    margin-right: auto;
+    margin-left: auto;
 }
 @media (min-width: 576px) {
   .container-sm,
