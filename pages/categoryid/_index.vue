@@ -117,7 +117,7 @@
                   :label="false"
                   :minValue="barMinValue"
                   :maxValue="barMaxValue"
-                @touchstart="UpdateValues"
+                  @touchstart="UpdateValues"
                 />
                 <div class="range-count">
                   <div class="range-min">
@@ -173,7 +173,7 @@
                 width="40%"
               ></b-skeleton>
               <BreadCrumb v-else :links="links" :last="categoryById.name" />
-             
+
               <div class="category-title">
                 <b-skeleton
                   v-if="skeleton"
@@ -186,18 +186,26 @@
                 <div class="category-control">
                   <div>
                     <span>Сортировка</span>
-                    <el-dropdown>
+                    <el-dropdown @command="sorting">
                       <span class="el-dropdown-link">
-                        Подешевле<i
-                          class="el-icon-arrow-down el-icon--right"
-                        ></i>
+                        {{ sortingType
+                        }}<i class="el-icon-arrow-down el-icon--right"></i>
                       </span>
                       <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>Action 1</el-dropdown-item>
-                        <el-dropdown-item>Action 2</el-dropdown-item>
-                        <el-dropdown-item>Action 3</el-dropdown-item>
-                        <el-dropdown-item disabled>Action 4</el-dropdown-item>
-                        <el-dropdown-item divided>Action 5</el-dropdown-item>
+                        <el-dropdown-item
+                          :class="{
+                            activeSorting: $route.query.ordering == '-price',
+                          }"
+                          :command="true"
+                          >Подешевле</el-dropdown-item
+                        >
+                        <el-dropdown-item
+                          :class="{
+                            activeSorting: $route.query.ordering == 'price',
+                          }"
+                          :command="false"
+                          >Подороже</el-dropdown-item
+                        >
                       </el-dropdown-menu>
                     </el-dropdown>
                     <span @click="gridControl = 5"
@@ -413,6 +421,7 @@ export default {
       colors: [],
       skeleton: true,
       skeletonCategory: true,
+      sortingType: "Подешевле",
     };
   },
   async created() {
@@ -471,8 +480,8 @@ export default {
               to: `/categories/${this.categoryById.parent.id}`,
             },
           ];
-          this.links = await link;
-          await console.log(this.links);
+      this.links = await link;
+      await console.log(this.links);
 
       this.skeletonCategory = await false;
     },
@@ -611,6 +620,19 @@ export default {
       this.skeleton = await true;
       await this.__GET_PRODUCTS();
     },
+    async sorting(type) {
+      this.skeleton = await true;
+      await this.$router.replace({
+        path: `/categoryId/${this.$route.params.index}`,
+        query: {
+          ...this.$route.query,
+          ordering: type ? "-price" : "price",
+        },
+      });
+      this.sortingType = type ? "Подешевле" : "Подороже";
+      console.log(this.$route.query.ordering == "-price");
+      await this.__GET_PRODUCTS();
+    },
   },
   components: {
     BreadCrumb,
@@ -625,6 +647,10 @@ export default {
 };
 </script>
 <style lang="scss">
+.activeSorting {
+  pointer-events: none !important;
+  color: #ff6418 !important;
+}
 .category {
   padding-top: 32px;
   .grid_block {
@@ -876,7 +902,6 @@ export default {
     line-height: 24px;
     color: #000 !important;
     pointer-events: none;
-
   }
   &__list1 {
     list-style: none;

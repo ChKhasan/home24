@@ -244,7 +244,7 @@
                     :comment="comment"
                   />
                 </div>
-                <div class="comments_reyting">
+                <div class="comments_reyting" v-if="checkAuth">
                   <div class="comments_reyting__c-header">
                     <el-rate
                       v-model="value"
@@ -261,7 +261,7 @@
                     </el-rate>
                     <p>5/<span>5</span></p>
                   </div>
-                  <div class="comments_reyting__c-body">
+                  <div class="comments_reyting__c-body" v-if="checkAuth">
                     <div class="reyting_card">
                       <el-rate v-model="rate.rate1" disabled></el-rate>
                       <div class="progress">
@@ -317,30 +317,38 @@
             >
             <el-tab-pane label="Характеристики" name="third">
               <div>
-                <div class="product__character-card" v-for="productInner in product.specification">
-                  <div><h2>{{productInner.name}}</h2></div>
+                <div
+                  class="product__character-card"
+                  v-for="productInner in product.specification"
+                >
+                  <div>
+                    <h2>{{ productInner.name }}</h2>
+                  </div>
                   <div class="ch-card_control">
-                      <div class="p-character-card" v-for="item in productInner.items">
-                        <div class="body">
-                          <p>{{item.specification}}</p>
-                          <span></span>
-                          <p>{{item.value}}</p>
-                        </div>
+                    <div
+                      class="p-character-card"
+                      v-for="item in productInner.items"
+                    >
+                      <div class="body">
+                        <p>{{ item.specification }}</p>
+                        <span></span>
+                        <p>{{ item.value }}</p>
                       </div>
-                      <div class="p-character-card">
-                        <div class="body">
-                          <p>Бренд</p>
-                          <span></span>
-                          <p>Xiaomi</p>
-                        </div>
+                    </div>
+                    <div class="p-character-card">
+                      <div class="body">
+                        <p>Бренд</p>
+                        <span></span>
+                        <p>Xiaomi</p>
                       </div>
-                      <div class="p-character-card">
-                        <div class="body">
-                          <p>Бренд</p>
-                          <span></span>
-                          <p>Xiaomi</p>
-                        </div>
+                    </div>
+                    <div class="p-character-card">
+                      <div class="body">
+                        <p>Бренд</p>
+                        <span></span>
+                        <p>Xiaomi</p>
                       </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -540,61 +548,76 @@
                 <p>{{ product.total }} СУМ</p>
               </div>
               <div class="d-flex">
-              <div class="product_scroll_info__btns">
-                <div class="buy_now_btn" @click="showModal">Купить сейчас</div>
-                <div class="to_cart_btn"  @click="
-            $store.commit('addToStoreCart', {
-              id: product.id,
-              name: 'cart',
-              count: 1,
-            })
-          "
-          :class="{ disabledDiv: includesCart($store.state.cart, product.id) }">В корзину</div>
-              </div>
-              <div class="d-flex align-items-center">
-                <span
-                style="cursor: pointer"
-            @click="
-              $store.commit('addToStore', {
-                id: product.id,
-                name: 'like',
-              })
-            "
-            :class="{ activeSvg: includes($store.state.like, product.id) }"
-          >
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 22 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M10.761 18.8538C8.5904 17.5179 6.57111 15.9456 4.73929 14.1652C3.45144 12.8829 2.47101 11.3198 1.8731 9.59539C0.797144 6.25031 2.05393 2.42083 5.57112 1.28752C7.41961 0.692435 9.43845 1.03255 10.9961 2.20148C12.5543 1.03398 14.5725 0.693978 16.4211 1.28752C19.9383 2.42083 21.2041 6.25031 20.1281 9.59539C19.5302 11.3198 18.5498 12.8829 17.2619 14.1652C15.4301 15.9456 13.4108 17.5179 11.2402 18.8538L11.0051 19L10.761 18.8538Z"
-                stroke="#020105"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M14.7394 5.05302C15.8047 5.39332 16.5616 6.34973 16.6562 7.47501"
-                stroke="#020105"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </span>
-              </div>
+                <div class="product_scroll_info__btns">
+                  <div class="buy_now_btn" @click="showModal">
+                    Купить сейчас
+                  </div>
+                  <div
+                    class="to_cart_btn"
+                    @click="
+                      $store.commit('addToStoreCart', {
+                        id: product.id,
+                        name: 'cart',
+                        count: 1,
+                      })
+                    "
+                    :class="{
+                      disabledDiv: includesCart($store.state.cart, product.id),
+                    }"
+                  >
+                    В корзину
+                  </div>
+                </div>
+                <div class="d-flex align-items-center">
+                  <span
+                    style="cursor: pointer;"
+                    @click="
+                      $store.commit('addToStore', {
+                        id: product.id,
+                        name: 'like',
+                      })
+                    "
+                    :class="{
+                      activeSvg: includes($store.state.like, product.id),
+                    }"
+                  >
+                    <svg
+                      width="28"
+                      height="28"
+                      viewBox="0 0 22 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M10.761 18.8538C8.5904 17.5179 6.57111 15.9456 4.73929 14.1652C3.45144 12.8829 2.47101 11.3198 1.8731 9.59539C0.797144 6.25031 2.05393 2.42083 5.57112 1.28752C7.41961 0.692435 9.43845 1.03255 10.9961 2.20148C12.5543 1.03398 14.5725 0.693978 16.4211 1.28752C19.9383 2.42083 21.2041 6.25031 20.1281 9.59539C19.5302 11.3198 18.5498 12.8829 17.2619 14.1652C15.4301 15.9456 13.4108 17.5179 11.2402 18.8538L11.0051 19L10.761 18.8538Z"
+                        stroke="#020105"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                      <path
+                        d="M14.7394 5.05302C15.8047 5.39332 16.5616 6.34973 16.6562 7.47501"
+                        stroke="#020105"
+                        stroke-width="1.5"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <BuyOneClick :modal="`buyOneClickModal${product.id}`" :hide="hideModal" :product="product" />
+    <BuyOneClick
+      :modal="`buyOneClickModal${product.id}`"
+      :hide="hideModal"
+      :product="product"
+    />
   </div>
 </template>
 <script>
@@ -612,14 +635,14 @@ export default {
   data() {
     return {
       userRate: null,
-     
+
       count: 1,
       rate: {
-        rate1: 5,
-        rate2: 4,
-        rate3: 3,
-        rate4: 2,
-        rate5: 1,
+        rate1: 0,
+        rate2: 0,
+        rate3: 0,
+        rate4: 0,
+        rate5: 0,
       },
       comment: "",
       value: 5,
@@ -658,8 +681,8 @@ export default {
     CardProductPrice,
     ProductCharactertable,
     ProductHeaderInfo,
-    BuyOneClick
-},
+    BuyOneClick,
+  },
   computed: {
     classActive(elements) {
       return {
@@ -669,28 +692,26 @@ export default {
         nullClass: true,
       };
     },
-    
   },
   mounted() {
     console.log(this.$refs);
     var header = this.$refs.navScroll;
     window.addEventListener("scroll", () => {
-        let scrollTop =
-          window.pageYOffset || document.documentElement.scrollTop;
-          console.log(scrollTop);
-        if (scrollTop > 300) {
-          header.style.top = "0px";
-          header.style.background = "#fff";
-          header.style.marginTop = "0";
-          this.navStyle = true;
-        } else {
-          header.style.top = "-100px";
-          header.style.background = "transparent";
-          header.style.marginTop = "0";
-          this.navStyle = true;
-        } 
-        this.lastScrollTop = scrollTop;
-      });
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      console.log(scrollTop);
+      if (scrollTop > 300) {
+        header.style.top = "0px";
+        header.style.background = "#fff";
+        header.style.marginTop = "0";
+        this.navStyle = true;
+      } else {
+        header.style.top = "-100px";
+        header.style.background = "transparent";
+        header.style.marginTop = "0";
+        this.navStyle = true;
+      }
+      this.lastScrollTop = scrollTop;
+    });
   },
   async created() {
     this.checkAuth = localStorage.getItem("Auth");
@@ -789,11 +810,29 @@ export default {
       this.skeleton = await false;
     },
     async GET_COMMITS() {
-      const comments = await this.$store.dispatch(
+      this.comments = await this.$store.dispatch(
         "fetchProductComment/fetchComment",
         { id: this.$route.params.index, page_size: 10 }
       );
-      this.comments = comments;
+
+      await this.ratingTypes(this.comments, "rate1", 1);
+      await this.ratingTypes(this.comments, "rate2", 2);
+      await this.ratingTypes(this.comments, "rate3", 3);
+      await this.ratingTypes(this.comments, "rate4", 4);
+      await this.ratingTypes(this.comments, "rate5", 5);
+      await console.log(this.rate);
+    },
+    ratingTypes(comments, name, count) {
+      this.rate[name] =
+        (comments
+          .map((item) => {
+            if (item.rating == count) {
+              return item.rating;
+            }
+          })
+          .filter((item) => item).length *
+          5) /
+        comments.length;
     },
     handleClick(tab, event) {
       console.log(tab, event);
@@ -806,12 +845,15 @@ export default {
           token: localStorage.getItem("Auth"),
         }
       );
-      if(postComment.status == 401) {
+      if (postComment.status == 401) {
         this.__UPDATE_TOKEN();
       }
-      await this.$modal.hide("new-review-modal");
-      await this.$modal.show("review-accepted-modal");
+      if (postComment.status == "Inactive") {
+        await this.$modal.hide("new-review-modal");
+        await this.$modal.show("review-accepted-modal");
+      }
     },
+
     async __UPDATE_TOKEN() {
       const newToken = await this.$store.dispatch(
         "fetchAuth/fetchUpdateToken",
@@ -819,11 +861,17 @@ export default {
       );
       await localStorage.setItem("Auth", newToken.access);
       await localStorage.setItem("Refresh", newToken.refresh);
-      // await this.$router.push("/profile");
-      this.userInfo = await this.$store.dispatch(
-        "fetchAuth/fetchUserProfile",
-        newToken.access
+      const postComment = await this.$store.dispatch(
+        "fetchProductComment/fetchSendComment",
+        {
+          comment: { ...this.commentBox, product: this.$route.params.index },
+          token: localStorage.getItem("Auth"),
+        }
       );
+      if (postComment.status == "Inactive") {
+        await this.$modal.hide("new-review-modal");
+        await this.$modal.show("review-accepted-modal");
+      }
     },
     show(name) {
       this.$modal.show(name);
@@ -852,9 +900,9 @@ export default {
 <style lang="scss">
 .product {
   .disabledDiv {
-      background: #e87a43 !important;
-      pointer-events: none;
-    }
+    background: #e87a43 !important;
+    pointer-events: none;
+  }
   .activeSvg {
     svg {
       path {
@@ -932,8 +980,8 @@ export default {
     }
     &__btns {
       display: flex;
-    align-items: center;
-    margin-right: 40px;
+      align-items: center;
+      margin-right: 40px;
       div {
         width: 174px;
         padding-top: 14px;
@@ -949,13 +997,13 @@ export default {
         cursor: pointer;
       }
       .buy_now_btn {
-        color: #FF6418;
-        border: 1px solid #FF6418;
+        color: #ff6418;
+        border: 1px solid #ff6418;
         margin-right: 16px;
       }
       .to_cart_btn {
-        color: #FFFFFF;
-        background: #FF6418;
+        color: #ffffff;
+        background: #ff6418;
       }
     }
     background: #fff;

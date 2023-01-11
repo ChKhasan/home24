@@ -38,7 +38,7 @@
       </div>
     </div>
     <homeTitlies
-      title="Популярные категории"
+      title="Категории"
       link="Все товары"
       :to="`/categories/${popularCategories[0]?.id}`"
     />

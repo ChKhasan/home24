@@ -609,8 +609,15 @@ export default {
     async addAndChangeToCart() {
       await localStorage.setItem("cart", JSON.stringify(this.newCart));
       await this.$store.commit("addToVariant");
-      this.$modal.hide(`modal_product_${this.productVariant.id}`);
+      await this.$modal.hide(`modal_product_${this.productVariant.id}`);
       this.count = 1;
+      await this.$toast.open({
+            message: "Добавлено в корзину",
+            type: "success",
+            duration: 2000,
+            dismissible: true,
+            position: "top-right",
+          });
     },
     async __GET_PRODUCT(id) {
       this.skeleton = await true;
@@ -748,7 +755,7 @@ export default {
     justify-content: center;
     &:hover {
       img {
-        transform: scale(0.9);
+        transform: scale(0.94);
       }
       .quick-view {
         bottom: 50%;
