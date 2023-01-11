@@ -626,7 +626,7 @@ export default {
         path: `/categoryId/${this.$route.params.index}`,
         query: {
           ...this.$route.query,
-          ordering: type ? "-price" : "price",
+          ordering: type ? "price" : "-price",
         },
       });
       this.sortingType = type ? "Подешевле" : "Подороже";
