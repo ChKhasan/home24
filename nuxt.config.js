@@ -1,3 +1,4 @@
+require("dotenv").config();
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -26,6 +27,7 @@ export default {
     { src: "~plugins/vue-js-modal.js", ssr: false },
     { src: "~plugins/vue-the-mask.js", ssr: false },
     { src: "~plugins/vue-toast-notification.js", ssr: false },
+    { src: "~/plugins/vuelidate.js", ssr: false },
     // { src: "~plugins/vue-hover.js", ssr: false },
   ],
 
@@ -66,5 +68,22 @@ export default {
         },
       ];
     },
+  },
+  publicRuntimeConfig: {
+    baseURL: process.env.BASE_URL,
+  },
+  privateRuntimeConfig: {
+    apiSecret: process.env.API_SECRET,
+  },
+  env: {
+    auth: process.env.VUE_APP_DEFAULT_AUTH || "http://localhost:3000",
+    apikey: process.env.VUE_APP_APIKEY,
+    authdomain: process.env.VUE_APP_AUTHDOMAIN,
+    databaseurl: process.env.VUE_APP_DATABASEURL,
+    projectid: process.env.VUE_APP_PROJECTId,
+    storgebucket: process.env.VUE_APP_STORAGEBUCKET,
+    message: process.env.VUE_APP_MESSAGINGSENDERID,
+    appid: process.env.VUE_APP_APPId,
+    measurement: process.env.VUE_APP_MEASUREMENTID,
   },
 };

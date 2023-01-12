@@ -264,7 +264,7 @@ export default {
     this.$store.commit("reloadStore");
     this.$store.commit("setUser");
     this.skeleton = await false;
-    console.log(this.$store.state.cart.length);
+    console.log(process.env);
   },
   methods: {
     async __GET_POPULAR_CATEGORIES() {
@@ -368,7 +368,7 @@ export default {
     max-width: 95% !important;
   }
 }
-@media (max-width: 1632px) and (min-width: 1320px) {
+@media (max-width: 1632px) and (min-width: 1330px) {
   .container-xxl,
   .container-xl,
   .container-lg,

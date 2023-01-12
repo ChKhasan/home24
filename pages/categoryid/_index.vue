@@ -194,14 +194,14 @@
                       <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item
                           :class="{
-                            activeSorting: $route.query.ordering == '-price',
+                            activeSorting: $route.query.ordering == 'price',
                           }"
                           :command="true"
                           >Подешевле</el-dropdown-item
                         >
                         <el-dropdown-item
                           :class="{
-                            activeSorting: $route.query.ordering == 'price',
+                            activeSorting: $route.query.ordering == '-price',
                           }"
                           :command="false"
                           >Подороже</el-dropdown-item

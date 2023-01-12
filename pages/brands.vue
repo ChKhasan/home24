@@ -89,6 +89,7 @@
         >
         </el-pagination>
       </div>
+     
     </div>
   </div>
 </template>
@@ -174,21 +175,23 @@ export default {
         ],
         num: ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
       },
+     
     };
   },
+ 
   components: { BreadCrumb, TitleBasket, CardBrand },
   async created() {
     if (this.$route.query.page != this.params.page) {
-        await this.$router.replace({
-          path: `/brands`,
-          query: { page: this.params.page },
-        });
-      }
+      await this.$router.replace({
+        path: `/brands`,
+        query: { page: this.params.page },
+      });
+    }
     await this._GET_BRANDS();
     this.currentPage = await JSON.parse(this.$route.query.page);
-
   },
   methods: {
+  
     async _GET_BRANDS() {
       const brands = await this.$store.dispatch("fetchBrands/fetchBrands", {
         ...this.params,
@@ -204,30 +207,30 @@ export default {
         path: `/brands`,
         query: { page: this.params.page },
       });
-      await this._GET_BRANDS()
+      await this._GET_BRANDS();
     },
     async filterLetter(letter) {
       await this.$router.replace({
         path: `/brands`,
         query: { page: 1, search: letter },
       });
-      
-    await this._GET_BRANDS()
+
+      await this._GET_BRANDS();
     },
     async showAll() {
       await this.$router.replace({
         path: `/brands`,
         query: { page: this.$route.query.page },
       });
-     
-      await this._GET_BRANDS()
+
+      await this._GET_BRANDS();
     },
     async brandSearch() {
       await this.$router.replace({
         path: `/brands`,
         query: { page: 1, search: this.searchValue },
       });
-      await this._GET_BRANDS()
+      await this._GET_BRANDS();
     },
   },
 };

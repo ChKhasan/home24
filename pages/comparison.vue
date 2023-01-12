@@ -8,15 +8,23 @@
 
           <div class="comparison-select">
             <span @click="deteleComparison">Очистить</span>
-            <el-select v-model="value" placeholder="Техника">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
+
+            <el-dropdown @command="sorting">
+              <span class="el-dropdown-link">
+                {{ currentCategory
+                }}<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="category in comparisonCategory"
+                  :class="{
+                    activeSorting: $route.query.category == category.id,
+                  }"
+                  :command="category"
+                  >{{ category.name }}</el-dropdown-item
+                >
+              </el-dropdown-menu>
+            </el-dropdown>
           </div>
         </div>
       </div>
@@ -66,6 +74,7 @@ export default {
         slidesToShow: 5,
         slidesToScroll: 1,
       },
+
       options: [
         {
           value: "Option1",
@@ -96,6 +105,8 @@ export default {
         },
       ],
       comparisonProducts: [],
+      comparisonCategory: [],
+      currentCategory: "",
     };
   },
   components: {
@@ -106,13 +117,31 @@ export default {
     EmptyBlog,
   },
   async created() {
-    this.comparisonProducts = await this.$store.dispatch(
-      "fetchComparison/postComparison",
-      JSON.parse(localStorage.getItem("comparison"))
-    );
-    console.log(this.comparisonProducts );
+    await this.__GET_COMPARISON_CATEGORIES();
+    await this.__GET_COMPARISON();
   },
   methods: {
+    async __GET_COMPARISON() {
+      this.comparisonProducts = await this.$store.dispatch(
+        "fetchComparison/postComparison",
+        {
+          products: JSON.parse(localStorage.getItem("comparison")),
+          category: this.$route.query.category,
+        }
+      );
+    },
+    async sorting(category) {
+      console.log(category);
+      await this.$router.replace({
+        path: `/comparison`,
+        query: {
+          category: category.id,
+        },
+      });
+      this.currentCategory = category.name;
+
+      await this.__GET_COMPARISON();
+    },
     async deteleComparison() {
       localStorage.setItem("comparison", JSON.stringify([]));
       const comparison = await this.$store.dispatch(
@@ -122,8 +151,22 @@ export default {
       this.comparisonProducts = comparison;
       this.$store.commit("reloadStore");
     },
+    async __GET_COMPARISON_CATEGORIES() {
+      this.comparisonCategory = await this.$store.dispatch(
+        "fetchComparison/fetchComparisonByCategory",
+        { products: JSON.parse(localStorage.getItem("comparison")) }
+      );
+      if (!this.$route.query.category) {
+        await this.$router.replace({
+          path: `/comparison`,
+          query: {
+            category: this.comparisonCategory[0].id,
+          },
+        });
+      }
+      this.currentCategory = this.comparisonCategory[0].name;
+    },
     async deleteProductFromComparison(id) {
-      console.log(id);
       let comparison = await JSON.parse(localStorage.getItem("comparison"));
       const index = await comparison.indexOf(id);
       if (index > -1) {
@@ -141,7 +184,28 @@ export default {
 };
 </script>
 <style lang="scss">
+.activeSorting {
+  pointer-events: none !important;
+  color: #ff6418 !important;
+}
 .comparison {
+  .el-dropdown-link {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    width: 194px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #020105 !important;
+    padding: 10px 12px;
+    text-decoration: none !important;
+    background: #f8f8f8;
+    border: 1px solid #f2f2fa;
+    border-radius: 4px;
+  }
   padding-top: 32px;
   &__c-header {
     padding-top: 17px;
