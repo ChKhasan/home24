@@ -1,10 +1,10 @@
 export const actions = {
-    async fetchHitProductsCategories({}, payload) {
+    async fetchHitProductsCategories() {
       try {
-        const res = await this.$axios.$get(`/hitproduct_categories`, { products: payload });
+        const res = await this.$axios.$get(`/hitproduct_categories`);
         return res;
       } catch (e) {
-        console.log("error", e);
+        return e.response
       }
     },
   };
