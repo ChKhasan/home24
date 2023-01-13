@@ -18,7 +18,6 @@
                   >{{ category?.name }}</span
                 >
               </div>
-          
             </div>
             <div class="">
               <div class="category-title">
@@ -30,7 +29,12 @@
                 ></b-skeleton>
 
                 <h1 v-else>{{ brand?.name }}</h1>
-             
+              </div>
+              <div class="banner_contaroller">
+                  <div class="banner_inner">
+                    <img src="../assets/images/BannerImg.png" alt="" />
+                  </div>
+              
               </div>
               <div
                 class="category__category-controller"
@@ -103,6 +107,7 @@ import "vue-range-slider/dist/vue-range-slider.css";
 import MultiRangeSlider from "multi-range-slider-vue";
 import CardBrand from "../components/cards/cardBrand.vue";
 import EmptyBlog from "../components/emptyBlog.vue";
+import UniversalCarousel from "../components/carousels/UniversalCarousel.vue";
 
 export default {
   data() {
@@ -136,7 +141,7 @@ export default {
   methods: {
     async toAllBrand() {
       console.log(this.$route.query);
-      if(!this.$route.query.page) {
+      if (!this.$route.query.page) {
         await this.$router.replace({
           query: {
             page: 1,
@@ -173,7 +178,7 @@ export default {
       this.skeleton = await true;
       await this.__GET_HIT_PRODUCTS();
     },
- 
+
     async handleCurrentChange(val) {
       await this.$router.replace({
         path: `/promotion`,
@@ -195,6 +200,7 @@ export default {
     MultiRangeSlider,
     CardBrand,
     EmptyBlog,
+    UniversalCarousel,
   },
 };
 </script>

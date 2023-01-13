@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center blog relative">
+  <div class="flex items-center justify-center blog position-relative">
     <div class="swiper mySwiper">
       <div class="swiper-wrapper">
         <slot></slot>
@@ -161,6 +161,8 @@ background: red !important;
   font-weight: bold;
   overflow: hidden;
   color: #fff;
+  width: 100% !important;
+  
   img {
     width: 100%;
     height: 100%;
