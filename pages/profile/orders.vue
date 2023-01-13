@@ -157,10 +157,9 @@
                 <div class="btn" @click="$router.push('/')">На главную</div>
               </div> -->
               <div class="orders" v-if="orders.length > 0">
-                <div v-for="order in orders" >
+                <div v-for="order in orders">
                   <CardOrder :order="order" />
                 </div>
-                
               </div>
               <EmptyBlog v-else />
             </el-tab-pane>
@@ -301,12 +300,23 @@ export default {
         "fetchAuth/fetchUpdateToken",
         localStorage.getItem("Refresh")
       );
-      await localStorage.setItem("Auth", newToken.access);
-      await localStorage.setItem("Refresh", newToken.refresh);
-      const myOrders = await this.$store.dispatch("fetchOrder/fetchMyOrders", {
-        token: newToken.access
-      });
-      this.orders = myOrders;
+      if (newToken.status == 401) {
+        localStorage.removeItem("Auth");
+        localStorage.removeItem("Refresh");
+        localStorage.removeItem("password_access");
+        this.$store.commit("setUser");
+        this.$router.push("/");
+      } else {
+        await localStorage.setItem("Auth", newToken.access);
+        await localStorage.setItem("Refresh", newToken.refresh);
+        const myOrders = await this.$store.dispatch(
+          "fetchOrder/fetchMyOrders",
+          {
+            token: newToken.access,
+          }
+        );
+        this.orders = myOrders;
+      }
     },
     async statusFilter() {
       if (this.value == "Все") {
