@@ -1,6 +1,6 @@
-export default function ({ redirect, store, route }) {
-
-  if (!localStorage.getItem("Auth")) {
+export default function ({ redirect}) {
+  const loggeduser = localStorage.getItem('Auth');
+  if (!loggeduser) {
     redirect("/");
   }
 }

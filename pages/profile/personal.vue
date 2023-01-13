@@ -622,17 +622,8 @@ export default {
   },
   methods: {
     async logout() {
-      const response = await this.$store.dispatch("fetchAuth/fetchLogOut", {
-        refresh_token: localStorage.getItem("Refresh"),
-        token: localStorage.getItem("Auth"),
-      });
-      if (response.success) {
-        localStorage.removeItem("Auth");
-        localStorage.removeItem("Refresh");
-        localStorage.removeItem("password_access");
-        this.$store.commit("setUser");
-        this.$router.push("/");
-      }
+      this.$store.dispatch("auth/logOut");
+      this.$store.commit("setUser");
     },
     async leaveSave() {
       const userInfo = await this.$store.dispatch(
