@@ -8,15 +8,22 @@
 
           <div class="favorites-select">
             <span @click="deteleLikes">Очистить</span>
-            <el-select v-model="value" placeholder="Select">
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
+            <el-dropdown @command="sorting">
+              <span class="el-dropdown-link">
+                {{ currentCategory
+                }}<i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  v-for="category in comparisonCategory"
+                  :class="{
+                    activeSorting: $route.query.category == category.id,
+                  }"
+                  :command="category"
+                  >{{ category.name }}</el-dropdown-item
+                >
+              </el-dropdown-menu>
+            </el-dropdown>
           </div>
         </div>
       </div>
@@ -109,20 +116,49 @@ export default {
       return this.$store.state.like.length;
     },
   },
-  created() {
+  async created() {
+    await this.__GET_COMPARISON_CATEGORIES();
     this.__GET_LIKES();
   },
   methods: {
+    async sorting(category) {
+      console.log(category);
+      await this.$router.replace({
+        path: `/favorites`,
+        query: {
+          category: category.id,
+        },
+      });
+      this.currentCategory = category.name;
+
+      await this.__GET_LIKES();
+    },
+    async __GET_COMPARISON_CATEGORIES() {
+      this.comparisonCategory = await this.$store.dispatch(
+        "fetchComparison/fetchComparisonByCategory",
+        { products: JSON.parse(localStorage.getItem("like")) }
+      );
+      if (this.$route.query.category != this.comparisonCategory[0].id) {
+        await this.$router.replace({
+          path: `/favorites`,
+          query: {
+            category: this.comparisonCategory[0].id,
+          },
+        });
+      }
+      this.currentCategory = this.comparisonCategory[0].name;
+    },
     async deteleLikes() {
       localStorage.setItem("like", JSON.stringify([]));
       this.__GET_LIKES();
+      this.__GET_COMPARISON_CATEGORIES();
       this.$store.commit("reloadStore");
     },
     async __GET_LIKES() {
-      this.likeProducts = await this.$store.dispatch(
-        "fetchLike/postLike",
-        JSON.parse(localStorage.getItem("like"))
-      );
+      this.likeProducts = await this.$store.dispatch("fetchLike/postLike", {
+        products: JSON.parse(localStorage.getItem("like")),
+        category: this.$route.query.category,
+      });
     },
   },
   components: {
@@ -134,16 +170,42 @@ export default {
     HomeTitlies,
   },
   watch: {
-    favorites(newFavorites, oldFavorites) {
-      if (newFavorites != oldFavorites) {
-        this.__GET_LIKES();
+    async favorites(newFavorites, oldFavorites) {
+      if (newFavorites > 0) {
+        if (newFavorites != oldFavorites) {
+          await this.__GET_COMPARISON_CATEGORIES();
+          await this.__GET_LIKES();
+        }
+      } else {
+        this.$router.push('/')
       }
     },
   },
 };
 </script>
 <style lang="scss">
+.activeSorting {
+  pointer-events: none !important;
+  color: #ff6418 !important;
+}
 .favorites {
+  .el-dropdown-link {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    width: 194px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #020105 !important;
+    padding: 10px 12px;
+    text-decoration: none !important;
+    background: #f8f8f8;
+    border: 1px solid #f2f2fa;
+    border-radius: 4px;
+  }
   padding-top: 32px;
   &__f-header {
     padding-top: 17px;

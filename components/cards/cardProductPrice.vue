@@ -2,7 +2,7 @@
   <div>
     <div class="price-card">
       <div class="title">
-        <h2>{{ product?.price }} СУМ</h2>
+        <h2>{{ product?.total }} СУМ</h2>
         <span>
           <span
             @click="
@@ -89,7 +89,9 @@
         </span>
       </div>
       <div class="first-price">
-        <p>{{product?.total}} СУМ</p>
+        <p>
+          {{ product?.price != product?.total ? product?.price : `--` }} СУМ
+        </p>
       </div>
       <div class="price-btn">
         <div

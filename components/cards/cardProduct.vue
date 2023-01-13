@@ -103,7 +103,7 @@
     <!-- @click="$router.push('/product/1')" -->
     <div class="product-card__body">
       <div class="product-card__price d-flex justify-content-between">
-        <span> {{ product.price }} сум </span>
+        <span> {{ product.total }} сум </span>
         <div
           class="to_cart"
           @click="addToCart(product.id)"
@@ -148,7 +148,7 @@
         </div>
       </div>
       <div class="product-card__last-price">
-        <p>{{ product.price }} сум</p>
+        <p>{{ product.price != product.total ? product.price:"--" }} сум</p>
       </div>
       <div class="product-card__reviews">
         <svg
