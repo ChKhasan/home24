@@ -102,7 +102,6 @@ export const actions = {
           },
         }
       );
-      console.log(res,'ddd');
       return res;
     } catch (e) {
       console.log("error", e);

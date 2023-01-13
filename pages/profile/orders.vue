@@ -329,19 +329,17 @@ export default {
       }
     },
     async logout() {
-      const response = await this.$store.dispatch("fetchAuth/fetchLogOut",{
+      const response = await this.$store.dispatch("fetchAuth/fetchLogOut", {
         refresh_token: localStorage.getItem("Refresh"),
-        token:  localStorage.getItem("Auth")
+        token: localStorage.getItem("Auth"),
       });
-      console.log(response);
-      // if (response.success) {
-      //   localStorage.removeItem("Auth");
-      //   localStorage.removeItem("Refresh");
-      //   localStorage.removeItem("password_access");
-      //   this.$store.commit("setUser");
-      //   this.$router.push("/");
-      // }
-    
+      if (response.success) {
+        localStorage.removeItem("Auth");
+        localStorage.removeItem("Refresh");
+        localStorage.removeItem("password_access");
+        this.$store.commit("setUser");
+        this.$router.push("/");
+      }
     },
     show(name) {
       this.$modal.show(name);

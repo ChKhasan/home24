@@ -624,16 +624,15 @@ export default {
     async logout() {
       const response = await this.$store.dispatch("fetchAuth/fetchLogOut", {
         refresh_token: localStorage.getItem("Refresh"),
-        token:  localStorage.getItem("Auth")
+        token: localStorage.getItem("Auth"),
       });
-      console.log(response);
-      // if (response.success) {
-      //   localStorage.removeItem("Auth");
-      //   localStorage.removeItem("Refresh");
-      //   localStorage.removeItem("password_access");
-      //   this.$store.commit("setUser");
-      //   this.$router.push("/");
-      // }
+      if (response.success) {
+        localStorage.removeItem("Auth");
+        localStorage.removeItem("Refresh");
+        localStorage.removeItem("password_access");
+        this.$store.commit("setUser");
+        this.$router.push("/");
+      }
     },
     async leaveSave() {
       const userInfo = await this.$store.dispatch(
@@ -686,7 +685,7 @@ export default {
         "fetchAuth/fetchUserProfile",
         localStorage.getItem("Auth")
       );
-      if( this.userInfo.status == 401) {
+      if (this.userInfo.status == 401) {
         this.__UPDATE_TOKEN();
       }
     },
