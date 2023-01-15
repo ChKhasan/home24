@@ -8,7 +8,7 @@
 
           <div class="favorites-select">
             <span @click="deteleLikes">Очистить</span>
-            <el-dropdown @command="sorting">
+            <el-dropdown @command="sorting" v-if="$store.state.like.length > 0">
               <span class="el-dropdown-link">
                 {{ currentCategory
                 }}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -47,25 +47,7 @@
         </div>
       </div>
     </div>
-    <HomeTitlies title="Хиты продаж" link="Все товары" />
-    <div class="container">
-      <div class="row">
-        <div class="col-12 category__product-controller">
-          <!-- <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct />
-          <CardProduct /> -->
-        </div>
-      </div>
-    </div>
+  
   </div>
 </template>
 <script>
@@ -134,19 +116,21 @@ export default {
       await this.__GET_LIKES();
     },
     async __GET_COMPARISON_CATEGORIES() {
-      this.comparisonCategory = await this.$store.dispatch(
-        "fetchComparison/fetchComparisonByCategory",
-        { products: JSON.parse(localStorage.getItem("like")) }
-      );
-      if (this.$route.query.category != this.comparisonCategory[0].id) {
-        await this.$router.replace({
-          path: `/favorites`,
-          query: {
-            category: this.comparisonCategory[0].id,
-          },
-        });
+      if(this.$store.state.like.length > 0) {
+        this.comparisonCategory = await this.$store.dispatch(
+          "fetchComparison/fetchComparisonByCategory",
+          { products: JSON.parse(localStorage.getItem("like")) }
+        );
+        if (this.$route.query.category != this.comparisonCategory[0].id && this.comparisonCategory.lenght > 0) {
+          await this.$router.replace({
+            path: `/favorites`,
+            query: {
+              category: this.comparisonCategory[0].id,
+            },
+          });
+        }
+        this.currentCategory = this.comparisonCategory[0].name;
       }
-      this.currentCategory = this.comparisonCategory[0].name;
     },
     async deteleLikes() {
       localStorage.setItem("like", JSON.stringify([]));

@@ -9,7 +9,10 @@
           <div class="comparison-select">
             <span @click="deteleComparison">Очистить</span>
 
-            <el-dropdown @command="sorting">
+            <el-dropdown
+              @command="sorting"
+              v-if="$store.state.comparison.length > 0"
+            >
               <span class="el-dropdown-link">
                 {{ currentCategory
                 }}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -74,30 +77,6 @@ export default {
         slidesToShow: 5,
         slidesToScroll: 1,
       },
-
-      options: [
-        {
-          value: "Option1",
-          label: "Option1",
-        },
-        {
-          value: "Option2",
-          label: "Option2",
-        },
-        {
-          value: "Option3",
-          label: "Option3",
-        },
-        {
-          value: "Option4",
-          label: "Option4",
-        },
-        {
-          value: "Option5",
-          label: "Option5",
-        },
-      ],
-      value: "Техника",
       links: [
         {
           name: "Главная",
@@ -116,6 +95,11 @@ export default {
     VueSlickCarousel,
     EmptyBlog,
   },
+  computed: {
+    favorites() {
+      return this.$store.state.comparison.length;
+    },
+  },
   async created() {
     await this.__GET_COMPARISON_CATEGORIES();
     await this.__GET_COMPARISON();
@@ -131,7 +115,6 @@ export default {
       );
     },
     async sorting(category) {
-      console.log(category);
       await this.$router.replace({
         path: `/comparison`,
         query: {
@@ -152,19 +135,21 @@ export default {
       this.$store.commit("reloadStore");
     },
     async __GET_COMPARISON_CATEGORIES() {
-      this.comparisonCategory = await this.$store.dispatch(
-        "fetchComparison/fetchComparisonByCategory",
-        { products: JSON.parse(localStorage.getItem("comparison")) }
-      );
-      if (!this.$route.query.category) {
-        await this.$router.replace({
-          path: `/comparison`,
-          query: {
-            category: this.comparisonCategory[0].id,
-          },
-        });
+      if (this.$store.state.comparison.length > 0) {
+        this.comparisonCategory = await this.$store.dispatch(
+          "fetchComparison/fetchComparisonByCategory",
+          { products: JSON.parse(localStorage.getItem("comparison")) }
+        );
+        if (this.$route.query.category != this.comparisonCategory[0].id) {
+          await this.$router.replace({
+            path: `/comparison`,
+            query: {
+              category: this.comparisonCategory[0].id,
+            },
+          });
+        }
+        this.currentCategory = this.comparisonCategory[0].name;
       }
-      this.currentCategory = this.comparisonCategory[0].name;
     },
     async deleteProductFromComparison(id) {
       let comparison = await JSON.parse(localStorage.getItem("comparison"));
@@ -179,6 +164,18 @@ export default {
       );
       this.comparisonProducts = cart;
       this.$store.commit("reloadStore");
+    },
+  },
+  watch: {
+    async favorites(newFavorites, oldFavorites) {
+      if (newFavorites > 0) {
+        if (newFavorites != oldFavorites) {
+          await this.__GET_COMPARISON_CATEGORIES();
+          await this.__GET_COMPARISON();
+        }
+      } else {
+        this.$router.push("/");
+      }
     },
   },
 };

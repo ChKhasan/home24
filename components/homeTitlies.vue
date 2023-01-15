@@ -44,6 +44,9 @@ export default {
       line-height: 43px;
       text-decoration-line: underline;
       color: #ff6418;
+      &:hover {
+        color: #ff6418;
+      }
     }
   }
 }

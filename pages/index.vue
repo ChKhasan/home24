@@ -29,7 +29,7 @@
             ></b-skeleton>
 
             <BannerCarousel :theArrow="false" v-else>
-              <div v-for="product in productOfDay">
+              <div v-for="product in productOfDay" :key="product.id">
                 <CardProductTheDay :product="product" />
               </div>
             </BannerCarousel>
@@ -309,85 +309,7 @@ export default {
 <style lang="scss">
 @import "@/assets/css/main.css";
 @import "@/assets/fonts/stylesheet.css";
-.vm--overlay {
-  background: rgba(0, 0, 0, 0.8);
-}
-.container,.container-sm, .container-md, .container-lg, .container-xl {
-    width: 100%;
-    padding-right: 15px !important;
-    padding-left: 15px !important;
-    margin-right: auto;
-    margin-left: auto;
-}
-@media (min-width: 576px) {
-  .container-sm,
-  .container {
-    max-width: 540px;
-  }
-}
-@media (min-width: 768px) {
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 720px;
-  }
-}
-@media (min-width: 992px) {
-  .container-lg,
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 960px;
-  }
-}
-@media (min-width: 1200px) {
-  .container-xl,
-  .container-lg,
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 1140px;
-  }
-}
-@media (max-width: 1360px) {
-  .container-xl,
-  .container-lg,
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 1240px !important ;
-  }
-}
-@media (min-width: 1360px) {
-  .container-xxl,
-  .container-xl,
-  .container-lg,
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 95% !important;
-  }
-}
-@media (max-width: 1632px) and (min-width: 1330px) {
-  .container-xxl,
-  .container-xl,
-  .container-lg,
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 1328px !important;
-  }
-}
-@media (min-width: 1632px) {
-  .container-xxl,
-  .container-xl,
-  .container-lg,
-  .container-md,
-  .container-sm,
-  .container {
-    max-width: 1632px !important;
-  }
-}
+
 .homepage {
   transition: 1s;
   &__carousel-aksiya {

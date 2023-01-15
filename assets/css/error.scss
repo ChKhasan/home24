@@ -1,0 +1,49 @@
+.empty-blog {
+    padding-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__info {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 388px;
+      h2 {
+        font-family: "TT Firs Neue";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 32px;
+        line-height: 48px;
+        text-align: center;
+        color: #000000;
+        margin-top: 8px;
+      }
+      p {
+        font-family: "TT Firs Neue";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        text-align: center;
+        color: #727474;
+      }
+      img {
+        width: 388px;
+        height: 320px;
+      }
+    }
+    &__btn {
+      margin-top: 24px;
+      padding: 16px 126px;
+      font-family: "TT Firs Neue";
+      font-style: normal;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      color: #ff7e00;
+      border: 1px solid #ff6418;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  }

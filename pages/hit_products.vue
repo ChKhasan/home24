@@ -55,21 +55,31 @@
                 <div class="category-control">
                   <div>
                     <span>Сортировка</span>
-                    <el-dropdown>
+                    <el-dropdown @command="sorting">
                       <span class="el-dropdown-link">
-                        Подешевле<i
-                          class="el-icon-arrow-down el-icon--right"
-                        ></i>
+                        {{ sortingType
+                        }}<i class="el-icon-arrow-down el-icon--right"></i>
                       </span>
                       <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item>Action 1</el-dropdown-item>
-                        <el-dropdown-item>Action 2</el-dropdown-item>
-                        <el-dropdown-item>Action 3</el-dropdown-item>
-                        <el-dropdown-item disabled>Action 4</el-dropdown-item>
-                        <el-dropdown-item divided>Action 5</el-dropdown-item>
+                        <el-dropdown-item
+                          :class="{
+                            activeSorting: $route.query.ordering == 'price',
+                          }"
+                          :command="true"
+                          >Подешевле</el-dropdown-item
+                        >
+                        <el-dropdown-item
+                          :class="{
+                            activeSorting: $route.query.ordering == '-price',
+                          }"
+                          :command="false"
+                          >Подороже</el-dropdown-item
+                        >
                       </el-dropdown-menu>
                     </el-dropdown>
-                    <span @click="gridControl = 5"
+                    <span
+                      @click="gridControl = 5"
+                      :class="{ activeProductsShow: gridControl == 5 }"
                       ><svg
                         width="22"
                         height="20"
@@ -81,59 +91,61 @@
                           fill-rule="evenodd"
                           clip-rule="evenodd"
                           d="M9.9473 7.31934H12.0524C12.9233 7.31934 13.6299 8.01941 13.6299 8.88305V10.9682C13.6299 11.8312 12.9233 12.5319 12.0524 12.5319H9.9473C9.07568 12.5319 8.36914 11.8312 8.36914 10.9682V8.88305C8.36914 8.01941 9.07568 7.31934 9.9473 7.31934Z"
-                          fill="#FF6418"
+                          stroke="#020105"
                         />
                         <path
                           fill-rule="evenodd"
                           clip-rule="evenodd"
                           d="M18.3184 7.46777H20.4235C21.2944 7.46777 22.001 8.16785 22.001 9.03149V11.1167C22.001 11.9797 21.2944 12.6804 20.4235 12.6804H18.3184C17.4468 12.6804 16.7402 11.9797 16.7402 11.1167V9.03149C16.7402 8.16785 17.4468 7.46777 18.3184 7.46777Z"
-                          fill="#FF6418"
+                          stroke="#020105"
                         />
                         <path
                           fill-rule="evenodd"
                           clip-rule="evenodd"
                           d="M1.57816 7.46777H3.68324C4.5542 7.46777 5.26074 8.16785 5.26074 9.03149V11.1167C5.26074 11.9797 4.5542 12.6804 3.68324 12.6804H1.57816C0.706538 12.6804 0 11.9797 0 11.1167V9.03149C0 8.16785 0.706538 7.46777 1.57816 7.46777Z"
-                          fill="#FF6418"
+                          stroke="#020105"
                         />
                         <path
                           fill-rule="evenodd"
                           clip-rule="evenodd"
                           d="M9.9473 14.6396H12.0524C12.9233 14.6396 13.6299 15.3397 13.6299 16.204V18.2885C13.6299 19.1522 12.9233 19.8523 12.0524 19.8523H9.9473C9.07568 19.8523 8.36914 19.1522 8.36914 18.2885V16.204C8.36914 15.3397 9.07568 14.6396 9.9473 14.6396Z"
-                          fill="#FF6418"
+                          stroke="#020105"
                         />
                         <path
                           fill-rule="evenodd"
                           clip-rule="evenodd"
                           d="M18.3184 14.7871H20.4235C21.2944 14.7871 22.001 15.4872 22.001 16.3515V18.436C22.001 19.2996 21.2944 19.9997 20.4235 19.9997H18.3184C17.4468 19.9997 16.7402 19.2996 16.7402 18.436V16.3515C16.7402 15.4872 17.4468 14.7871 18.3184 14.7871Z"
-                          fill="#FF6418"
+                          stroke="#020105"
                         />
                         <path
                           fill-rule="evenodd"
                           clip-rule="evenodd"
                           d="M1.57816 14.7871H3.68324C4.5542 14.7871 5.26074 15.4872 5.26074 16.3515V18.436C5.26074 19.2996 4.5542 19.9997 3.68324 19.9997H1.57816C0.706538 19.9997 0 19.2996 0 18.436V16.3515C0 15.4872 0.706538 14.7871 1.57816 14.7871Z"
-                          fill="#FF6418"
+                          stroke="#020105"
                         />
                         <path
                           fill-rule="evenodd"
                           clip-rule="evenodd"
                           d="M9.9473 0H12.0524C12.9233 0 13.6299 0.700075 13.6299 1.56437V3.64889C13.6299 4.51254 12.9233 5.21261 12.0524 5.21261H9.9473C9.07568 5.21261 8.36914 4.51254 8.36914 3.64889V1.56437C8.36914 0.700075 9.07568 0 9.9473 0Z"
-                          fill="#FF6418"
+                          stroke="#020105"
                         />
                         <path
                           fill-rule="evenodd"
                           clip-rule="evenodd"
                           d="M18.3184 0.148438H20.4235C21.2944 0.148438 22.001 0.848512 22.001 1.71281V3.79733C22.001 4.66097 21.2944 5.36105 20.4235 5.36105H18.3184C17.4468 5.36105 16.7402 4.66097 16.7402 3.79733V1.71281C16.7402 0.848512 17.4468 0.148438 18.3184 0.148438Z"
-                          fill="#FF6418"
+                          stroke="#020105"
                         />
                         <path
                           fill-rule="evenodd"
                           clip-rule="evenodd"
                           d="M1.57816 0.148438H3.68324C4.5542 0.148438 5.26074 0.848512 5.26074 1.71281V3.79733C5.26074 4.66097 4.5542 5.36105 3.68324 5.36105H1.57816C0.706538 5.36105 0 4.66097 0 3.79733V1.71281C0 0.848512 0.706538 0.148438 1.57816 0.148438Z"
-                          fill="#FF6418"
+                          stroke="#020105"
                         />
                       </svg>
                     </span>
-                    <span @click="gridControl = 3"
+                    <span
+                      @click="gridControl = 3"
+                      :class="{ activeProductsShow: gridControl == 3 }"
                       ><svg
                         width="24"
                         height="24"
@@ -268,6 +280,8 @@ export default {
       brand: {},
       skeleton: true,
       page_size: 1,
+      sortingType: "Подешевле",
+
     };
   },
   async created() {
@@ -346,6 +360,19 @@ export default {
       });
       this.__GET_HIT_PRODUCTS();
     },
+    async sorting(type) {
+      this.skeleton = await true;
+      await this.$router.replace({
+        path: `/hit_products`,
+        query: {
+          ...this.$route.query,
+          ordering: type ? "price" : "-price",
+        },
+      });
+      this.sortingType = type ? "Подешевле" : "Подороже";
+      console.log(this.$route.query.ordering == "-price");
+      await this.__GET_HIT_PRODUCTS();
+    },
   },
 
   components: {
@@ -363,4 +390,16 @@ export default {
 </script>
 <style lang="scss">
 @import "../assets/css/products.scss";
+.activeSorting {
+  pointer-events: none !important;
+  color: #ff6418 !important;
+}
+.activeProductsShow {
+  svg {
+    path {
+      fill: #ff6418 !important;
+      stroke: #ff6418 !important;
+    }
+  }
+}
 </style>
